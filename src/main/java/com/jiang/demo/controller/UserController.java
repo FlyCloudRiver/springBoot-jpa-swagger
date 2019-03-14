@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @Api(description = "用户接口" )   //swagger
@@ -27,7 +29,6 @@ public class UserController {
 
     @ApiOperation(value = "根据ID查询用户")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    /*@GetMapping(value = "/user/{id}")*/
     public User getuser(@PathVariable("id") Integer id){
         User user = userRepository.findById(id).get();
         return user;
@@ -40,4 +41,10 @@ public class UserController {
         return user1;
     }
 
+    @ApiOperation(value = "获取用户列表")
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public List<User> findAllUser(){
+        List<User> list=userRepository.findAll() ;
+        return list;
+    }
 }
