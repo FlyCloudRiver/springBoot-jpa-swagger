@@ -5,8 +5,10 @@ import com.jiang.demo.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 
 
@@ -17,8 +19,6 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
-
-
 
     @ApiOperation(value = "添加用户")
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
@@ -46,5 +46,20 @@ public class UserController {
     public List<User> findAllUser(){
         List<User> list=userRepository.findAll() ;
         return list;
+    }
+
+    @ApiOperation(value = "根据用户名查询用户（模糊查询）")
+    @RequestMapping(value = "/findByname/{name}", method = RequestMethod.GET)
+    public List<User> findByName(@PathVariable("name") String name){
+        List<User> userlist = userRepository.findByNameMatch(name);
+        return userlist;
+    }
+
+    //@PathVariable指定URL变量名
+    @ApiOperation(value = "登录")
+    @RequestMapping(value = "/login/", method = RequestMethod.POST)
+    public User login( String name,String password){
+        User user = userRepository.findByNameAndPassword(name,password);
+        return user;
     }
 }
