@@ -2,6 +2,7 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.entity.User;
 import com.jiang.demo.repository.UserRepository;
+import com.jiang.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,45 +14,40 @@ import java.util.List;
 
 
 @RestController
-@Api(description = "用户接口" )   //swagger
+@Api(description = "用户信息操作接口" )   //swagger
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @ApiOperation(value = "添加用户")
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     public User insertuser(User user){
-        User save = userRepository.save(user);
+        User save = userService.insertuser(user);
         return save;
     }
 
     @ApiOperation(value = "根据ID查询用户")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public User getuser(@PathVariable("id") Integer id){
-        User user = userRepository.findById(id).get();
+        User user = userService.getuser(id);
         return user;
     }
 
     @ApiOperation(value = "修改用户信息")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User updateuser(User user){
-        User user1 = userRepository.save(user);
+        User user1 = userService.updateuser(user);
         return user1;
     }
 
-    @ApiOperation(value = "获取用户列表")
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<User> findAllUser(){
-        List<User> list=userRepository.findAll() ;
-        return list;
-    }
 
-    @ApiOperation(value = "根据用户名查询用户（模糊查询）")
-    @RequestMapping(value = "/findByname/{name}", method = RequestMethod.GET)
-    public List<User> findByName(@PathVariable("name") String name){
-        List<User> userlist = userRepository.findByNameMatch(name);
+    @ApiOperation(value = "获取用户列表 or（name模糊查询）")
+    @RequestMapping(value = "/findByname", method = RequestMethod.GET)
+    public List<User> findByName( String name,Integer pageSize,Integer pageNumber){
+        /*pageSize每一页大小   pageNumber 第几页*/
+        List<User> userlist = userService.findByName(name,pageSize,pageNumber);
         return userlist;
     }
 
@@ -59,7 +55,7 @@ public class UserController {
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login/", method = RequestMethod.POST)
     public User login( String name,String password){
-        User user = userRepository.findByNameAndPassword(name,password);
+        User user = userService.login(name,password);
         return user;
     }
 }
