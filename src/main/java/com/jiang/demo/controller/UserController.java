@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@Api(description = "用户信息操作接口" )   //swagger
+@Api(description = "用户" )   //swagger
 @RequestMapping("/user")
 public class UserController {
 
@@ -23,8 +23,8 @@ public class UserController {
 
     @ApiOperation(value = "添加用户")
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
-    public User insertuser(User user){
-        User save = userService.insertuser(user);
+    public User insertUser(User user){
+        User save = userService.insertUser(user);
         return save;
     }
 

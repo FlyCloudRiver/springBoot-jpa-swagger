@@ -16,7 +16,7 @@ public class UserService {
     UserRepository userRepository;
 
     /*添加用户*/
-    public User insertuser(User user){
+    public User insertUser(User user){
         User save = userRepository.save(user);
         return save;
     }
@@ -27,7 +27,7 @@ public class UserService {
         return user;
     }
 
-  /*跟新用户*/
+  /*更新用户*/
     public User updateuser(User user){
         User user1 = userRepository.save(user);
         return user1;
