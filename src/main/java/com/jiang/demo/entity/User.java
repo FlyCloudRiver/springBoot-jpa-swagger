@@ -12,7 +12,7 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "user_name", length = 50)//这是和数据表对应的一个列
     private String userName;
@@ -23,11 +23,11 @@ public class User {
     @Column(name = "user_password", length = 30)//这是和数据表对应的一个列
     private String userPassword;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

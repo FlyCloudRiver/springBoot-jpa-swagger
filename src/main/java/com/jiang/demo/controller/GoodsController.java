@@ -1,5 +1,7 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.dto.GoodsDTO;
+import com.jiang.demo.dto.GoodsForm;
 import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.User;
 import com.jiang.demo.service.GoodsService;
@@ -20,8 +22,8 @@ public class GoodsController {
 
     @ApiOperation(value = "添加商品")
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
-    public Goods insertuser(Goods goods){
-        Goods save = goodsService.insertGoods(goods);
+    public Integer insertGoods(GoodsForm goods){
+        Integer save = goodsService.insertGoods(goods);
         return save;
     }
 }

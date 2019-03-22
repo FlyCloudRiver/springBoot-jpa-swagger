@@ -22,7 +22,7 @@ public class UserController {
     UserService userService;
 
     @ApiOperation(value = "添加用户")
-    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public User insertUser(User user){
         User save = userService.insertUser(user);
         return save;

@@ -17,10 +17,13 @@ public class Commodity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long id; //id
 
-    @ApiModelProperty("厂商ID")
+    @ApiModelProperty(value = "厂商ID",example = "123")
     @Column(name = "commodity_id")
     private Long commodityId;
 
+    @ApiModelProperty("厂商名字")
+    @Column(name = "commodity_name")
+    private String commodityName;
 
     @OneToMany(mappedBy = "commodity",cascade=CascadeType.ALL,fetch= FetchType.LAZY)
     //级联保存、更新、删除、刷新;延迟加载。当删除用户，会级联删除该用户的所有文章
@@ -34,6 +37,14 @@ public class Commodity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCommodityName() {
+        return commodityName;
+    }
+
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
     }
 
     public Long getCommodityId() {

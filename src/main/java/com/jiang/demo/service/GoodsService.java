@@ -1,6 +1,8 @@
 package com.jiang.demo.service;
 
 
+import com.jiang.demo.dto.GoodsDTO;
+import com.jiang.demo.dto.GoodsForm;
 import com.jiang.demo.entity.Goods;
 
 import com.jiang.demo.repository.GoodsRepository;
@@ -17,8 +19,9 @@ public class GoodsService {
     private GoodsRepository goodsRepository;
 
     /*添加商品*/
-    public Goods insertGoods(Goods goods){
-        Goods goods1=goodsRepository.save(goods);
+    public Integer insertGoods(GoodsForm goods){
+
+        Integer goods1=goodsRepository.InsertGoods(goods.getGoodsName(),goods.getGoodsPrice(),goods.getCommodityId());
         return goods1;
     }
 
