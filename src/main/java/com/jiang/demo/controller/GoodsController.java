@@ -1,10 +1,7 @@
 package com.jiang.demo.controller;
 
-import com.jiang.demo.dto.GoodsDTO;
-import com.jiang.demo.dto.GoodsForm;
-import com.jiang.demo.entity.Goods;
-import com.jiang.demo.entity.User;
-import com.jiang.demo.service.GoodsService;
+
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +14,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    @Autowired
-    private GoodsService goodsService;
 
-    @ApiOperation(value = "添加商品")
-    @RequestMapping(value = "/insert", method = RequestMethod.GET)
-    public Integer insertGoods(GoodsForm goods){
-        Integer save = goodsService.insertGoods(goods);
-        return save;
-    }
 }
