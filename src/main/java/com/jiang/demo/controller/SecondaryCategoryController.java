@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,9 +50,16 @@ public class SecondaryCategoryController {
 
     @ApiOperation(value = "查询")
     @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
-    public List<SecondaryCategory> selectAll(){
-        List<SecondaryCategory> bigCategories = secondaryCategoryService.selectSecondaryCategoryAll();
-        return bigCategories;
+    public List<SecondaryCategory> selectAll(Integer pageNum,Integer pageSize){
+        pageNum=0;
+        pageSize=3;
+        Iterator<SecondaryCategory> secondaryCategoryIterator = secondaryCategoryService.selectSecondaryCategoryAll(pageNum, pageSize);
+
+        List<SecondaryCategory> secondaryCategoryList=new ArrayList<>();
+        while(secondaryCategoryIterator.hasNext()){
+            secondaryCategoryList.add(secondaryCategoryIterator.next());
+        }
+        return secondaryCategoryList;
     }
 
     @ApiOperation(value = "查询ById")

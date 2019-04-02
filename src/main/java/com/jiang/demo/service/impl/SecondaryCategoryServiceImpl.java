@@ -6,9 +6,13 @@ import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.SecondaryCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Iterator;
 
 /**
  * Author: 江云飞
@@ -55,9 +59,14 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
         return save;
     }
 
-    public List<SecondaryCategory> selectSecondaryCategoryAll(){
-        List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();
-        return all;
+    public Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize){
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(pageNum,pageSize,sort);
+        Page<SecondaryCategory> secondaryCategories = SecondaryCategoryRepository.findAll(pageable);
+        Iterator<SecondaryCategory> userIterator =  secondaryCategories.iterator();
+
+        /*List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();*/
+        return userIterator;
     }
 
     public SecondaryCategory selectSecondaryCategoryById(Integer id){

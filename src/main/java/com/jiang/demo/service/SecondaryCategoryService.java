@@ -2,6 +2,7 @@ package com.jiang.demo.service;
 
 import com.jiang.demo.entity.SecondaryCategory;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public interface SecondaryCategoryService {
 
     SecondaryCategory updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId);
 
-    List<SecondaryCategory> selectSecondaryCategoryAll();
+    Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize);
 
     SecondaryCategory selectSecondaryCategoryById(Integer id);
 }
