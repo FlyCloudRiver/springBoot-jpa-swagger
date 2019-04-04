@@ -1,7 +1,7 @@
 package com.jiang.demo.service;
 
 import com.jiang.demo.entity.BigCategory;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 

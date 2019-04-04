@@ -6,13 +6,9 @@ import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.SecondaryCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * Author: 江云飞
@@ -32,7 +28,6 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
     public SecondaryCategory insertSecondaryCategory(Integer bigCategoryId,String secondaryCategoryName){
 
         BigCategory bigCategory=bigCategoryRepository.findById(bigCategoryId).get();
-        System.out.println(bigCategory);
         SecondaryCategory secondaryCategory=new SecondaryCategory();
 
         secondaryCategory.setBigCategory(bigCategory);
@@ -59,15 +54,21 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
         return save;
     }
 
-    public Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize){
+    @Override
+    public List<SecondaryCategory> selectSecondaryCategoryAll() {
+        List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();
+        return all;
+    }
+
+   /* public Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize){
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(pageNum,pageSize,sort);
         Page<SecondaryCategory> secondaryCategories = SecondaryCategoryRepository.findAll(pageable);
-        Iterator<SecondaryCategory> userIterator =  secondaryCategories.iterator();
+        Iterator<SecondaryCategory> secondaryCategoryIterator =  secondaryCategories.iterator();
 
-        /*List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();*/
-        return userIterator;
-    }
+        *//*List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();*//*
+        return secondaryCategoryIterator;
+    }*/
 
     public SecondaryCategory selectSecondaryCategoryById(Integer id){
         SecondaryCategory SecondaryCategory = SecondaryCategoryRepository.findById(id).get();

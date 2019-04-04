@@ -1,19 +1,16 @@
 package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
-import com.jiang.demo.dto.bigCategory.BigCategoryForm;
 import com.jiang.demo.entity.BigCategory;
-import com.jiang.demo.entity.User;
 import com.jiang.demo.service.BigCategoryService;
-import com.jiang.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +29,9 @@ public class BigCategoryController {
     @ApiOperation(value = "添加")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public BigCategoryDTO insertBigCategory(String bigCategoryName){
-        BigCategory insertbigCategory=new BigCategory();
-        insertbigCategory.setBigCategoryName(bigCategoryName);
-        BigCategory entity = bigCategoryService.insertBigCategory(insertbigCategory);
+        BigCategory insertBigCategory=new BigCategory();
+        insertBigCategory.setBigCategoryName(bigCategoryName);
+        BigCategory entity = bigCategoryService.insertBigCategory(insertBigCategory);
         return BigCategoryDTO.convert(entity);
     }
 
@@ -49,26 +46,31 @@ public class BigCategoryController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){
 
-        BigCategory updatebigCategory=new BigCategory();
-        updatebigCategory.setBigCategoryName(bigCategoryName);
-        updatebigCategory.setId(id);
+        BigCategory updateBigCategory=new BigCategory();
+        updateBigCategory.setBigCategoryName(bigCategoryName);
+        updateBigCategory.setId(id);
 
-        BigCategory bigCategory1 = bigCategoryService.updateBigCategory(updatebigCategory);
+        BigCategory bigCategory1 = bigCategoryService.updateBigCategory(updateBigCategory);
         return BigCategoryDTO.convert(bigCategory1);
     }
 
     @ApiOperation(value = "查询")
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    public List<BigCategory> selectAll(){
+    public List<BigCategoryDTO> selectAll(){
         List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
-        return bigCategories;
+
+        List<BigCategoryDTO> bigCategoryDTOList=new ArrayList<>();
+        for (BigCategory item : bigCategories) {
+            bigCategoryDTOList.add(BigCategoryDTO.convert(item));
+        }
+        return bigCategoryDTOList;
     }
 
     @ApiOperation(value = "查询ById")
     @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
-    public BigCategory selectBigcategoryById(Integer id){
+    public BigCategoryDTO selectBigCategoryById(Integer id){
         BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
 
-        return  bigCategory;
+        return  BigCategoryDTO.convert(bigCategory);
     }
 }

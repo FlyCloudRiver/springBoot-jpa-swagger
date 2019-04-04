@@ -23,24 +23,17 @@ public class CategoryDTO {
     @ApiModelProperty(value = "商品类别")
     private  String categoryName;
 
-    private SecondaryCategoryDTO secondaryCategoryDTO;
+    /*private SecondaryCategoryDTO secondaryCategoryDTO;*/
 
     public static CategoryDTO convert(Category entity) {
         CategoryDTO dto = new CategoryDTO();
         BeanUtils.copyProperties(entity, dto);
-        if(entity.getSecondaryCategory()!=null){
+        /*if(entity.getSecondaryCategory()!=null){
             dto.setSecondaryCategoryDTO(SecondaryCategoryDTO.convert(entity.getSecondaryCategory()));
-        }
+        }*/
         return dto;
     }
 
-    public SecondaryCategoryDTO getSecondaryCategoryDTO() {
-        return secondaryCategoryDTO;
-    }
-
-    public void setSecondaryCategoryDTO(SecondaryCategoryDTO secondaryCategoryDTO) {
-        this.secondaryCategoryDTO = secondaryCategoryDTO;
-    }
 
     public Integer getId() {
         return id;

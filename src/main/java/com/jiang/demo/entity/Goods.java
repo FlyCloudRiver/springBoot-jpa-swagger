@@ -1,5 +1,6 @@
 package com.jiang.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,11 +52,12 @@ public class Goods implements Serializable {
     @Column(name = "goods_date")
     private Date goodsDate;
 
+    @JsonIgnore//防止再去查父类 死循环
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
-    @JoinColumn(name = "supplier_id")
     @ApiModelProperty(value = "商品所属厂商")
     private  Supplier supplier;
 
+    @JsonIgnore//防止再去查父类 死循环
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
     @ApiModelProperty(value = "商品所属类别")
     private  Category category;

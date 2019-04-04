@@ -18,7 +18,8 @@ public interface SecondaryCategoryService {
 
     SecondaryCategory updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId);
 
-    Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize);
+    /*Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize);*/
+    List<SecondaryCategory> selectSecondaryCategoryAll();
 
     SecondaryCategory selectSecondaryCategoryById(Integer id);
 }
