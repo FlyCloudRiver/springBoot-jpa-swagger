@@ -43,8 +43,17 @@ public class Supplier implements Serializable {
     @OneToMany(mappedBy = "supplier",cascade=CascadeType.ALL,fetch= FetchType.LAZY)
     private List<Goods> goodsList;
 
+    @ApiModelProperty(value = "供应商评价")
+    @Column(name = "supplier_evaluate")
+    private  String supplierEvaluate;
 
+    public String getSupplierEvaluate() {
+        return supplierEvaluate;
+    }
 
+    public void setSupplierEvaluate(String supplierEvaluate) {
+        this.supplierEvaluate = supplierEvaluate;
+    }
 
     public Integer getId() {
         return id;

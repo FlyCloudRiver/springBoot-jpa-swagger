@@ -25,10 +25,10 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品编号")
     private  String goodsCode;
 
-    @ApiModelProperty(value = "商品名称",example = "思源方便面")
+    @ApiModelProperty(value = "商品名称")
     private  String goodsName;
 
-    @ApiModelProperty(value = "商品单价",example = "3.5")
+    @ApiModelProperty(value = "商品单价")
     private  Float goodsPrice;
 
     @ApiModelProperty(value = "商品数量")

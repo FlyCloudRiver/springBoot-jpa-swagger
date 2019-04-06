@@ -19,25 +19,20 @@ public class Goods implements Serializable {
     //商品唯一标识
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "商品ID",example = "1")
+    @ApiModelProperty(value = "商品ID")
     private Integer id;
 
     @ApiModelProperty(value = "商品编号")
     @Column(name = "goods_code")
     private  String goodsCode;
 
-    @ApiModelProperty(value = "商品名称",example = "思源方便面")
+    @ApiModelProperty(value = "商品名称")
     @Column(name = "goods_name")
     private  String goodsName;
 
-    @ApiModelProperty(value = "商品单价",example = "3.5")
+    @ApiModelProperty(value = "商品单价")
     @Column(name = "goods_price")
     private  Float goodsPrice;
-
-    @ApiModelProperty(value = "商品种类")
-    @Column(name = "goods_type")
-    private  Integer goodsType;
-
 
     @ApiModelProperty(value = "商品数量")
     @Column(name = "goods_number")
@@ -57,7 +52,7 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "商品所属厂商")
     private  Supplier supplier;
 
-    @JsonIgnore//防止再去查父类 死循环
+    /*@JsonIgnore//防止再去查父类 死循环*/
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
     @ApiModelProperty(value = "商品所属类别")
     private  Category category;
@@ -100,14 +95,6 @@ public class Goods implements Serializable {
 
     public void setGoodsPrice(Float goodsPrice) {
         this.goodsPrice = goodsPrice;
-    }
-
-    public Integer getGoodsType() {
-        return goodsType;
-    }
-
-    public void setGoodsType(Integer goodsType) {
-        this.goodsType = goodsType;
     }
 
     public Integer getGoodsNumber() {

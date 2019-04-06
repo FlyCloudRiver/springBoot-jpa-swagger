@@ -1,13 +1,11 @@
 package com.jiang.demo.dto.Supplier;
 
-import com.jiang.demo.dto.category.CategoryDTO;
-import com.jiang.demo.dto.goods.GoodsDTO;
-import com.jiang.demo.entity.Goods;
+
 import com.jiang.demo.entity.Supplier;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Column;
+
 
 /**
  * Author: 江云飞
@@ -39,4 +37,51 @@ public class SupplierDTO {
         return dto;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getSupplierPhone() {
+        return supplierPhone;
+    }
+
+    public void setSupplierPhone(String supplierPhone) {
+        this.supplierPhone = supplierPhone;
+    }
+
+    public String getSupplierWeb() {
+        return supplierWeb;
+    }
+
+    public void setSupplierWeb(String supplierWeb) {
+        this.supplierWeb = supplierWeb;
+    }
+
+    public String getSupplierAddress() {
+        return supplierAddress;
+    }
+
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
+    }
 }
