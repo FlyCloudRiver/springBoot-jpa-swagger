@@ -12,7 +12,7 @@ import java.util.List;
  * Date:   2019/4/10
  */
 
-@Repository
+
 public class PageDTO<T> implements Serializable {
     /*总记录数*/
     @ApiModelProperty(value = "总记录数")
