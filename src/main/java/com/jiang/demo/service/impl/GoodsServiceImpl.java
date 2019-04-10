@@ -1,5 +1,6 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.config.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
 import com.jiang.demo.entity.Category;
@@ -37,6 +38,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private SupplierRepository supplierRepository;
 
+    @Autowired
+    private PageDTO<GoodsDTO> pageDTO;
+
     public Goods insertGoods(GoodsForm goodsForm){
 
         Goods goods=new Goods();
@@ -65,7 +69,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     Goods goods=new Goods();
     //动态查询:
-    public Page<Goods> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
+    public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
 
         BeanUtils.copyProperties(goodsForm, goods);
 
@@ -74,7 +78,32 @@ public class GoodsServiceImpl implements GoodsService {
 
         Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(),pageable);
 
-        return gooodsies;
+        pageDTO.setTotalElements(gooodsies.getTotalElements());
+       /* long totalElements = gooodsies.getTotalElements();*/
+
+        pageDTO.setTotalPages(gooodsies.getTotalPages());
+       /* int totalPages = gooodsies.getTotalPages();*/
+
+        pageDTO.setFirst(gooodsies.isFirst());
+        /*boolean first = gooodsies.isFirst();*/
+
+        pageDTO.setLast(gooodsies.isLast());
+       /* boolean last = gooodsies.isLast();*/
+
+        pageDTO.setNumberOfElements(gooodsies.getNumberOfElements());
+        pageDTO.setNumber(gooodsies.getNumber());
+        pageDTO.setSize(gooodsies.getSize());
+      /*  int size = gooodsies.getSize();*/
+       /* int number = gooodsies.getNumber();*/
+
+        List<Goods> content = gooodsies.getContent();
+        List<GoodsDTO> goodsDTOList=new ArrayList<>();
+        for (Goods g:content) {
+            goodsDTOList.add(GoodsDTO.convert(g));
+        }
+        pageDTO.setContent(goodsDTOList);
+
+        return pageDTO;
 
     }
     public class MySpec implements Specification<Goods>{
