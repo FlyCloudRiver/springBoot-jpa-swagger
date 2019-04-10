@@ -38,9 +38,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private SupplierRepository supplierRepository;
 
-    @Autowired
-    private PageDTO<GoodsDTO> pageDTO;
-
     public Goods insertGoods(GoodsForm goodsForm){
 
         Goods goods=new Goods();
@@ -78,6 +75,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(),pageable);
 
+        PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
         pageDTO.setTotalElements(gooodsies.getTotalElements());
        /* long totalElements = gooodsies.getTotalElements();*/
 
