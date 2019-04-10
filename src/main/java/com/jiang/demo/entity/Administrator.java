@@ -1,14 +1,12 @@
 package com.jiang.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,8 +27,10 @@ public class Administrator implements Serializable {
     @ApiModelProperty(value = "管理员密码",example = "小明")
     private  String password;
 
-    @ApiModelProperty(value = "管理员注册时间",example = "2019-03-25")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(value = "管理员注册时间")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
     private Date createTime;
 
     @ApiModelProperty(value = "管理员权限",example = "0")
