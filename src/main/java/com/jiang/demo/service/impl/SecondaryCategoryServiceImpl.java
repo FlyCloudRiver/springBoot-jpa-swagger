@@ -20,7 +20,7 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
 
 
     @Autowired
-    private SecondaryCategoryRepository SecondaryCategoryRepository;
+    private SecondaryCategoryRepository secondaryCategoryRepository;
 
     @Autowired
     private BigCategoryRepository bigCategoryRepository;
@@ -32,12 +32,12 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
 
         secondaryCategory.setBigCategory(bigCategory);
         secondaryCategory.setSecondaryCategoryName(secondaryCategoryName);
-        SecondaryCategory save = SecondaryCategoryRepository.save(secondaryCategory);
+        SecondaryCategory save = secondaryCategoryRepository.save(secondaryCategory);
         return  save;
     }
 
     public void deleteSecondaryCategoryById(Integer id){
-        SecondaryCategoryRepository.deleteById(id);
+        secondaryCategoryRepository.deleteById(id);
     }
 
     public SecondaryCategory updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
@@ -50,20 +50,20 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
         secondaryCategory.setId(id);
         secondaryCategory.setBigCategory(bigCategory);
 
-        SecondaryCategory save = SecondaryCategoryRepository.save(secondaryCategory);
+        SecondaryCategory save = secondaryCategoryRepository.save(secondaryCategory);
         return save;
     }
 
     @Override
     public List<SecondaryCategory> selectSecondaryCategoryAll() {
-        List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();
+        List<SecondaryCategory> all = secondaryCategoryRepository.findAll();
         return all;
     }
 
    /* public Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize){
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(pageNum,pageSize,sort);
-        Page<SecondaryCategory> secondaryCategories = SecondaryCategoryRepository.findAll(pageable);
+        Page<SecondaryCategory> secondaryCategories = secondaryCategoryRepository.findAll(pageable);
         Iterator<SecondaryCategory> secondaryCategoryIterator =  secondaryCategories.iterator();
 
         *//*List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();*//*
@@ -71,7 +71,7 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
     }*/
 
     public SecondaryCategory selectSecondaryCategoryById(Integer id){
-        SecondaryCategory SecondaryCategory = SecondaryCategoryRepository.findById(id).get();
+        SecondaryCategory SecondaryCategory = secondaryCategoryRepository.findById(id).get();
         return SecondaryCategory;
     }
 }

@@ -11,12 +11,15 @@ import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.GoodsService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Author: 江云飞
@@ -52,29 +55,68 @@ public class GoodsServiceImpl implements GoodsService {
         return  save;
     }
 
-    //动态查询:
-    public List findByDynamicCases(GoodsForm goodsForm){
 
-        Goods goods=new Goods();
-        BeanUtils.copyProperties(goods, goodsForm);
-
-        return goodsRepository.findAll(new Specification<Goods>() {
-            @Override
-            public Predicate toPredicate(Root<Goods> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-
-                Path<Object> goodsName = root.get("goodsName");
-
-                Predicate name = criteriaBuilder.like(goodsName.as(String.class),"%"+goods.getGoodsName()+"%");
-
-                criteriaQuery.where(name);
-                return null;
-            }
-        });
-    }
 
     public Goods findGoodsDTOById(Integer id){
         Goods goods = goodsRepository.findById(id).get();
 
         return  goods;
+    }
+
+    Goods goods=new Goods();
+    //动态查询:
+    public Page<Goods> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
+
+        BeanUtils.copyProperties(goodsForm, goods);
+
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(pageNum,pageSize,sort);
+
+        Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(),pageable);
+
+        return gooodsies;
+
+    }
+    public class MySpec implements Specification<Goods>{
+        @Override
+        public Predicate toPredicate(Root<Goods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+            String goodsCode = goods.getGoodsCode();
+            String goodsName = goods.getGoodsName();
+            String goodsShelfLife = goods.getGoodsShelfLife();
+            //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
+            List<Predicate> predicates = new ArrayList<>();
+
+            //对客户端查询条件进行判断,并封装Predicate断言对象
+            if (goodsName!=null) {
+                Predicate predicate = cb.like(root.get("goodsName").as(String.class), "%"+goodsName+"%");
+                predicates.add(predicate);
+            }
+            if (goodsCode!=null) {
+                Predicate predicate = cb.like(root.get("goodsCode").as(String.class), "%"+goodsCode+"%");
+                predicates.add(predicate);
+            }
+            if (goodsShelfLife!=null) {
+                Predicate predicate = cb.like(root.get("goodsShelfLife").as(String.class), "%"+goodsShelfLife+"%");
+                predicates.add(predicate);
+            }
+
+            //判断结合中是否有数据
+            if (predicates.size() == 0) {
+                return null;
+            }
+
+            //将集合转化为CriteriaBuilder所需要的Predicate[]
+            Predicate[] predicateArr = new Predicate[predicates.size()];
+            predicateArr = predicates.toArray(predicateArr);
+
+            // 返回所有获取的条件： 条件 or 条件 or 条件 or 条件
+            return cb.and(predicateArr);
+            //return cb.or(predicateArr);
+
+    }
+
+
+
     }
 }

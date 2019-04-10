@@ -1,5 +1,6 @@
 package com.jiang.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,10 +41,12 @@ public class Goods implements Serializable {
 
     @ApiModelProperty(value = "商品保质期")
     @Column(name = "goods_shelf_life")
-    private  Integer goodsShelfLife;
+    private  String goodsShelfLife;
 
     @ApiModelProperty(value = "商品生产日期")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
     @Column(name = "goods_date")
     private Date goodsDate;
 
@@ -52,10 +55,18 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "商品所属厂商")
     private  Supplier supplier;
 
-    /*@JsonIgnore//防止再去查父类 死循环*/
+    @JsonIgnore//防止再去查父类 死循环
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
     @ApiModelProperty(value = "商品所属类别")
     private  Category category;
+
+    public String getGoodsShelfLife() {
+        return goodsShelfLife;
+    }
+
+    public void setGoodsShelfLife(String goodsShelfLife) {
+        this.goodsShelfLife = goodsShelfLife;
+    }
 
     public Category getCategory() {
         return category;
@@ -105,13 +116,6 @@ public class Goods implements Serializable {
         this.goodsNumber = goodsNumber;
     }
 
-    public Integer getGoodsShelfLife() {
-        return goodsShelfLife;
-    }
-
-    public void setGoodsShelfLife(Integer goodsShelfLife) {
-        this.goodsShelfLife = goodsShelfLife;
-    }
 
     public Date getGoodsDate() {
         return goodsDate;

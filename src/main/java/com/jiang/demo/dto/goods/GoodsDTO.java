@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
+import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -35,7 +36,7 @@ public class GoodsDTO {
     private  Integer goodsNumber;
 
     @ApiModelProperty(value = "商品保质期")
-    private  Integer goodsShelfLife;
+    private  String goodsShelfLife;
 
     @ApiModelProperty(value = "商品生产日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -60,6 +61,7 @@ public class GoodsDTO {
         }
         return dto;
     }
+
 
     public Integer getId() {
         return id;
@@ -101,11 +103,11 @@ public class GoodsDTO {
         this.goodsNumber = goodsNumber;
     }
 
-    public Integer getGoodsShelfLife() {
+    public String getGoodsShelfLife() {
         return goodsShelfLife;
     }
 
-    public void setGoodsShelfLife(Integer goodsShelfLife) {
+    public void setGoodsShelfLife(String goodsShelfLife) {
         this.goodsShelfLife = goodsShelfLife;
     }
 

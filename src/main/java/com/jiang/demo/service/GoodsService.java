@@ -2,9 +2,10 @@ package com.jiang.demo.service;
 
 import com.jiang.demo.dto.goods.GoodsForm;
 import com.jiang.demo.entity.Goods;
+import org.springframework.data.domain.Page;
 
 
-import java.util.List;
+import java.util.Iterator;
 
 /**
  * Author: 江云飞
@@ -13,6 +14,6 @@ import java.util.List;
 public interface GoodsService {
 
     Goods insertGoods(GoodsForm goodsForm);
-    List findByDynamicCases(GoodsForm goodsForm);
+    Page<Goods> findByDynamicCases(GoodsForm goodsForm, Integer pageNum, Integer pageSize);
     Goods findGoodsDTOById(Integer id);
 }
