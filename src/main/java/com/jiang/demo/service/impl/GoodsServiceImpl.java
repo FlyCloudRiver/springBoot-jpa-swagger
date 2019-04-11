@@ -64,36 +64,30 @@ public class GoodsServiceImpl implements GoodsService {
         return  goods;
     }
 
-    Goods goods=new Goods();
+
     //动态查询:
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
 
+        //新建商品类  将form转换成goods
+        Goods goods=new Goods();
         BeanUtils.copyProperties(goodsForm, goods);
 
+        //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(pageNum,pageSize,sort);
+        Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(goods),pageable);
 
-        Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(),pageable);
-
+        //封装分页
         PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
-        pageDTO.setTotalElements(gooodsies.getTotalElements());
-       /* long totalElements = gooodsies.getTotalElements();*/
-
+        BeanUtils.copyProperties(gooodsies, pageDTO);
+       /* pageDTO.setTotalElements(gooodsies.getTotalElements());
         pageDTO.setTotalPages(gooodsies.getTotalPages());
-       /* int totalPages = gooodsies.getTotalPages();*/
-
         pageDTO.setFirst(gooodsies.isFirst());
-        /*boolean first = gooodsies.isFirst();*/
-
         pageDTO.setLast(gooodsies.isLast());
-       /* boolean last = gooodsies.isLast();*/
-
         pageDTO.setNumberOfElements(gooodsies.getNumberOfElements());
         pageDTO.setNumber(gooodsies.getNumber());
         pageDTO.setSize(gooodsies.getSize());
-      /*  int size = gooodsies.getSize();*/
-       /* int number = gooodsies.getNumber();*/
-
+        pageDTO.setHasContent(gooodsies.hasContent());*/
         List<Goods> content = gooodsies.getContent();
         List<GoodsDTO> goodsDTOList=new ArrayList<>();
         for (Goods g:content) {
@@ -105,6 +99,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     }
     public class MySpec implements Specification<Goods>{
+        private Goods goods;
+        public MySpec(Goods goods){
+            this.goods=goods;
+        }
         @Override
         public Predicate toPredicate(Root<Goods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
