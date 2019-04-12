@@ -10,6 +10,7 @@ import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.GoodsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.criteria.*;
 import java.util.*;
-
 /**
  * Author: 江云飞
  * Date:   2019/4/6
@@ -113,15 +112,16 @@ public class GoodsServiceImpl implements GoodsService {
             List<Predicate> predicates = new ArrayList<>();
 
             //对客户端查询条件进行判断,并封装Predicate断言对象
-            if (goodsName!=null) {
+            // isNotBlank(str) 等价于 str != null && str.length > 0 && str.trim().length > 0
+            if (StringUtils.isNotBlank(goodsName)) {
                 Predicate predicate = cb.like(root.get("goodsName").as(String.class), "%"+goodsName+"%");
                 predicates.add(predicate);
             }
-            if (goodsCode!=null) {
+            if (StringUtils.isNotBlank(goodsCode)) {
                 Predicate predicate = cb.like(root.get("goodsCode").as(String.class), "%"+goodsCode+"%");
                 predicates.add(predicate);
             }
-            if (goodsShelfLife!=null) {
+            if (StringUtils.isNotBlank(goodsShelfLife)) {
                 Predicate predicate = cb.like(root.get("goodsShelfLife").as(String.class), "%"+goodsShelfLife+"%");
                 predicates.add(predicate);
             }
