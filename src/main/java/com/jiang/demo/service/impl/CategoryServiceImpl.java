@@ -1,15 +1,13 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.entity.Category;
-import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.CategoryService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

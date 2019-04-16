@@ -5,6 +5,7 @@ import com.jiang.demo.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class UserInfoController {
     private UserInfoService userInfoService;
 
     @ApiOperation(value = "登陆")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public UserInfo login(String username,String password){
         UserInfo byUsername = userInfoService.findByUsername(username, password);
         return byUsername;

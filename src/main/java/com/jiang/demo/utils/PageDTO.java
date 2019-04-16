@@ -1,7 +1,7 @@
-package com.jiang.demo.config;
+package com.jiang.demo.utils;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.stereotype.Repository;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.jiang.demo.service;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.entity.Category;
 import java.util.List;

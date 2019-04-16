@@ -1,11 +1,8 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.Supplier.SupplierDTO;
 import com.jiang.demo.dto.Supplier.SupplierForm;
-import com.jiang.demo.dto.goods.GoodsDTO;
-import com.jiang.demo.dto.goods.GoodsForm;
-import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.Supplier;
 import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.SupplierService;
@@ -25,7 +22,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Author: 江云飞

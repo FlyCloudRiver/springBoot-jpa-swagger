@@ -1,6 +1,6 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
 import com.jiang.demo.entity.Category;

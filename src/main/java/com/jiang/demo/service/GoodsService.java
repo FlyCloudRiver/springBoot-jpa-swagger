@@ -1,13 +1,8 @@
 package com.jiang.demo.service;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
-import com.jiang.demo.entity.Goods;
-import org.springframework.data.domain.Page;
-
-
-import java.util.Iterator;
 
 /**
  * Author: 江云飞

@@ -1,16 +1,13 @@
 package com.jiang.demo.controller;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
-import com.jiang.demo.entity.Goods;
 import com.jiang.demo.service.GoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -26,7 +23,8 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @ApiOperation(value = "添加")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @PostMapping("/insert")
+    //@RequestMapping(value = "/insert", method = RequestMethod.POST)
     public GoodsDTO insertGoods(GoodsForm goodsForm){
 
         GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm);
@@ -34,7 +32,7 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "动态查询")
-    @RequestMapping(value = "/select", method = RequestMethod.POST)
+    @PostMapping("/select")
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
         PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm,pageNum, pageSize);
         System.out.println(goodsPage);
@@ -43,7 +41,7 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "查询ById")
-    @RequestMapping(value = "/selectById", method = RequestMethod.POST)
+    @GetMapping("selectById")
     public GoodsDTO selecteGoodsDTOById(Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
         return goodsDTOById;

@@ -3,13 +3,14 @@ package com.jiang.demo.controller;
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
 import com.jiang.demo.service.BigCategoryService;
+import com.jiang.demo.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,23 @@ import java.util.List;
  * Author: 江云飞
  * Date:   2019/4/1
  */
+
+
+/*
+ * @GetMapping("/*")是一个组合注解，是@RequestMapping(value = "", method = RequestMethod.GET)的缩写。
+ * @PostMapping是一个组合注解，是@RequestMapping(method = RequestMethod.POST)的缩写。
+ *
+ * @RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。
+ * 如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，或者html
+ *
+ * @RequestParam将请求中参数的值赋给变量。
+ * 也可以不使用@RequestParam，直接接收，此时要求controller方法中的参数名称要跟form中name名称一致
+ *
+ * @Transactional 事务
+ *
+ * @Valid 表单验证
+ * */
+
 
 @RestController
 @Api(description = "商品大类" )   //swagger
@@ -26,9 +44,11 @@ public class BigCategoryController {
     @Autowired
     private BigCategoryService bigCategoryService;
 
+    /*请求参数名字跟方法中的名字一样   可以省略@RequestParam */
+    /*@RequestParam   可以设置默认值defaulValue="0"   也可以要求参数为空 required=false*/
     @ApiOperation(value = "添加")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public BigCategoryDTO insertBigCategory(String bigCategoryName){
+    @PostMapping("/insert")
+    public BigCategoryDTO insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
         BigCategory entity = bigCategoryService.insertBigCategory(insertBigCategory);
@@ -36,14 +56,14 @@ public class BigCategoryController {
     }
 
     @ApiOperation(value = "删除")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/delete")
     public void deleteBigCategory(Integer id){
         bigCategoryService.deleteBigCategoryById(id);
 
     }
 
     @ApiOperation(value = "修改")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @PutMapping("/update")
     public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){
 
         BigCategory updateBigCategory=new BigCategory();
@@ -55,7 +75,7 @@ public class BigCategoryController {
     }
 
     @ApiOperation(value = "查询")
-    @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+    @GetMapping("/selectAll")
     public List<BigCategoryDTO> selectAll(){
         List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
 
@@ -66,11 +86,23 @@ public class BigCategoryController {
         return bigCategoryDTOList;
     }
 
+    /*Get方式url传参    地址后面直接  /参数*/
+    /* @ApiOperation(value = "查询ById")
+    @GetMapping("/selectOne/{id}")
+    public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
-    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
-    public BigCategoryDTO selectBigCategoryById(Integer id){
-        BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
+    @GetMapping("/selectOne")
+    public Result<BigCategoryDTO> selectBigCategoryById(Integer id){
 
-        return  BigCategoryDTO.convert(bigCategory);
+        Result<BigCategoryDTO> result=new Result<>();
+        result.setCode(1);
+        result.setMsg("成功！");
+
+        BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
+        BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
+
+        result.setData(convert);
+
+        return  result;
     }
 }

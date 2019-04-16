@@ -5,9 +5,8 @@ import com.jiang.demo.service.SecondaryCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,8 @@ public class SecondaryCategoryController {
     private SecondaryCategoryService secondaryCategoryService;
 
     @ApiOperation(value = "添加")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @PostMapping("/insert")
+    //@RequestMapping(value = "/insert", method = RequestMethod.POST)
     public SecondaryCategoryDTO insertSecondaryCategory(Integer bigCategoryId,String secondaryCategoryName){
 
         SecondaryCategory entity = secondaryCategoryService.insertSecondaryCategory(bigCategoryId,secondaryCategoryName);
@@ -32,21 +32,21 @@ public class SecondaryCategoryController {
     }
 
     @ApiOperation(value = "删除")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/delete")
     public void deleteSecondaryCategory(Integer id){
         secondaryCategoryService.deleteSecondaryCategoryById(id);
 
     }
 
     @ApiOperation(value = "修改")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @PutMapping("/update")
     public SecondaryCategoryDTO updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
         SecondaryCategory secondaryCategory1 = secondaryCategoryService.updateSecondaryCategory(id,secondaryCategoryName,bigCategoryId);
         return SecondaryCategoryDTO.convert(secondaryCategory1);
     }
 
     @ApiOperation(value = "查询")
-    @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
+    @PostMapping("/selectAll")
     public List<SecondaryCategoryDTO> selectAll(){
         List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.selectSecondaryCategoryAll();
        List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class SecondaryCategoryController {
     }
 
     @ApiOperation(value = "查询ById")
-    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
+    @GetMapping("/selectOne")
     public SecondaryCategoryDTO selectSecondaryCategoryById(Integer id){
         SecondaryCategory SecondaryCategory = secondaryCategoryService.selectSecondaryCategoryById(id);
 

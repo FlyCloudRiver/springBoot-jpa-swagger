@@ -1,10 +1,8 @@
 package com.jiang.demo.service;
 
-import com.jiang.demo.config.PageDTO;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.Supplier.SupplierDTO;
 import com.jiang.demo.dto.Supplier.SupplierForm;
-
-import java.util.List;
 
 /**
  * Author: 江云飞
