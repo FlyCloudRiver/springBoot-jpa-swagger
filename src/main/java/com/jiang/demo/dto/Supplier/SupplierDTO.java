@@ -1,6 +1,5 @@
 package com.jiang.demo.dto.Supplier;
 
-
 import com.jiang.demo.entity.Supplier;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
