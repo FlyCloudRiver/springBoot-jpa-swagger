@@ -29,12 +29,8 @@ public class GoodsController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public GoodsDTO insertGoods(GoodsForm goodsForm){
 
-        Goods goods = goodsService.insertGoods(goodsForm);
-
-        /*传进去实体类 返回 DTO类*/
-        GoodsDTO convert = GoodsDTO.convert(goods);
-
-        return convert;
+        GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm);
+        return goodsDTO;
     }
 
     @ApiOperation(value = "动态查询")
@@ -49,8 +45,7 @@ public class GoodsController {
     @ApiOperation(value = "查询ById")
     @RequestMapping(value = "/selectById", method = RequestMethod.POST)
     public GoodsDTO selecteGoodsDTOById(Integer id){
-        Goods goods = goodsService.findGoodsDTOById(id);
-        GoodsDTO convert = GoodsDTO.convert(goods);
-        return convert;
+        GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
+        return goodsDTOById;
     }
 }

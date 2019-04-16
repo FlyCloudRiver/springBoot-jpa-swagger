@@ -8,9 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class SupplierForm {
 
-    @ApiModelProperty(value = "供应商商号")
-    private  String supplierCode;
-
     @ApiModelProperty(value = "供应商名")
     private  String supplierName;
 
@@ -23,19 +20,11 @@ public class SupplierForm {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
-    @ApiModelProperty(value = "商品id")
-    private Integer goodsId;
 
     @ApiModelProperty(value = "供应商评价")
     private  String supplierEvaluate;
 
-    public String getSupplierCode() {
-        return supplierCode;
-    }
 
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
-    }
 
     public String getSupplierName() {
         return supplierName;
@@ -69,13 +58,6 @@ public class SupplierForm {
         this.supplierAddress = supplierAddress;
     }
 
-    public Integer getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
-    }
 
     public String getSupplierEvaluate() {
         return supplierEvaluate;

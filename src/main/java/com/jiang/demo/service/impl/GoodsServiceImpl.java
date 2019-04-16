@@ -37,7 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private SupplierRepository supplierRepository;
 
-    public Goods insertGoods(GoodsForm goodsForm){
+    public GoodsDTO insertGoods(GoodsForm goodsForm){
 
         Goods goods=new Goods();
         /*将前者赋值给后者*/
@@ -50,17 +50,18 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setSupplier(supplier);
 
 
-        Goods save = goodsRepository.save(goods);
-
-        return  save;
+        /*传进去实体类 返回 DTO类*/
+        GoodsDTO convert = GoodsDTO.convert(goods);
+        return  convert;
     }
 
 
 
-    public Goods findGoodsDTOById(Integer id){
+    public GoodsDTO findGoodsDTOById(Integer id){
         Goods goods = goodsRepository.findById(id).get();
-
-        return  goods;
+        /*传进去实体类 返回 DTO类*/
+        GoodsDTO convert = GoodsDTO.convert(goods);
+        return  convert;
     }
 
 
@@ -70,23 +71,13 @@ public class GoodsServiceImpl implements GoodsService {
         //新建商品类  将form转换成goods
         Goods goods=new Goods();
         BeanUtils.copyProperties(goodsForm, goods);
-
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
         Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(goods),pageable);
-
         //封装分页
         PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
         BeanUtils.copyProperties(gooodsies, pageDTO);
-       /* pageDTO.setTotalElements(gooodsies.getTotalElements());
-        pageDTO.setTotalPages(gooodsies.getTotalPages());
-        pageDTO.setFirst(gooodsies.isFirst());
-        pageDTO.setLast(gooodsies.isLast());
-        pageDTO.setNumberOfElements(gooodsies.getNumberOfElements());
-        pageDTO.setNumber(gooodsies.getNumber());
-        pageDTO.setSize(gooodsies.getSize());
-        pageDTO.setHasContent(gooodsies.hasContent());*/
         List<Goods> content = gooodsies.getContent();
         List<GoodsDTO> goodsDTOList=new ArrayList<>();
         for (Goods g:content) {

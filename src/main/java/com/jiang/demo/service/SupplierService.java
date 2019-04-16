@@ -1,5 +1,6 @@
 package com.jiang.demo.service;
 
+import com.jiang.demo.config.PageDTO;
 import com.jiang.demo.dto.Supplier.SupplierDTO;
 import com.jiang.demo.dto.Supplier.SupplierForm;
 
@@ -14,5 +15,9 @@ public interface SupplierService {
 
     SupplierDTO insertSupplier(SupplierForm supplierForm);
 
-    List<SupplierDTO> selectAll();
+    void deleteSupplierById(Integer id);
+
+    PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm, Integer pageNum, Integer pageSize);
+
+    SupplierDTO updateSupplier(SupplierForm supplierForm,Integer id);
 }

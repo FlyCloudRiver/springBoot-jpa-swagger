@@ -14,9 +14,6 @@ public class SupplierDTO {
 
     private Integer id;
 
-    @ApiModelProperty(value = "供应商商号")
-    private  String supplierCode;
-
     @ApiModelProperty(value = "供应商名")
     private  String supplierName;
 
@@ -42,14 +39,6 @@ public class SupplierDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
     }
 
     public String getSupplierName() {

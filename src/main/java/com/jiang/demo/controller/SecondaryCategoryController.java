@@ -39,7 +39,7 @@ public class SecondaryCategoryController {
     }
 
     @ApiOperation(value = "修改")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public SecondaryCategoryDTO updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
         SecondaryCategory secondaryCategory1 = secondaryCategoryService.updateSecondaryCategory(id,secondaryCategoryName,bigCategoryId);
         return SecondaryCategoryDTO.convert(secondaryCategory1);
@@ -49,13 +49,6 @@ public class SecondaryCategoryController {
     @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
     public List<SecondaryCategoryDTO> selectAll(){
         List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.selectSecondaryCategoryAll();
-        //分页代码
-       /* Iterator<SecondaryCategory> secondaryCategoryIterator = secondaryCategoryService.selectSecondaryCategoryAll(pageNum, pageSize);
-
-        List<SecondaryCategory> secondaryCategoryList=new ArrayList<>();
-        while(secondaryCategoryIterator.hasNext()){
-            secondaryCategoryList.add(secondaryCategoryIterator.next());
-        }*/
        List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
         for (SecondaryCategory item:secondaryCategoryList ) {
             secondaryCategoryDTOList.add(SecondaryCategoryDTO.convert(item));

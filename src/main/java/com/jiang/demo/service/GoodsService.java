@@ -15,7 +15,7 @@ import java.util.Iterator;
  */
 public interface GoodsService {
 
-    Goods insertGoods(GoodsForm goodsForm);
+    GoodsDTO insertGoods(GoodsForm goodsForm);
     PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm, Integer pageNum, Integer pageSize);
-    Goods findGoodsDTOById(Integer id);
+    GoodsDTO findGoodsDTOById(Integer id);
 }

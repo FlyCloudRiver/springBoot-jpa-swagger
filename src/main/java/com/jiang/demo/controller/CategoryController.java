@@ -40,8 +40,8 @@ public class CategoryController {
 
     @ApiOperation(value = "添加")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public CategoryDTO insertCategory(Integer econdaryCategoryId, String categoryName){
-        Category category = categoryService.insertCategory(econdaryCategoryId, categoryName);
+    public CategoryDTO insertCategory(Integer secondaryCategoryId, String categoryName){
+        Category category = categoryService.insertCategory(secondaryCategoryId, categoryName);
         return CategoryDTO.convert(category);
     }
 
@@ -52,7 +52,7 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "修改")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public CategoryDTO updateCategory(Integer id, String categoryName, Integer secondaryCategoryId){
 
         Category category = categoryService.updateCategory(id,categoryName,secondaryCategoryId);

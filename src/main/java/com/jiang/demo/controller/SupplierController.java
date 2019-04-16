@@ -1,5 +1,6 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.config.PageDTO;
 import com.jiang.demo.dto.Supplier.SupplierDTO;
 import com.jiang.demo.dto.Supplier.SupplierForm;
 import com.jiang.demo.service.SupplierService;
@@ -26,25 +27,38 @@ public class SupplierController {
     @Autowired
     SupplierService supplierService;
 
-
     @ApiOperation(value = "添加")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public SupplierDTO insertGoods(SupplierForm supplierForm){
+    public SupplierDTO insertSupplier(SupplierForm supplierForm){
         SupplierDTO supplierDTO = supplierService.insertSupplier(supplierForm);
         return supplierDTO;
     }
 
-    @ApiOperation(value = "查询")
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public void deleteSupplier(Integer id){
+        supplierService.deleteSupplierById(id);
+    }
+
+    @ApiOperation(value = "查询ById")
     @RequestMapping(value = "/selectById", method = RequestMethod.POST)
     public SupplierDTO selectSupplierById(Integer id){
         SupplierDTO supplierDTO = supplierService.selectSupplier(id);
         return supplierDTO;
     }
 
-    @ApiOperation(value = "查询所有")
-    @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    public List<SupplierDTO> selectAll(){
-        List<SupplierDTO> supplierDTOList = supplierService.selectAll();
-        return supplierDTOList;
+    @ApiOperation(value = "(动态分页)查询")
+    @RequestMapping(value = "/select", method = RequestMethod.POST)
+    public PageDTO<SupplierDTO> selectByDynamicCases(SupplierForm supplierForm, Integer pageNum, Integer pageSize){
+        PageDTO<SupplierDTO> byDynamicCases = supplierService.findByDynamicCases(supplierForm, pageNum, pageSize);
+        return byDynamicCases;
     }
+
+    @ApiOperation(value = "更新")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public SupplierDTO updateSupplier(SupplierForm supplierForm, Integer id){
+        SupplierDTO supplierDTO = supplierService.updateSupplier(supplierForm, id);
+        return supplierDTO;
+    }
+
 }

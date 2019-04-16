@@ -19,10 +19,6 @@ public class Supplier implements Serializable {
     @ApiModelProperty(value = "供应商ID",example = "1")
     private Integer id;
 
-    @ApiModelProperty(value = "供应商商号")
-    @Column(name = "supplier_code")
-    private  String supplierCode;
-
     @ApiModelProperty(value = "供应商名")
     @Column(name = "supplier_name")
     private  String supplierName;
@@ -61,14 +57,6 @@ public class Supplier implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
     }
 
     public String getSupplierName() {

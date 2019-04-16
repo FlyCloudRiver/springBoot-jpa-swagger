@@ -43,7 +43,7 @@ public class BigCategoryController {
     }
 
     @ApiOperation(value = "修改")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){
 
         BigCategory updateBigCategory=new BigCategory();
