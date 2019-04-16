@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
+/**
+ * @GetMapping是一个组合注解，是@RequestMapping(method = RequestMethod.GET)的缩写。
+ * @PostMapping是一个组合注解，是@RequestMapping(method = RequestMethod.POST)的缩写。
+ * */
 @RestController
 @Api(description = "商品" )   //swagger
 @RequestMapping("/goods")
@@ -37,8 +40,6 @@ public class GoodsController {
     @ApiOperation(value = "动态查询")
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
-
-
         PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm,pageNum, pageSize);
         System.out.println(goodsPage);
 

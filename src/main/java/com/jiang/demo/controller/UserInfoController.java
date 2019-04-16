@@ -24,8 +24,10 @@ public class UserInfoController {
     @ApiOperation(value = "登陆")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public UserInfo login(String username,String password){
-
         UserInfo byUsername = userInfoService.findByUsername(username, password);
         return byUsername;
     }
+
+
+
 }

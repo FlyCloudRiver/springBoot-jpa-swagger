@@ -1,7 +1,10 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.config.PageDTO;
 import com.jiang.demo.dto.category.CategoryDTO;
 
+import com.jiang.demo.dto.goods.GoodsDTO;
+import com.jiang.demo.dto.goods.GoodsForm;
 import com.jiang.demo.entity.Category;
 import com.jiang.demo.service.CategoryService;
 import io.swagger.annotations.Api;
@@ -19,7 +22,15 @@ import java.util.List;
  * Date:   2019/4/4
  */
 
-@RestController
+
+
+/**
+* @GetMapping是一个组合注解，是@RequestMapping(method = RequestMethod.GET)的缩写。
+* @PostMapping是一个组合注解，是@RequestMapping(method = RequestMethod.POST)的缩写。
+ * */
+
+@RestController//@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。
+//如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，或者html
 @Api(description = "商品细类" )   //swagger
 @RequestMapping("/category")
 public class CategoryController {
@@ -66,5 +77,15 @@ public class CategoryController {
         Category category = categoryService.selectCategoryById(id);
 
         return  CategoryDTO.convert(category);
+    }
+
+    @ApiOperation(value = "动态查询")
+    @RequestMapping(value = "/select", method = RequestMethod.POST)
+    public PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId,Integer secondaryCategoryId, Integer pageNum, Integer pageSize){
+
+        PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(bigCategoryId,secondaryCategoryId,pageNum, pageSize);
+        System.out.println(goodsPage);
+
+        return goodsPage;
     }
 }

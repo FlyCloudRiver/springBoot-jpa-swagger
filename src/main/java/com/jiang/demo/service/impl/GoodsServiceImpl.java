@@ -73,7 +73,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(pageNum,pageSize,sort);
+        Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
         Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(goods),pageable);
 
         //封装分页
