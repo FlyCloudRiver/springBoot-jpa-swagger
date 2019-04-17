@@ -1,18 +1,12 @@
-package com.jiang.demo.dto.Supplier;
+package com.jiang.demo.dto.supplier;
 
-import com.jiang.demo.entity.Supplier;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.beans.BeanUtils;
-
-
 
 /**
  * Author: 江云飞
  * Date:   2019/4/1
  */
-public class SupplierDTO {
-
-    private Integer id;
+public class SupplierForm {
 
     @ApiModelProperty(value = "供应商名")
     private  String supplierName;
@@ -26,20 +20,11 @@ public class SupplierDTO {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
-    public static SupplierDTO convert(Supplier entity) {
-        SupplierDTO dto = new SupplierDTO();
-        BeanUtils.copyProperties(entity, dto);
 
-        return dto;
-    }
+    @ApiModelProperty(value = "供应商评价")
+    private  String supplierEvaluate;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getSupplierName() {
         return supplierName;
@@ -71,5 +56,14 @@ public class SupplierDTO {
 
     public void setSupplierAddress(String supplierAddress) {
         this.supplierAddress = supplierAddress;
+    }
+
+
+    public String getSupplierEvaluate() {
+        return supplierEvaluate;
+    }
+
+    public void setSupplierEvaluate(String supplierEvaluate) {
+        this.supplierEvaluate = supplierEvaluate;
     }
 }

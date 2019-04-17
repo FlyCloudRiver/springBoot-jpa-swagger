@@ -2,15 +2,16 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.BigCategoryService;
 import com.jiang.demo.utils.Result;
+import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class BigCategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
+    @Permission
     public void deleteBigCategory(Integer id){
         bigCategoryService.deleteBigCategoryById(id);
 
@@ -92,17 +94,21 @@ public class BigCategoryController {
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    public Result<BigCategoryDTO> selectBigCategoryById(Integer id){
+    @Permission
+    public Result<BigCategoryDTO> selectBigCategoryById(String userName,Integer id) throws Exception{
 
         Result<BigCategoryDTO> result=new Result<>();
-        result.setCode(1);
-        result.setMsg("成功！");
-
         BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
         BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
-
-        result.setData(convert);
-
-        return  result;
+        return  ResultUtil.success(convert);
+       /* Result<BigCategoryDTO> result=new Result<>();
+        try{
+            BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
+            BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
+            return  ResultUtil.success(convert);
+        }catch (Exception e){
+            System.out.println("错误类型："+e);
+            return ResultUtil.error(1,"数据不存在！");
+        }*/
     }
 }

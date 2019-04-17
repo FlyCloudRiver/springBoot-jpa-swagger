@@ -1,6 +1,7 @@
 package com.jiang.demo.service.impl;
 
 import com.jiang.demo.entity.BigCategory;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.service.BigCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class BigCategoryServiceImpl implements BigCategoryService {
         return all;
     }
 
-    public BigCategory selectBigCategoryById(Integer id){
+    public BigCategory selectBigCategoryById(Integer id) throws Exception{
         BigCategory bigCategory = bigCategoryRepository.findById(id).get();
         return bigCategory;
     }

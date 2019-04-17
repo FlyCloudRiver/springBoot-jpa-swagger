@@ -1,5 +1,6 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.category.CategoryDTO;
 
@@ -45,6 +46,7 @@ public class CategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
+    @Permission
     public void deleteCategory(Integer id){
         categoryService.deleteCategoryById(id);
     }

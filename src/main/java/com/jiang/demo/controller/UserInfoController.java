@@ -1,14 +1,19 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.dto.userInfo.UserInfoDTO;
+import com.jiang.demo.entity.SysRole;
 import com.jiang.demo.entity.UserInfo;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: 江云飞
@@ -24,10 +29,17 @@ public class UserInfoController {
 
     @ApiOperation(value = "登陆")
     @PostMapping("/login")
-    public UserInfo login(String username,String password){
+    public UserInfoDTO login(String username, String password){
         UserInfo byUsername = userInfoService.findByUsername(username, password);
-        return byUsername;
+
+        List<SysRole> roleList = byUsername.getRoleList();
+
+        UserInfoDTO userInfoDTO=UserInfoDTO.convert(byUsername);
+
+        return userInfoDTO;
     }
+
+
 
 
 

@@ -9,4 +9,6 @@ import com.jiang.demo.entity.UserInfo;
 public interface UserInfoService {
 
     UserInfo findByUsername(String username,String password);
+
+    boolean isAdmin(String name);
 }

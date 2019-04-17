@@ -1,18 +1,13 @@
 package com.jiang.demo.dto.goods;
 
-import com.jiang.demo.dto.Supplier.SupplierDTO;
-import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
+import com.jiang.demo.dto.supplier.SupplierDTO;
 import com.jiang.demo.dto.category.CategoryDTO;
-import com.jiang.demo.entity.BigCategory;
-import com.jiang.demo.entity.Category;
 import com.jiang.demo.entity.Goods;
-import com.jiang.demo.entity.Supplier;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
-import javax.persistence.Column;
 import java.util.Date;
 
 /**

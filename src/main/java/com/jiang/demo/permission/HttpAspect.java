@@ -1,0 +1,107 @@
+package com.jiang.demo.permission;
+
+import com.jiang.demo.exception.MyException;
+import com.jiang.demo.service.UserInfoService;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.hibernate.loader.plan.spi.Join;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+
+import java.lang.reflect.Method;
+
+import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Author: 江云飞
+ * Date:   2019/4/16
+ */
+
+@Aspect
+@Component
+public class HttpAspect {
+
+    //打印日志信息
+    private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);
+
+    @Autowired
+    private UserInfoService userInfoService;
+
+    /**
+     * 定义切点
+     */
+    @Pointcut("execution(public * com.jiang.demo.controller.*.*(..))")
+    public void privilege(){
+
+    }
+
+  /*  @Before("privilege()")
+    public void doBefore(JoinPoint joinPoint) throws Exception {
+        Object[] args = joinPoint.getArgs();
+        for (Object o:args) {
+            System.out.println("参数++++"+o);
+        }
+        if(args[0]==null){
+            throw new MyException(-1,"未登录！");
+        }
+
+    }*/
+    /**
+     * 权限环绕通知
+     *
+     * @param joinPoint
+     * @throws Throwable
+     */
+
+    @ResponseBody
+    @Around("privilege()")
+    public Object isAccessMethod(ProceedingJoinPoint joinPoint) throws Throwable{
+
+        //获取访问目标方法
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method targetMethod = methodSignature.getMethod();
+
+        //获取访问参数
+        logger.info("args={}",joinPoint.getArgs());
+
+        //得到方法的访问权限
+        final String methodAccess = AnnotationParse.privilegeParse(targetMethod);
+        System.out.println("访问的权限："+methodAccess);
+        //如果该方法上没有权限注解，直接调用目标方法
+        if (StringUtils.isEmpty(methodAccess)) {
+            return joinPoint.proceed();
+        } else {
+            //获取当前用户(从参数中获取)
+            Object[] args = joinPoint.getArgs();
+            if (args[0] == null) {
+                throw new MyException(-1,"未登录！");
+            }
+            String currentUser = args[0].toString();
+            //获取到用户名
+            logger.info("访问用户，{}", currentUser);
+
+            //判断用户是否是会员
+            if (!userInfoService.isAdmin(currentUser)) {
+                throw new MyException(-2,"您不是管理员");
+            } else {
+                logger.info("您是管理员");
+                //是管理员时，才返回所需要的信息
+                return joinPoint.proceed();
+            }
+
+        }
+    }
+}

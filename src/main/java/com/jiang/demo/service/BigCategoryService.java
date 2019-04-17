@@ -21,5 +21,5 @@ public interface BigCategoryService {
 
     List<BigCategory> selectBigCategoryAll();
 
-    BigCategory selectBigCategoryById(Integer id);
+    BigCategory selectBigCategoryById(Integer id) throws Exception;
 }

@@ -1,8 +1,8 @@
 package com.jiang.demo.service;
 
 import com.jiang.demo.utils.PageDTO;
-import com.jiang.demo.dto.Supplier.SupplierDTO;
-import com.jiang.demo.dto.Supplier.SupplierForm;
+import com.jiang.demo.dto.supplier.SupplierDTO;
+import com.jiang.demo.dto.supplier.SupplierForm;
 
 /**
  * Author: 江云飞
