@@ -11,19 +11,18 @@ import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Author: 江云飞
@@ -57,14 +56,17 @@ public class UserInfoController {
                 Integer uid = byUsername.getUid();
                 List<Tokens> byuid = tokenRepository.findByuid(uid);
                 Tokens save=null;
-                //如果这个用户的token存在  就更新时间
+                //如果这个用户的token存在  就更新时间 更新密匙
                 if(byuid.size()!=0){
                     Tokens tokens1 = byuid.get(0);
                     tokens1.setBuildtime(new Date());
+                    tokens1.setToken(getItemID(5));
+                    /*System.out.println("随机数"+getItemID(10));*/
                     save = tokenRepository.save(tokens1);
                 }else{
                     /*token 信息*/
                     Tokens tokens = new Tokens();
+                    tokens.setToken(getItemID(10));
                     tokens.setBuildtime(new Date());
                     tokens.setUserInfo(byUsername);
                     save = tokenRepository.save(tokens);
@@ -74,13 +76,14 @@ public class UserInfoController {
 
                 Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());
                 Cookie cookie2=new Cookie("username",byUsername.getUsername());
-                System.out.println("cookie1-------"+cookie1.toString());
-                System.out.println("cookie2-------"+cookie2.toString());
+                Cookie cookie3=new Cookie("token",save.getToken());
+
                 response.addCookie(cookie1);
                 response.addCookie(cookie2);
+                response.addCookie(cookie3);
                 return ResultUtil.success(UserInfoDTO.convert(byUsername));
             } else
-                throw new MyException(-1, "登陆失败");
+                throw new MyException(-6, "用户名或密码错误");
         } catch (Exception e) {
             throw new MyException(-2, "未知错误");
         }
@@ -88,4 +91,27 @@ public class UserInfoController {
     }
 
 
+    static int  num=0;
+    /*生成随机的数字字母组合*/
+    private static String getItemID( int n )
+    {
+        String val = "";
+        Random random = new Random();
+        for ( int i = 0; i < n; i++ )
+        {
+            String str = random.nextInt( 2 ) % 2 == 0 ? "num" : "char";
+            if ( "char".equalsIgnoreCase( str ) )
+            { // 产生字母
+                int nextInt = random.nextInt( 2 ) % 2 == 0 ? 65 : 97;
+                // System.out.println(nextInt + "!!!!"); 1,0,1,1,1,0,0
+                val += (char) ( nextInt + random.nextInt( 26 ) );
+            }
+            else if ( "num".equalsIgnoreCase( str ) )
+            { // 产生数字
+                val += String.valueOf( random.nextInt( 10 ) );
+            }
+        }
+        num=num+1;
+        return val+num;
+    }
 }

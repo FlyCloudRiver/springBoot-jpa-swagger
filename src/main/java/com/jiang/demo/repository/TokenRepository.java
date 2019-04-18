@@ -23,4 +23,7 @@ public interface TokenRepository extends JpaRepository<Tokens,Integer> {
     @Query(value = "select s.role from user_info u,sys_role s,sys_user_role sur where u.uid=sur.uid and sur.role_id=s.id and username=?", nativeQuery = true)
     String getRoleName(String username);
 
+    @Query(value = "select count(tokenid)  FROM tokens where token=?", nativeQuery = true)
+    Integer getToken(String token);
+
 }

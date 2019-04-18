@@ -80,10 +80,19 @@ public class HttpAspect{
             try {
                 //获取cookie
                 String username = null;
+                String token=null;
                 for (Cookie cookie : cookies) {
                     if (cookie.getName() == "username") {
                         username = cookie.getValue();
                     }
+                    if(cookie.getName() == "token"){
+                        token= cookie.getValue();
+                    }
+                }
+                //去查询token
+                Integer token1 = tokenRepository.getToken(token);
+                if(token1<1){
+                    throw new MyException(-4, "你还没登陆！");
                 }
                 //根据用户名获取角色名
                 String roleName = tokenRepository.getRoleName(username);

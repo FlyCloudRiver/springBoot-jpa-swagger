@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * Author: 江云飞
@@ -75,11 +74,21 @@ public class HttpAspect2 {
         try {
             //获取cookie
             Integer tokenId = null;
+            String token=null;
             for (Cookie cookie : cookies) {
                 if (cookie.getName() == "tookeId") {
                     tokenId = Integer.valueOf(cookie.getValue());
                 }
+                if(cookie.getName() == "token"){
+                    token= cookie.getValue();
+                }
             }
+            //去查询token  密匙判断
+            Integer token1 = tokenRepository.getToken(token);
+            if(token1<1){
+                throw new MyException(-4, "你还没登陆！");
+            }
+
             Tokens tokens = tokenRepository.findById(tokenId).get();
 
             Date buildtime = tokens.getBuildtime();
