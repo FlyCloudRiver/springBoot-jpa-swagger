@@ -42,7 +42,7 @@ public class GoodsController {
 
     @ApiOperation(value = "查询ById")
     @GetMapping("selectById")
-    public GoodsDTO selecteGoodsDTOById(Integer id){
+    public GoodsDTO selectGoodsDTOById(Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
         return goodsDTOById;
     }

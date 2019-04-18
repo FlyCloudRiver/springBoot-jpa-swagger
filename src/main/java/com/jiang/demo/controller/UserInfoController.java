@@ -22,10 +22,8 @@ import springfox.documentation.spring.web.json.Json;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Author: 江云飞
@@ -74,12 +72,6 @@ public class UserInfoController {
 
                 System.out.println("save===="+save);
 
-                /*JSONObject object = JSONObject.fromObject(save);
-                System.out.println("json==="+object);
-                String jsonstr = object.toString();
-
-                System.out.println("jsonstr=========="+jsonstr);*/
-                /*Cookie cookie = new Cookie(byUsername.getUsername(), save.toString());*/
                 Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());
                 Cookie cookie2=new Cookie("username",byUsername.getUsername());
                 System.out.println("cookie1-------"+cookie1.toString());
@@ -96,20 +88,4 @@ public class UserInfoController {
     }
 
 
-   /* @PostMapping(value = "/isLogin")
-    public Boolean isLogin(HttpServletRequest request) {
-        System.out.println("4444444444444444444444444444444444444444444444444444444444444444444");
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-
-                    char[] chars = cookie.getValue().toCharArray();
-                    System.out.println("cookie的value(Controller)="+chars);
-                }
-                return true;
-            }else{
-                return false;
-            }
-
-    }*/
 }

@@ -24,7 +24,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo findByUsername(String username,String password) {
         UserInfo byUsernameAndPassword = userInfoRepository.findByUsernameAndPassword(username, password);
 
-     /*   UserInfoDTO userInfoDTO=UserInfoDTO.convert(byUsernameAndPassword);*/
+
         return byUsernameAndPassword;
 
     }

@@ -40,9 +40,6 @@ public class HttpAspect2 {
     private final static Logger logger= LoggerFactory.getLogger(HttpAspect2.class);
 
     @Autowired
-    private UserInfoService userInfoService;
-
-    @Autowired
     private TokenRepository tokenRepository;
 
     /**

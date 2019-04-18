@@ -1,17 +1,13 @@
 package com.jiang.demo.permission;
 
-import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
 import com.jiang.demo.service.UserInfoService;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.hibernate.loader.plan.spi.Join;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +16,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import org.springframework.core.annotation.Order;
 import java.lang.reflect.Method;
-
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +25,10 @@ import javax.servlet.http.HttpServletRequest;
  * Author: 江云飞
  * Date:   2019/4/16
  */
+
+/* @Permission
+    @Login
+*/
 @Order(2)
 @Aspect
 @Component
@@ -40,8 +37,6 @@ public class HttpAspect{
     //打印日志信息
     private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);
 
-    @Autowired
-    private UserInfoService userInfoService;
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -55,17 +50,6 @@ public class HttpAspect{
 
     }
 
-  /*  @Before("privilege()")
-    public void doBefore(JoinPoint joinPoint) throws Exception {
-        Object[] args = joinPoint.getArgs();
-        for (Object o:args) {
-            System.out.println("参数++++"+o);
-        }
-        if(args[0]==null){
-            throw new MyException(-1,"未登录！");
-        }
-
-    }*/
     /**
      * 权限环绕通知
      *
