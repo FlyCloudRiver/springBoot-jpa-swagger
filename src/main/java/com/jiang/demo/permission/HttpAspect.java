@@ -1,6 +1,8 @@
 package com.jiang.demo.permission;
 
+import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
+import com.jiang.demo.repository.TokenRepository;
 import com.jiang.demo.service.UserInfoService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,20 +21,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-
+import org.springframework.core.annotation.Order;
 import java.lang.reflect.Method;
 
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Author: 江云飞
  * Date:   2019/4/16
  */
-
+@Order(2)
 @Aspect
 @Component
-public class HttpAspect {
+public class HttpAspect{
 
     //打印日志信息
     private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);
@@ -40,10 +43,14 @@ public class HttpAspect {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private TokenRepository tokenRepository;
+
+
     /**
      * 定义切点
      */
-    @Pointcut("execution(public * com.jiang.demo.controller.*.*(..))")
+    @Pointcut("execution(public * com.jiang.demo.controller.*.*(..))"+"&& !execution(public * com.jiang.demo.controller.UserInfoController.*(..))")
     public void privilege(){
 
     }
@@ -70,12 +77,12 @@ public class HttpAspect {
     @Around("privilege()")
     public Object isAccessMethod(ProceedingJoinPoint joinPoint) throws Throwable{
 
+        // 接收到请求，记录请求内容
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
         //获取访问目标方法
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method targetMethod = methodSignature.getMethod();
-
-        //获取访问参数
-        logger.info("args={}",joinPoint.getArgs());
 
         //得到方法的访问权限
         final String methodAccess = AnnotationParse.privilegeParse(targetMethod);
@@ -84,22 +91,27 @@ public class HttpAspect {
         if (StringUtils.isEmpty(methodAccess)) {
             return joinPoint.proceed();
         } else {
-            //获取当前用户(从参数中获取)
-            Object[] args = joinPoint.getArgs();
-            if (args[0] == null) {
-                throw new MyException(-1,"未登录！");
-            }
-            String currentUser = args[0].toString();
-            //获取到用户名
-            logger.info("访问用户，{}", currentUser);
-
-            //判断用户是否是会员
-            if (!userInfoService.isAdmin(currentUser)) {
-                throw new MyException(-2,"您不是管理员");
-            } else {
-                logger.info("您是管理员");
-                //是管理员时，才返回所需要的信息
-                return joinPoint.proceed();
+            //如果该方法上有注解
+            Cookie[] cookies = request.getCookies();
+            try {
+                //获取cookie
+                String username = null;
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName() == "username") {
+                        username = cookie.getValue();
+                    }
+                }
+                //根据用户名获取角色名
+                String roleName = tokenRepository.getRoleName(username);
+                if(roleName.equals("admin")){
+                    logger.info("您是管理员");
+                    //是管理员时，才返回所需要的信息
+                    return joinPoint.proceed();
+                }else {
+                    throw new MyException(-2,"您不是管理员");
+                }
+            }catch (Exception e){
+                throw new MyException(-4, "你还没登陆！");
             }
 
         }

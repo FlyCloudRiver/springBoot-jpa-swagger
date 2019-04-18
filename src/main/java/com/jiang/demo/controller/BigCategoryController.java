@@ -2,6 +2,7 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
+import com.jiang.demo.permission.Login;
 import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.BigCategoryService;
 import com.jiang.demo.utils.Result;
@@ -78,6 +79,8 @@ public class BigCategoryController {
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
+    @Permission
+    //@Login
     public List<BigCategoryDTO> selectAll(){
         List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
 
@@ -94,7 +97,6 @@ public class BigCategoryController {
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    @Permission
     public Result<BigCategoryDTO> selectBigCategoryById(String userName,Integer id) throws Exception{
 
         Result<BigCategoryDTO> result=new Result<>();

@@ -1,5 +1,7 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.dto.userInfo.UserInfoDTO;
+import com.jiang.demo.entity.SysRole;
 import com.jiang.demo.entity.UserInfo;
 import com.jiang.demo.repository.UserInfoRepository;
 import com.jiang.demo.service.UserInfoService;
@@ -20,7 +22,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoRepository userInfoRepository;
     @Override
     public UserInfo findByUsername(String username,String password) {
-        return userInfoRepository.findByUsernameAndPassword(username,password);
+        UserInfo byUsernameAndPassword = userInfoRepository.findByUsernameAndPassword(username, password);
+
+     /*   UserInfoDTO userInfoDTO=UserInfoDTO.convert(byUsernameAndPassword);*/
+        return byUsernameAndPassword;
+
     }
 
     private String[] admins = {"qiushi", "weixin", "xiaoshitou","admin1"};
@@ -29,13 +35,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         return Arrays.asList(admins).contains(name);
     }
 
-    public List<UserInfo> select(){
-        List<UserInfo> all = userInfoRepository.findAll();
-        for (UserInfo u:all) {
-            System.out.println(u.getUid());
-            System.out.println(u.getUsername());
-        }
+    public UserInfoDTO findByUsername(String username){
+        UserInfo byUsername = userInfoRepository.findByUsername(username);
 
-        return all;
+        UserInfoDTO userInfoDTO=UserInfoDTO.convert(byUsername);
+        System.out.println(byUsername);
+        return userInfoDTO;
     }
 }

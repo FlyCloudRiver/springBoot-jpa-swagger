@@ -1,5 +1,6 @@
 package com.jiang.demo.service;
 
+import com.jiang.demo.dto.userInfo.UserInfoDTO;
 import com.jiang.demo.entity.UserInfo;
 
 /**
@@ -8,7 +9,9 @@ import com.jiang.demo.entity.UserInfo;
  */
 public interface UserInfoService {
 
-    UserInfo findByUsername(String username,String password);
+    UserInfo findByUsername(String username, String password);
 
     boolean isAdmin(String name);
+
+    UserInfoDTO findByUsername(String username);
 }
