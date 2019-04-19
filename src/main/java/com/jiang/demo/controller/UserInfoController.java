@@ -54,14 +54,15 @@ public class UserInfoController {
             if (byUsername != null) {
                 /*用户id*/
                 Integer uid = byUsername.getUid();
-                List<Tokens> byuid = tokenRepository.findByuid(uid);
+                List<Tokens> byUid = tokenRepository.findByUid(uid);
                 Tokens save=null;
                 //如果这个用户的token存在  就更新时间 更新密匙
-                if(byuid.size()!=0){
-                    Tokens tokens1 = byuid.get(0);
+                if(byUid.size()!=0){
+                    Tokens tokens1 = byUid.get(0);
                     tokens1.setBuildtime(new Date());
-                    tokens1.setToken(getItemID(5));
-                    /*System.out.println("随机数"+getItemID(10));*/
+                    String secretKey = isReplace(getItemID(5));
+                    tokens1.setToken(secretKey);
+                    //System.out.println("唯一随机数"+secretKey);
                     save = tokenRepository.save(tokens1);
                 }else{
                     /*token 信息*/
@@ -91,7 +92,7 @@ public class UserInfoController {
     }
 
 
-    static int  num=0;
+
     /*生成随机的数字字母组合*/
     private static String getItemID( int n )
     {
@@ -111,7 +112,18 @@ public class UserInfoController {
                 val += String.valueOf( random.nextInt( 10 ) );
             }
         }
-        num=num+1;
-        return val+num;
+
+        return val;
+    }
+
+    /*生成唯一随机数*/
+    private String isReplace(String key){
+          //去查询token  判断密匙是否存在 如果存在重新生成密匙  否则保存到数据库
+           Integer token1 = tokenRepository.getToken(key);
+           if(token1<1){
+               return  key;
+            }else{
+               return isReplace(getItemID(5));
+           }
     }
 }

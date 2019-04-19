@@ -89,7 +89,7 @@ public class HttpAspect{
                         token= cookie.getValue();
                     }
                 }
-                //去查询token
+                //去查询token  密匙判断
                 Integer token1 = tokenRepository.getToken(token);
                 if(token1<1){
                     throw new MyException(-4, "你还没登陆！");

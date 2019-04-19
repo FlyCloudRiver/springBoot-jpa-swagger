@@ -91,9 +91,10 @@ public class HttpAspect2 {
 
             Tokens tokens = tokenRepository.findById(tokenId).get();
 
-            Date buildtime = tokens.getBuildtime();
-            long time = buildtime.getTime();
+            Date buildTime = tokens.getBuildtime();
+            long time = buildTime.getTime();
 
+            /*十分钟  操作需要登陆的方法  返回登陆过期消息*/
             Date nowTime = new Date();
             long time1 = nowTime.getTime();
 
