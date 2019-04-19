@@ -92,7 +92,9 @@ public class HttpAspect2 {
             //如果根据token查询找不到信息 抛出异常
             try {
                 Tokens tokens = tokenRepository.findTokensByToken(token);
-
+                if(tokens==null){
+                    throw new MyException(-3, "你还没登陆！");
+                }
                 String username = tokens.getUserInfo().getUsername();
                 System.out.println("username"+username);
 

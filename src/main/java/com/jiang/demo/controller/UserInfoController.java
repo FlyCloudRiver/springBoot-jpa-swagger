@@ -78,11 +78,11 @@ public class UserInfoController {
 
           /*      Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());*/
                 /*Cookie cookie2=new Cookie("username",byUsername.getUsername());*/
-                Cookie cookie3=new Cookie("token",save.getToken());
+                Cookie cookie=new Cookie("token",save.getToken());
 
                /* response.addCookie(cookie1);*/
                /* response.addCookie(cookie2);*/
-                response.addCookie(cookie3);
+                response.addCookie(cookie);
 
                 return ResultUtil.success(UserInfoDTO.convert(byUsername));
 
