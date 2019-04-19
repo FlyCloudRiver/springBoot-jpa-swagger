@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig {
     /*主要解决跨域访问不到地址的问题*/
-    private CorsConfiguration buildConfig() {
+   /* private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
@@ -30,7 +30,7 @@ public class SwaggerConfig {
         source.registerCorsConfiguration("/**", buildConfig());
         return new CorsFilter(source);
 
-    }
+    }*/
     @Bean
     public Docket swaggerSpringMvcPlugin() {
         return new Docket(DocumentationType.SWAGGER_2)

@@ -79,6 +79,7 @@ public class HttpAspect{
         } else {
             //如果该方法上有注解
             Cookie[] cookies = request.getCookies();
+            System.out.println("fggggggg"+cookies);
             try {
                 //获取cookie
                 String token=null;
@@ -88,6 +89,7 @@ public class HttpAspect{
                         token= cookie.getValue();
                     }
                 }
+                System.out.println("token==="+token);
                 //根据token密匙查询 信息
                 try {
                     Tokens tokens = tokenRepository.findTokensByToken(token);

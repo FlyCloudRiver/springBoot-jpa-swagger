@@ -10,7 +10,6 @@ import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,10 +78,11 @@ public class UserInfoController {
           /*      Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());*/
                 /*Cookie cookie2=new Cookie("username",byUsername.getUsername());*/
                 Cookie cookie=new Cookie("token",save.getToken());
-
+                cookie.setPath("/");
                /* response.addCookie(cookie1);*/
                /* response.addCookie(cookie2);*/
                 response.addCookie(cookie);
+
 
                 return ResultUtil.success(UserInfoDTO.convert(byUsername));
 

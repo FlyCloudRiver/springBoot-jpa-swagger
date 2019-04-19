@@ -79,22 +79,29 @@ public class HttpAspect2 {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
+        System.out.println("request"+request);
+        System.out.println();
         Cookie[] cookies = request.getCookies();
+      /*
+        System.out.println("name"+cookies[0].getName());
+        System.out.println("value"+cookies[0].getValue());*/
         try {
             //获取cookie里面的token
             String token=null;
             for (Cookie cookie : cookies) {
-                if(cookie.getName() == "token"){
+                if(cookie.getName().equals("token")){
                     token= cookie.getValue();
                 }
             }
 
+            System.out.println("token==="+token);
             //如果根据token查询找不到信息 抛出异常
             try {
                 Tokens tokens = tokenRepository.findTokensByToken(token);
                 if(tokens==null){
                     throw new MyException(-3, "你还没登陆！");
                 }
+                System.out.println("tokenstokenstokens"+tokens);
                 String username = tokens.getUserInfo().getUsername();
                 System.out.println("username"+username);
 
@@ -107,10 +114,12 @@ public class HttpAspect2 {
                 long time1 = nowTime.getTime();
 
                 System.out.println("时间差："+(time1 - time));
+
                 if (time1 - time <= 60000) {
                     //时间过期
                     throw new MyException(-4, "登陆过期！");
                 }
+                System.out.println("到这里了吗？");
                 //token信息存在  并且未过期  执行需要登陆的方法  返回数据
                 result = point.proceed();
 
