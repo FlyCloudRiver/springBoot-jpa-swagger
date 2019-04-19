@@ -1,5 +1,6 @@
 package com.jiang.demo.permission;
 
+import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
 import com.jiang.demo.service.UserInfoService;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Author: 江云飞
  * Date:   2019/4/16
+ * 权限验证
  */
 
 /* @Permission
@@ -79,32 +81,39 @@ public class HttpAspect{
             Cookie[] cookies = request.getCookies();
             try {
                 //获取cookie
-                String username = null;
                 String token=null;
                 for (Cookie cookie : cookies) {
-                    if (cookie.getName() == "username") {
-                        username = cookie.getValue();
-                    }
+
                     if(cookie.getName() == "token"){
                         token= cookie.getValue();
                     }
                 }
-                //去查询token  密匙判断
-                Integer token1 = tokenRepository.getToken(token);
+                //根据token密匙查询 信息
+                try {
+                    Tokens tokens = tokenRepository.findTokensByToken(token);
+
+                    String username = tokens.getUserInfo().getUsername();
+                    System.out.println("username" + username);
+
+                    //根据用户名获取角色名
+                    String roleName = tokenRepository.getRoleName(username);
+                    if(roleName.equals("admin")){
+                        logger.info("您是管理员");
+                        //是管理员时，继续执行方法 返回数据
+                        return joinPoint.proceed();
+                    }else {
+                        throw new MyException(-2,"您不是管理员");
+                    }
+                }catch (Exception e){
+                    throw new MyException(-3, "你还没登陆！");
+                }
+               /* Integer token1 = tokenRepository.getToken(token);
                 if(token1<1){
                     throw new MyException(-4, "你还没登陆！");
-                }
-                //根据用户名获取角色名
-                String roleName = tokenRepository.getRoleName(username);
-                if(roleName.equals("admin")){
-                    logger.info("您是管理员");
-                    //是管理员时，才返回所需要的信息
-                    return joinPoint.proceed();
-                }else {
-                    throw new MyException(-2,"您不是管理员");
-                }
+                }*/
+
             }catch (Exception e){
-                throw new MyException(-4, "你还没登陆！");
+                throw new MyException(-3, "你还没登陆！");
             }
 
         }

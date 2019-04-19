@@ -4,13 +4,13 @@ import com.jiang.demo.dto.userInfo.UserInfoDTO;
 import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.entity.UserInfo;
 import com.jiang.demo.exception.MyException;
-import com.jiang.demo.permission.Login;
 import com.jiang.demo.repository.TokenRepository;
 import com.jiang.demo.service.UserInfoService;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,14 +60,14 @@ public class UserInfoController {
                 if(byUid.size()!=0){
                     Tokens tokens1 = byUid.get(0);
                     tokens1.setBuildtime(new Date());
-                    String secretKey = isReplace(getItemID(5));
+                    String secretKey = isReplace(getItemID(10));
                     tokens1.setToken(secretKey);
                     //System.out.println("唯一随机数"+secretKey);
                     save = tokenRepository.save(tokens1);
                 }else{
                     /*token 信息*/
                     Tokens tokens = new Tokens();
-                    String secretKey = isReplace(getItemID(5));
+                    String secretKey = isReplace(getItemID(10));
                     tokens.setToken(secretKey);
                     tokens.setBuildtime(new Date());
                     tokens.setUserInfo(byUsername);
@@ -76,14 +76,16 @@ public class UserInfoController {
 
                 System.out.println("save===="+save);
 
-                Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());
-                Cookie cookie2=new Cookie("username",byUsername.getUsername());
+          /*      Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());*/
+                /*Cookie cookie2=new Cookie("username",byUsername.getUsername());*/
                 Cookie cookie3=new Cookie("token",save.getToken());
 
-                response.addCookie(cookie1);
-                response.addCookie(cookie2);
+               /* response.addCookie(cookie1);*/
+               /* response.addCookie(cookie2);*/
                 response.addCookie(cookie3);
+
                 return ResultUtil.success(UserInfoDTO.convert(byUsername));
+
             } else
                 throw new MyException(-6, "用户名或密码错误");
         } catch (Exception e) {
@@ -108,7 +110,7 @@ public class UserInfoController {
                 // System.out.println(nextInt + "!!!!"); 1,0,1,1,1,0,0
                 val += (char) ( nextInt + random.nextInt( 26 ) );
             }
-            else if ( "num".equalsIgnoreCase( str ) )
+            else
             { // 产生数字
                 val += String.valueOf( random.nextInt( 10 ) );
             }

@@ -29,7 +29,19 @@ import java.util.Date;
 /**
  * Author: 江云飞
  * Date:   2019/4/16
+ * 登陆验证
  */
+/*
+* 基于Token的身份验证流程如下。
+
+客户端使用用户名跟密码请求登录
+服务端收到请求，去验证用户名与密码
+验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
+客户端收到 Token 以后可以把它存储起来，比如放在 Cookie 里或者 Local Storage 里
+客户端每次向服务端请求资源的时候需要带着服务端签发的 Token
+服务端收到请求，然后去验证客户端请求里面带着的 Token，如果验证成功，就向客户端返回请求的数据
+
+* */
 @Order(1)//都是值越小的 aspect 越先执行。
 @Aspect
 @Component
@@ -41,10 +53,7 @@ public class HttpAspect2 {
     @Autowired
     private TokenRepository tokenRepository;
 
-    /**
-     * 定义切点
-     */
-   /* @Pointcut("execution(public * com.jiang.demo.controller.UserInfoController.*(..))")*/
+
     /**
      * 定义拦截规则：拦截标有com.christ.annotation.Login类中注解的所有方法
      */
@@ -72,42 +81,53 @@ public class HttpAspect2 {
 
         Cookie[] cookies = request.getCookies();
         try {
-            //获取cookie
-            Integer tokenId = null;
+            //获取cookie里面的token
             String token=null;
             for (Cookie cookie : cookies) {
-                if (cookie.getName() == "tookeId") {
-                    tokenId = Integer.valueOf(cookie.getValue());
-                }
                 if(cookie.getName() == "token"){
                     token= cookie.getValue();
                 }
             }
-            //去查询token  密匙判断
-            Integer token1 = tokenRepository.getToken(token);
+
+            //如果根据token查询找不到信息 抛出异常
+            try {
+                Tokens tokens = tokenRepository.findTokensByToken(token);
+
+                String username = tokens.getUserInfo().getUsername();
+                System.out.println("username"+username);
+
+                /*十分钟  操作需要登陆的方法  返回登陆过期消息*/
+                //token保存的时间
+                Date buildTime = tokens.getBuildtime();
+                long time = buildTime.getTime();
+                //当前时间
+                Date nowTime = new Date();
+                long time1 = nowTime.getTime();
+
+                System.out.println("时间差："+(time1 - time));
+                if (time1 - time <= 60000) {
+                    //时间过期
+                    throw new MyException(-4, "登陆过期！");
+                }
+                //token信息存在  并且未过期  执行需要登陆的方法  返回数据
+                result = point.proceed();
+
+            }catch (Exception e){
+                throw new MyException(-3, "你还没登陆！");
+            }
+
+           /* Integer token1 = tokenRepository.getToken(token);
             if(token1<1){
                 throw new MyException(-4, "你还没登陆！");
             }
+*/
 
-            Tokens tokens = tokenRepository.findById(tokenId).get();
 
-            Date buildTime = tokens.getBuildtime();
-            long time = buildTime.getTime();
-
-            /*十分钟  操作需要登陆的方法  返回登陆过期消息*/
-            Date nowTime = new Date();
-            long time1 = nowTime.getTime();
-
-            if (time1 - time <= 60000) {
-                //时间过期
-                throw new MyException(-3, "登陆过期！");
-            }
-            result = point.proceed();
 
         }catch (Exception e){
-            throw new MyException(-4, "你还没登陆！");
+            throw new MyException(-3, "你还没登陆！");
         } catch (Throwable throwable) {
-            result = new MyException(-2, "发生异常："+throwable.getMessage());
+            result = new MyException(-5, "发生异常："+throwable.getMessage());
         }
 
         return result;
