@@ -3,7 +3,6 @@ package com.jiang.demo.permission;
 import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
-import com.jiang.demo.service.UserInfoService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,10 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 @Order(2)
 @Aspect
 @Component
-public class HttpAspect{
+public class PermissionAspect {
 
     //打印日志信息
-    private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);
+    private final static Logger logger= LoggerFactory.getLogger(PermissionAspect.class);
 
 
     @Autowired
@@ -79,15 +78,15 @@ public class HttpAspect{
         } else {
             //如果该方法上有注解
             Cookie[] cookies = request.getCookies();
-            System.out.println("fggggggg"+cookies);
             try {
                 //获取cookie
-                String token=null;
-                for (Cookie cookie : cookies) {
+                /*String token=null;*/
+               /* for (Cookie cookie : cookies) {
                     if(cookie.getName().equals("token")){
                         token= cookie.getValue();
                     }
-                }
+                }*/
+                String token=cookies[0].getValue();
                 System.out.println("token==="+token);
                 //根据token密匙查询 信息
                 try {
@@ -114,7 +113,7 @@ public class HttpAspect{
                 }*/
 
             }catch (Exception e){
-                throw new MyException(-3, "你还没登陆！");
+                throw new MyException(-5, "大大的错！");
             }
 
         }

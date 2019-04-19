@@ -3,12 +3,10 @@ package com.jiang.demo.permission;
 import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
-import com.jiang.demo.service.UserInfoService;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
@@ -45,10 +43,10 @@ import java.util.Date;
 @Order(1)//都是值越小的 aspect 越先执行。
 @Aspect
 @Component
-public class HttpAspect2 {
+public class LoginAspect {
 
     //打印日志信息
-    private final static Logger logger= LoggerFactory.getLogger(HttpAspect2.class);
+    private final static Logger logger= LoggerFactory.getLogger(LoginAspect.class);
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -82,10 +80,9 @@ public class HttpAspect2 {
         System.out.println("request"+request);
         System.out.println();
         Cookie[] cookies = request.getCookies();
-      /*
-        System.out.println("name"+cookies[0].getName());
-        System.out.println("value"+cookies[0].getValue());*/
-        try {
+        if(cookies.length==0){
+            throw new MyException(-3, "你还没登陆！");
+        }
             //获取cookie里面的token
             String token=null;
             for (Cookie cookie : cookies) {
@@ -93,17 +90,17 @@ public class HttpAspect2 {
                     token= cookie.getValue();
                 }
             }
-
             System.out.println("token==="+token);
             //如果根据token查询找不到信息 抛出异常
             try {
+                //根据token密匙查找整条数据
                 Tokens tokens = tokenRepository.findTokensByToken(token);
                 if(tokens==null){
-                    throw new MyException(-3, "你还没登陆！");
+                    throw new MyException(-6, "登陆状态不对");
                 }
-                System.out.println("tokenstokenstokens"+tokens);
-                String username = tokens.getUserInfo().getUsername();
-                System.out.println("username"+username);
+
+              /*  String username = tokens.getUserInfo().getUsername();
+                System.out.println("username"+username);*/
 
                 /*十分钟  操作需要登陆的方法  返回登陆过期消息*/
                 //token保存的时间
@@ -120,27 +117,14 @@ public class HttpAspect2 {
                     //时间过期
                     throw new MyException(-4, "登陆过期！");
                 }
-                System.out.println("到这里了吗？");
                 //token信息存在  并且未过期  执行需要登陆的方法  返回数据
                 result = point.proceed();
 
             }catch (Exception e){
                 throw new MyException(-3, "你还没登陆！");
+            } catch (Throwable throwable) {
+                throw new MyException(-6, "接口出问题！");
             }
-
-           /* Integer token1 = tokenRepository.getToken(token);
-            if(token1<1){
-                throw new MyException(-4, "你还没登陆！");
-            }
-*/
-
-
-
-        }catch (Exception e){
-            throw new MyException(-3, "你还没登陆！");
-        } catch (Throwable throwable) {
-            result = new MyException(-5, "发生异常："+throwable.getMessage());
-        }
 
         return result;
     }
