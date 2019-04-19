@@ -84,8 +84,7 @@ public class HttpAspect{
                 //获取cookie
                 String token=null;
                 for (Cookie cookie : cookies) {
-
-                    if(cookie.getName() == "token"){
+                    if(cookie.getName().equals("token")){
                         token= cookie.getValue();
                     }
                 }
