@@ -79,7 +79,6 @@ public class BigCategoryController {
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
-    @Login
     public List<BigCategoryDTO> selectAll(){
         List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
 
