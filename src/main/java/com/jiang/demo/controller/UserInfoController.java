@@ -67,7 +67,8 @@ public class UserInfoController {
                 }else{
                     /*token 信息*/
                     Tokens tokens = new Tokens();
-                    tokens.setToken(getItemID(10));
+                    String secretKey = isReplace(getItemID(5));
+                    tokens.setToken(secretKey);
                     tokens.setBuildtime(new Date());
                     tokens.setUserInfo(byUsername);
                     save = tokenRepository.save(tokens);

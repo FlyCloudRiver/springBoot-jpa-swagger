@@ -14,3 +14,7 @@ spring:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
 
     show-sql: true
+server:
+  #端口号
+  port: 8888
+
