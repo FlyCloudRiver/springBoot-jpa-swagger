@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 @Entity
-@ApiModel("出库")
+@ApiModel("出货单")
 public class Shipment implements Serializable {
 
     @Id
@@ -24,10 +24,8 @@ public class Shipment implements Serializable {
     @ApiModelProperty(value = "ID",example = "1")
     private Integer id;
 
-
     @ApiModelProperty(value = "商品")
     private Goods goods;
-
     @ApiModelProperty(value = "商品出库时间")
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
@@ -36,6 +34,17 @@ public class Shipment implements Serializable {
 
     @ApiModelProperty(value = "出货数量")
     private Integer shipmentNumber;
+
+    @ApiModelProperty(value = "操作人员")
+    private Integer person;
+
+    public Integer getPerson() {
+        return person;
+    }
+
+    public void setPerson(Integer person) {
+        this.person = person;
+    }
 
     public Integer getId() {
         return id;

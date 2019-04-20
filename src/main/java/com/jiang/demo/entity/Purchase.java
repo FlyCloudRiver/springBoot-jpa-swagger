@@ -15,9 +15,8 @@ import java.util.Date;
  */
 
 @Entity
-@ApiModel("进货")
+@ApiModel("进货单")
 public class Purchase implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value = "进货ID",example = "1")
@@ -34,6 +33,17 @@ public class Purchase implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
     private Date purchaseTime;
+
+    @ApiModelProperty(value = "操作人员")
+    private Integer person;
+
+    public Integer getPerson() {
+        return person;
+    }
+
+    public void setPerson(Integer person) {
+        this.person = person;
+    }
 
     public Integer getId() {
         return id;
