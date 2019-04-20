@@ -35,9 +35,6 @@ public class Goods implements Serializable {
     @Column(name = "goods_price")
     private  Float goodsPrice;
 
-    @ApiModelProperty(value = "商品数量")
-    @Column(name = "goods_number")
-    private  Integer goodsNumber;
 
     @ApiModelProperty(value = "商品保质期")
     @Column(name = "goods_shelf_life")
@@ -106,14 +103,6 @@ public class Goods implements Serializable {
 
     public void setGoodsPrice(Float goodsPrice) {
         this.goodsPrice = goodsPrice;
-    }
-
-    public Integer getGoodsNumber() {
-        return goodsNumber;
-    }
-
-    public void setGoodsNumber(Integer goodsNumber) {
-        this.goodsNumber = goodsNumber;
     }
 
 

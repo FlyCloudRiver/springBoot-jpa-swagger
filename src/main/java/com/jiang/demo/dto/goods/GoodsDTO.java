@@ -27,9 +27,6 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品单价")
     private  Float goodsPrice;
 
-    @ApiModelProperty(value = "商品数量")
-    private  Integer goodsNumber;
-
     @ApiModelProperty(value = "商品保质期")
     private  String goodsShelfLife;
 
@@ -88,14 +85,6 @@ public class GoodsDTO {
 
     public void setGoodsPrice(Float goodsPrice) {
         this.goodsPrice = goodsPrice;
-    }
-
-    public Integer getGoodsNumber() {
-        return goodsNumber;
-    }
-
-    public void setGoodsNumber(Integer goodsNumber) {
-        this.goodsNumber = goodsNumber;
     }
 
     public String getGoodsShelfLife() {

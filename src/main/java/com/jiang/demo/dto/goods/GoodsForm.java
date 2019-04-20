@@ -20,9 +20,6 @@ public class GoodsForm {
     private  Float goodsPrice;
 
 
-    @ApiModelProperty(value = "商品数量")
-    private  Integer goodsNumber;
-
     @ApiModelProperty(value = "商品保质期")
     private  String goodsShelfLife;
 
@@ -77,13 +74,6 @@ public class GoodsForm {
         this.goodsPrice = goodsPrice;
     }
 
-    public Integer getGoodsNumber() {
-        return goodsNumber;
-    }
-
-    public void setGoodsNumber(Integer goodsNumber) {
-        this.goodsNumber = goodsNumber;
-    }
 
     public Date getGoodsDate() {
         return goodsDate;
