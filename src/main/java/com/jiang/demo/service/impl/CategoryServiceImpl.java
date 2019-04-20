@@ -1,19 +1,12 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.utils.PageDTO;
-import com.jiang.demo.dto.category.CategoryDTO;
-import com.jiang.demo.dto.goods.GoodsDTO;
+
 import com.jiang.demo.entity.Category;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.CategoryService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -24,22 +17,28 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
-    @Autowired
+    // 通过set方法注入
     private CategoryRepository categoryRepository;
     @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     private SecondaryCategoryRepository secondaryCategoryRepository;
+    @Autowired
+    public void setSecondaryCategoryRepository(SecondaryCategoryRepository secondaryCategoryRepository) {
+        this.secondaryCategoryRepository = secondaryCategoryRepository;
+    }
+
     @Override
     public Category insertCategory(Integer secondaryCategoryId, String categoryName) {
 
-        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).get();
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).orElse(null);
 
         Category category=new Category();
         category.setSecondaryCategory(secondaryCategory);
         category.setCategoryName(categoryName);
-
-        Category save = categoryRepository.save(category);
-        return save;
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -49,35 +48,31 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateCategory(Integer id, String categoryName, Integer secondaryCategoryId) {
-        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).get();
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).orElse(null);
 
         Category category =new Category();
         category.setId(id);
         category.setCategoryName(categoryName);
         category.setSecondaryCategory(secondaryCategory);
 
-        Category save = categoryRepository.save(category);
-        return save;
+        return categoryRepository.save(category);
     }
 
     @Override
     public List<Category> selectCategoryAll() {
-        List<Category> all = categoryRepository.findAll();
-        return all;
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category selectCategoryById(Integer id) {
-        Category category = categoryRepository.findById(id).get();
-        return category;
+        return categoryRepository.findById(id).orElse(null);
     }
 
 
     /*根据大类id  中类id 动态查询细类*/
-    @Override
+   /* @Override
     public PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId, Integer secondaryCategoryId, Integer pageNum, Integer pageSize) {
 
-        Category category =new Category();
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
@@ -88,5 +83,5 @@ public class CategoryServiceImpl implements CategoryService {
         PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
         BeanUtils.copyProperties(gooodsies, pageDTO);
         return null;
-    }
+    }*/
 }

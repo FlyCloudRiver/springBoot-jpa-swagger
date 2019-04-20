@@ -37,58 +37,77 @@ import java.util.List;
  * @Valid 表单验证
  * */
 
-
 @RestController
 @Api(description = "商品大类" )   //swagger
 @RequestMapping("/bigCategory")
 public class BigCategoryController {
 
+    //通过变量（field）注入  不建议选择
+   /* @Autowired
+    private BigCategoryService bigCategoryService;*/
+
+    /*构造方法注入*/
+    /*private BigCategoryService bigCategoryService;
     @Autowired
+    public BigCategoryController (BigCategoryService bigCategoryService) {
+        this.bigCategoryService=bigCategoryService;
+    }*/
+    /*构造方法注入*/
+
+    // 通过set方法注入  优先选择
     private BigCategoryService bigCategoryService;
+    @Autowired
+    public void setBigCategoryService(BigCategoryService bigCategoryService) {
+        this.bigCategoryService = bigCategoryService;
+    }
 
     /*请求参数名字跟方法中的名字一样   可以省略@RequestParam */
     /*@RequestParam   可以设置默认值defaulValue="0"   也可以要求参数为空 required=false*/
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
-    public BigCategoryDTO insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
+    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
+    public Result<BigCategoryDTO> insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
         BigCategory entity = bigCategoryService.insertBigCategory(insertBigCategory);
-        return BigCategoryDTO.convert(entity);
+        //return BigCategoryDTO.convert(entity);
+        return ResultUtil.success(BigCategoryDTO.convert(entity));
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
-    public void deleteBigCategory(Integer id){
+    public Result deleteBigCategory(Integer id){
         bigCategoryService.deleteBigCategoryById(id);
-
+        return ResultUtil.success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
-    public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){
+    @SuppressWarnings("unchecked")
+    @Login
+    @Permission
+    public Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName){
 
         BigCategory updateBigCategory=new BigCategory();
         updateBigCategory.setBigCategoryName(bigCategoryName);
         updateBigCategory.setId(id);
 
         BigCategory bigCategory1 = bigCategoryService.updateBigCategory(updateBigCategory);
-        return BigCategoryDTO.convert(bigCategory1);
+        return ResultUtil.success(BigCategoryDTO.convert(bigCategory1));
     }
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
-    @Login
-    @Permission
-    public List<BigCategoryDTO> selectAll(){
+    @SuppressWarnings("unchecked")
+    public Result<List<BigCategoryDTO>> selectAll(){
         List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
 
         List<BigCategoryDTO> bigCategoryDTOList=new ArrayList<>();
         for (BigCategory item : bigCategories) {
             bigCategoryDTOList.add(BigCategoryDTO.convert(item));
         }
-        return bigCategoryDTOList;
+        return ResultUtil.success(bigCategoryDTOList);
     }
 
     /*Get方式url传参    地址后面直接  /参数*/
@@ -97,20 +116,12 @@ public class BigCategoryController {
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    public Result<BigCategoryDTO> selectBigCategoryById(String userName,Integer id) throws Exception{
+    @SuppressWarnings("unchecked")
+    public Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception{
 
-        Result<BigCategoryDTO> result=new Result<>();
         BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
         BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
         return  ResultUtil.success(convert);
-       /* Result<BigCategoryDTO> result=new Result<>();
-        try{
-            BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
-            BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
-            return  ResultUtil.success(convert);
-        }catch (Exception e){
-            System.out.println("错误类型："+e);
-            return ResultUtil.error(1,"数据不存在！");
-        }*/
+
     }
 }

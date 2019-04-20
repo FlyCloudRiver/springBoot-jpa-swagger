@@ -2,11 +2,9 @@ package com.jiang.demo.dto.bigCategory;
 
 
 import com.jiang.demo.entity.BigCategory;
-import com.jiang.demo.entity.SecondaryCategory;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
-import java.util.List;
 
 /**
  * Author: 江云飞

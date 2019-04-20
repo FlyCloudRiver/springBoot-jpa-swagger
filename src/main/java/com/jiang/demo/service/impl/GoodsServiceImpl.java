@@ -28,14 +28,24 @@ import java.util.*;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
-
-    @Autowired
+    // 通过set方法注入
     private GoodsRepository goodsRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    public void setGoodsRepository(GoodsRepository goodsRepository) {
+        this.goodsRepository = goodsRepository;
+    }
 
+    private CategoryRepository categoryRepository;
     @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     private SupplierRepository supplierRepository;
+    @Autowired
+    public void setSupplierRepository(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
+    }
 
     public GoodsDTO insertGoods(GoodsForm goodsForm){
 
@@ -43,25 +53,22 @@ public class GoodsServiceImpl implements GoodsService {
         /*将前者赋值给后者*/
         BeanUtils.copyProperties(goodsForm, goods);
 
-        Category category = categoryRepository.findById(goodsForm.getCategoryId()).get();
+        Category category = categoryRepository.findById(goodsForm.getCategoryId()).orElse(null);
         goods.setCategory(category);
 
-        Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).get();
+        Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).orElse(null);
         goods.setSupplier(supplier);
 
-
         /*传进去实体类 返回 DTO类*/
-        GoodsDTO convert = GoodsDTO.convert(goods);
-        return  convert;
+        return  GoodsDTO.convert(goods);
     }
 
 
 
     public GoodsDTO findGoodsDTOById(Integer id){
-        Goods goods = goodsRepository.findById(id).get();
+        Goods goods = goodsRepository.findById(id).orElse(null);
         /*传进去实体类 返回 DTO类*/
-        GoodsDTO convert = GoodsDTO.convert(goods);
-        return  convert;
+        return  GoodsDTO.convert(goods);
     }
 
 
@@ -90,7 +97,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
     public class MySpec implements Specification<Goods>{
         private Goods goods;
-        public MySpec(Goods goods){
+        private MySpec(Goods goods){
             this.goods=goods;
         }
         @Override

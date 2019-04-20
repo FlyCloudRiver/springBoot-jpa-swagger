@@ -31,16 +31,20 @@ import java.util.List;
 @Service
 public class SupplierServiceImpl implements SupplierService {
 
-    @Autowired
+    // 通过set方法注入
     private SupplierRepository supplierRepository;
+    @Autowired
+    public void setSupplierRepository(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
+    }
 
     public SupplierDTO insertSupplier(SupplierForm supplierForm){
         Supplier supplier=new Supplier();
         BeanUtils.copyProperties(supplierForm, supplier);
+
         Supplier save = supplierRepository.save(supplier);
 
-        SupplierDTO supplierDTO=SupplierDTO.convert(save);
-        return supplierDTO;
+        return SupplierDTO.convert(save);
     }
 
     public void deleteSupplierById(Integer id){
@@ -48,19 +52,25 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     public SupplierDTO selectSupplier(Integer id){
-        Supplier supplier = supplierRepository.findById(id).get();
-        SupplierDTO supplierDTO=SupplierDTO.convert(supplier);
-        return supplierDTO;
+        //如果没找到返回空
+        Supplier supplier = supplierRepository.findById(id).orElse(null);
+
+        return SupplierDTO.convert(supplier);
     }
 
     public SupplierDTO updateSupplier(SupplierForm supplierForm,Integer id){
-        Supplier supplier = supplierRepository.findById(id).get();
+
+        Supplier supplier = supplierRepository.findById(id).orElse(null);
+        Supplier supplier1=new Supplier();
+        if(supplier==null){
+            supplier=supplier1;
+        }
         BeanUtils.copyProperties(supplierForm, supplier);
 
         System.out.println("supplier="+supplier);
         Supplier save = supplierRepository.save(supplier);
-        SupplierDTO convert = SupplierDTO.convert(save);
-        return convert;
+
+        return SupplierDTO.convert(save);
     }
 
     //动态查询:
@@ -89,7 +99,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
     public class MySpec implements Specification<Supplier> {
         private Supplier supplier;
-        public MySpec(Supplier supplier){
+        private MySpec(Supplier supplier){
             this.supplier=supplier;
         }
         @Override

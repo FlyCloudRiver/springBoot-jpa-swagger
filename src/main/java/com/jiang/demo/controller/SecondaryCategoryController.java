@@ -3,6 +3,8 @@ import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryDTO;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.SecondaryCategoryService;
+import com.jiang.demo.utils.Result;
+import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,49 +22,61 @@ import java.util.List;
 @Api(description = "商品中类" )   //swagger
 @RequestMapping("/secondaryCategory")
 public class SecondaryCategoryController {
-    @Autowired
+    // 通过set方法注入  优先选择
     private SecondaryCategoryService secondaryCategoryService;
+    @Autowired
+    public void setSecondaryCategoryService(SecondaryCategoryService secondaryCategoryService) {
+        this.secondaryCategoryService = secondaryCategoryService;
+    }
 
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
+    @SuppressWarnings("unchecked")
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public SecondaryCategoryDTO insertSecondaryCategory(Integer bigCategoryId,String secondaryCategoryName){
+    public Result<SecondaryCategoryDTO> insertSecondaryCategory(Integer bigCategoryId, String secondaryCategoryName){
 
         SecondaryCategory entity = secondaryCategoryService.insertSecondaryCategory(bigCategoryId,secondaryCategoryName);
-        return SecondaryCategoryDTO.convert(entity);
+        //return SecondaryCategoryDTO.convert(entity);
+        return ResultUtil.success(SecondaryCategoryDTO.convert(entity));
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
-    public void deleteSecondaryCategory(Integer id){
+    public Result deleteSecondaryCategory(Integer id){
         secondaryCategoryService.deleteSecondaryCategoryById(id);
-
+        return ResultUtil.success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
-    public SecondaryCategoryDTO updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
+    @SuppressWarnings("unchecked")
+    public Result<SecondaryCategoryDTO> updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
         SecondaryCategory secondaryCategory1 = secondaryCategoryService.updateSecondaryCategory(id,secondaryCategoryName,bigCategoryId);
-        return SecondaryCategoryDTO.convert(secondaryCategory1);
+        //return SecondaryCategoryDTO.convert(secondaryCategory1);
+        return ResultUtil.success(SecondaryCategoryDTO.convert(secondaryCategory1));
     }
 
     @ApiOperation(value = "查询")
     @PostMapping("/selectAll")
-    public List<SecondaryCategoryDTO> selectAll(){
+    @SuppressWarnings("unchecked")
+    public Result<List<SecondaryCategoryDTO>> selectAll(){
         List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.selectSecondaryCategoryAll();
        List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
         for (SecondaryCategory item:secondaryCategoryList ) {
             secondaryCategoryDTOList.add(SecondaryCategoryDTO.convert(item));
         }
-        return secondaryCategoryDTOList;
+        //return secondaryCategoryDTOList;
+        return ResultUtil.success(secondaryCategoryDTOList);
     }
 
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    public SecondaryCategoryDTO selectSecondaryCategoryById(Integer id){
+    @SuppressWarnings("unchecked")
+    public Result<SecondaryCategoryDTO> selectSecondaryCategoryById(Integer id){
         SecondaryCategory SecondaryCategory = secondaryCategoryService.selectSecondaryCategoryById(id);
 
-        return  SecondaryCategoryDTO.convert(SecondaryCategory);
+        //return  SecondaryCategoryDTO.convert(SecondaryCategory);
+        return ResultUtil.success(SecondaryCategoryDTO.convert(SecondaryCategory));
     }
 }

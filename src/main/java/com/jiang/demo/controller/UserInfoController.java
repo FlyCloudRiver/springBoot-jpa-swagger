@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -32,21 +31,26 @@ import java.util.Random;
 @Api(description = "用户" )
 @RequestMapping("/userInfo")
 public class UserInfoController {
-    @Autowired
+    // 通过set方法注入  优先选择
     private UserInfoService userInfoService;
-
-
     @Autowired
+    public void setUserInfoService(UserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
+    }
+
     private TokenRepository tokenRepository;
+    @Autowired
+    public void setTokenRepository(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
 
     @ApiOperation(value = "登陆")
     @PostMapping("/login")
-    public Result<UserInfoDTO> login(HttpServletRequest request, HttpServletResponse response,
+    @SuppressWarnings("unchecked")
+    public Result<UserInfoDTO> login(HttpServletResponse response,
                                      @RequestParam String username, @RequestParam String password) {
-
         //查询用户
         UserInfo byUsername = userInfoService.findByUsername(username, password);
-
         //判断登录
         try {
             //userService为自己定义的Service类
@@ -54,7 +58,7 @@ public class UserInfoController {
                 /*用户id*/
                 Integer uid = byUsername.getUid();
                 List<Tokens> byUid = tokenRepository.findByUid(uid);
-                Tokens save=null;
+                Tokens save=new Tokens();
                 //如果这个用户的token存在  就更新时间 更新密匙
                 if(byUid.size()!=0){
                     Tokens tokens1 = byUid.get(0);
@@ -78,9 +82,9 @@ public class UserInfoController {
           /*      Cookie cookie1= new Cookie("tookeId", save.getTokenid().toString());*/
                 /*Cookie cookie2=new Cookie("username",byUsername.getUsername());*/
                 Cookie cookie=new Cookie("token",save.getToken());
-                cookie.setPath("/");
-               /* response.addCookie(cookie1);*/
-               /* response.addCookie(cookie2);*/
+                cookie.setPath("/");//可在同一应用服务器内共享cookie的方法
+                cookie.setMaxAge(60*60*2);//设置cookie时间为两个小时
+
                 response.addCookie(cookie);
 
 

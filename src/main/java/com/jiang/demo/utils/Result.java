@@ -3,7 +3,11 @@ package com.jiang.demo.utils;
 /**
  * Author: 江云飞
  * Date:   2019/4/16
+ *
+ *  自定义返回的参数封装类
  */
+
+
 public class Result<T> {
 
     /*状态码*/

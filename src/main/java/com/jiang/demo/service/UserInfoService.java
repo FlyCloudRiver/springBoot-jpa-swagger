@@ -11,7 +11,5 @@ public interface UserInfoService {
 
     UserInfo findByUsername(String username, String password);
 
-    boolean isAdmin(String name);
-
     UserInfoDTO findByUsername(String username);
 }

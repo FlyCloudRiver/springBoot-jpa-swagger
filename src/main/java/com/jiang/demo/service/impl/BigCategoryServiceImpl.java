@@ -1,7 +1,6 @@
 package com.jiang.demo.service.impl;
 
 import com.jiang.demo.entity.BigCategory;
-import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.service.BigCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,15 @@ import java.util.List;
 @Service
 public class BigCategoryServiceImpl implements BigCategoryService {
 
-    @Autowired
+    // 通过set方法注入  优先选择
     private BigCategoryRepository bigCategoryRepository;
+    @Autowired
+    public void setBigCategoryRepository(BigCategoryRepository bigCategoryRepository) {
+        this.bigCategoryRepository = bigCategoryRepository;
+    }
 
     public BigCategory insertBigCategory(BigCategory bigCategory){
-        BigCategory save = bigCategoryRepository.saveAndFlush(bigCategory);
-        return  save;
+        return  bigCategoryRepository.save(bigCategory);
     }
 
     public void deleteBigCategoryById(Integer id){
@@ -31,17 +33,14 @@ public class BigCategoryServiceImpl implements BigCategoryService {
     }
 
     public BigCategory updateBigCategory(BigCategory bigCategory){
-        BigCategory save = bigCategoryRepository.save(bigCategory);
-        return save;
+        return bigCategoryRepository.save(bigCategory);
     }
 
     public List<BigCategory> selectBigCategoryAll(){
-        List<BigCategory> all = bigCategoryRepository.findAll();
-        return all;
+        return bigCategoryRepository.findAll();
     }
 
-    public BigCategory selectBigCategoryById(Integer id) throws Exception{
-        BigCategory bigCategory = bigCategoryRepository.findById(id).get();
-        return bigCategory;
+    public BigCategory selectBigCategoryById(Integer id){
+        return bigCategoryRepository.findById(id).orElse(null);
     }
 }
