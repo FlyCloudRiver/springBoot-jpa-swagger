@@ -74,6 +74,7 @@ public class PermissionAspect {
         System.out.println("访问的权限："+methodAccess);
         //如果该方法上没有权限注解，直接调用目标方法
         if (StringUtils.isEmpty(methodAccess)) {
+            System.out.println("我调用了。。。。。。。。。。。。。。。。。。。。。。。。。。");
             return joinPoint.proceed();
         } else {
             //如果该方法上有注解
@@ -97,12 +98,12 @@ public class PermissionAspect {
 
                     //根据用户名获取角色名
                     String roleName = tokenRepository.getRoleName(username);
-                    if(roleName.equals("admin")){
-                        logger.info("您是管理员");
+                    if(roleName.equals("administrators")){
+                        logger.info("您是超级管理员");
                         //是管理员时，继续执行方法 返回数据
                         return joinPoint.proceed();
                     }else {
-                        throw new MyException(-2,"您不是管理员");
+                        throw new MyException(-2,"您不是超级管理员");
                     }
                 }catch (Exception e){
                     throw new MyException(-3, "你还没登陆！");

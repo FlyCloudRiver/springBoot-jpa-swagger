@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -56,6 +57,8 @@ public class Goods implements Serializable {
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
     @ApiModelProperty(value = "商品所属类别")
     private  Category category;
+
+
 
     public String getGoodsShelfLife() {
         return goodsShelfLife;

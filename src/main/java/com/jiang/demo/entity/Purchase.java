@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author: 江云飞
@@ -15,18 +16,20 @@ import java.util.Date;
  */
 
 @Entity
-@ApiModel("进货单")
+@ApiModel("采购单")
 public class Purchase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "进货ID",example = "1")
+    @ApiModelProperty(value = "ID",example = "1")
     private Integer id;
 
-    @ApiModelProperty(value = "商品")
-    private Goods goods;
+    @ApiModelProperty(value = "订单编号")
+    private String purchaseCode;
 
-    @ApiModelProperty(value = "进货数量")
-    private Integer purchaseNumber;
+    @ApiModelProperty(value = "订单详情")
+    @OneToMany(mappedBy = "purchase",cascade=CascadeType.ALL,fetch= FetchType.LAZY)
+    private List<PurchaseDetail> purchaseDetails;
+
 
     @ApiModelProperty(value = "入库时间")
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
@@ -35,13 +38,13 @@ public class Purchase implements Serializable {
     private Date purchaseTime;
 
     @ApiModelProperty(value = "操作人员")
-    private Integer person;
+    private String person;
 
-    public Integer getPerson() {
+    public String getPerson() {
         return person;
     }
 
-    public void setPerson(Integer person) {
+    public void setPerson(String person) {
         this.person = person;
     }
 
@@ -53,20 +56,12 @@ public class Purchase implements Serializable {
         this.id = id;
     }
 
-    public Goods getGoods() {
-        return goods;
+    public String getPurchaseCode() {
+        return purchaseCode;
     }
 
-    public void setGoods(Goods goods) {
-        this.goods = goods;
-    }
-
-    public Integer getPurchaseNumber() {
-        return purchaseNumber;
-    }
-
-    public void setPurchaseNumber(Integer purchaseNumber) {
-        this.purchaseNumber = purchaseNumber;
+    public void setPurchaseCode(String purchaseCode) {
+        this.purchaseCode = purchaseCode;
     }
 
     public Date getPurchaseTime() {
@@ -75,5 +70,13 @@ public class Purchase implements Serializable {
 
     public void setPurchaseTime(Date purchaseTime) {
         this.purchaseTime = purchaseTime;
+    }
+
+    public List<PurchaseDetail> getPurchaseDetails() {
+        return purchaseDetails;
+    }
+
+    public void setPurchaseDetails(List<PurchaseDetail> purchaseDetails) {
+        this.purchaseDetails = purchaseDetails;
     }
 }

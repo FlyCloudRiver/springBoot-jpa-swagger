@@ -95,7 +95,7 @@ public class GoodsServiceImpl implements GoodsService {
         return pageDTO;
 
     }
-    public class MySpec implements Specification<Goods>{
+    private class MySpec implements Specification<Goods>{
         private Goods goods;
         private MySpec(Goods goods){
             this.goods=goods;

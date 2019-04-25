@@ -97,7 +97,7 @@ public class SupplierServiceImpl implements SupplierService {
         return pageDTO;
 
     }
-    public class MySpec implements Specification<Supplier> {
+    private class MySpec implements Specification<Supplier> {
         private Supplier supplier;
         private MySpec(Supplier supplier){
             this.supplier=supplier;
