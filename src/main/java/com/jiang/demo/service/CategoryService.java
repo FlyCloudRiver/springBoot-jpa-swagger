@@ -13,15 +13,15 @@ import java.util.List;
  */
 public interface CategoryService {
 
-    Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName);
+    CategoryDTO insertCategory(Integer secondaryCategoryId, String categoryName);
 
-    Result deleteCategoryById(Integer id);
+    void deleteCategoryById(Integer id);
 
-    Result<CategoryDTO> updateCategory(Integer id,String categoryName,Integer secondaryCategoryId);
+    CategoryDTO updateCategory(Integer id,String categoryName,Integer secondaryCategoryId);
 
-    Result<List<CategoryDTO>> selectCategoryAll();
+    List<CategoryDTO> selectCategoryAll();
 
-    Result<CategoryDTO> selectCategoryById(Integer id);
+    CategoryDTO selectCategoryById(Integer id);
 
     //PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId, Integer secondaryCategoryId, Integer pageNum, Integer pageSize);
 }

@@ -65,35 +65,38 @@ public class BigCategoryController {
     /*@RequestParam   可以设置默认值defaulValue="0"   也可以要求参数为空 required=false*/
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
+    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     public Result<BigCategoryDTO> insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
-        Result<BigCategoryDTO> result = bigCategoryService.insertBigCategory(insertBigCategory);
         //return BigCategoryDTO.convert(entity);
-        return result;
+        return ResultUtil.success(bigCategoryService.insertBigCategory(insertBigCategory));
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
     public Result deleteBigCategory(Integer id){
-        return bigCategoryService.deleteBigCategoryById(id);
+        bigCategoryService.deleteBigCategoryById(id);
+        return ResultUtil.success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
     @Login
     @Permission
+    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     public Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName){
 
-        Result<BigCategoryDTO> result = bigCategoryService.updateBigCategory(id,bigCategoryName);
-        return result;
+        return ResultUtil.success(bigCategoryService.updateBigCategory(id,bigCategoryName));
     }
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
+    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
+
     public Result<List<BigCategoryDTO>> selectAll(){
-        return bigCategoryService.selectBigCategoryAll();
+        return ResultUtil.success(bigCategoryService.selectBigCategoryAll());
     }
 
     /*Get方式url传参    地址后面直接  /参数*/
@@ -102,9 +105,10 @@ public class BigCategoryController {
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
+    @SuppressWarnings("unchecked")
     public Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception{
 
-        return  bigCategoryService.selectBigCategoryById(id);
+        return  ResultUtil.success(bigCategoryService.selectBigCategoryById(id));
 
     }
 }

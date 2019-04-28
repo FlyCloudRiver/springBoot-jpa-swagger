@@ -28,26 +28,24 @@ public class BigCategoryServiceImpl implements BigCategoryService {
         this.bigCategoryRepository = bigCategoryRepository;
     }
 
-    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
-    public Result<BigCategoryDTO> insertBigCategory(BigCategory bigCategory){
-        return ResultUtil.success(BigCategoryDTO.convert(bigCategoryRepository.save(bigCategory))) ;
+
+    public BigCategoryDTO insertBigCategory(BigCategory bigCategory){
+        return BigCategoryDTO.convert(bigCategoryRepository.save(bigCategory)) ;
     }
 
-    public Result deleteBigCategoryById(Integer id){
+    public void deleteBigCategoryById(Integer id){
         bigCategoryRepository.deleteById(id);
-        return ResultUtil.success();
     }
 
-    @SuppressWarnings("unchecked")
-    public Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName){
+    public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){
         BigCategory bigCategory=new BigCategory();
         bigCategory.setBigCategoryName(bigCategoryName);
         bigCategory.setId(id);
-        return ResultUtil.success(BigCategoryDTO.convert(bigCategoryRepository.save(bigCategory)));
+        return BigCategoryDTO.convert(bigCategoryRepository.save(bigCategory));
     }
 
     @SuppressWarnings("unchecked")
-    public Result<List<BigCategoryDTO>> selectBigCategoryAll(){
+    public List<BigCategoryDTO> selectBigCategoryAll(){
         List<BigCategory> all = bigCategoryRepository.findAll();
         List<BigCategoryDTO> bigCategoryDTOs =new ArrayList<>();
 
@@ -55,11 +53,11 @@ public class BigCategoryServiceImpl implements BigCategoryService {
             BigCategoryDTO convert = BigCategoryDTO.convert(b);
             bigCategoryDTOs.add(convert);
         }
-        return ResultUtil.success(bigCategoryDTOs);
+        return bigCategoryDTOs;
     }
 
-    @SuppressWarnings("unchecked")
-    public Result<BigCategoryDTO> selectBigCategoryById(Integer id){
-        return ResultUtil.success(BigCategoryDTO.convert(bigCategoryRepository.findById(id).orElse(null))) ;
+
+    public BigCategoryDTO selectBigCategoryById(Integer id){
+        return BigCategoryDTO.convert(bigCategoryRepository.findById(id).orElse(null)) ;
     }
 }

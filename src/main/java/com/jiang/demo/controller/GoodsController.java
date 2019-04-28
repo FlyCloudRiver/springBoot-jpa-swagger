@@ -48,7 +48,6 @@ public class GoodsController {
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> selectGoodsDTOById(Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
-        //return goodsDTOById;
         return  ResultUtil.success(goodsDTOById);
     }
 }

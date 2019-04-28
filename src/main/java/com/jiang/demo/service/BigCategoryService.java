@@ -15,13 +15,13 @@ import java.util.List;
 
 public interface BigCategoryService {
 
-    Result<BigCategoryDTO> insertBigCategory(BigCategory bigCategory);
+    BigCategoryDTO insertBigCategory(BigCategory bigCategory);
 
-    Result deleteBigCategoryById(Integer id);
+    void deleteBigCategoryById(Integer id);
 
-    Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName);
+    BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName);
 
-    Result<List<BigCategoryDTO>> selectBigCategoryAll();
+    List<BigCategoryDTO> selectBigCategoryAll();
 
-    Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception;
+    BigCategoryDTO selectBigCategoryById(Integer id) throws Exception;
 }
