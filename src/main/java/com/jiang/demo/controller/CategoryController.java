@@ -44,8 +44,9 @@ public class CategoryController {
 
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
+    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName){
-        return categoryService.insertCategory(secondaryCategoryId, categoryName);
+        return ResultUtil.success(categoryService.insertCategory(secondaryCategoryId, categoryName));
 
     }
 
@@ -53,27 +54,30 @@ public class CategoryController {
     @DeleteMapping("/delete")
     @Permission
     public Result deleteCategory(Integer id){
-        return categoryService.deleteCategoryById(id);
+        categoryService.deleteCategoryById(id);
+        return ResultUtil.success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
+    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> updateCategory(Integer id, String categoryName, Integer secondaryCategoryId){
-        return categoryService.updateCategory(id,categoryName,secondaryCategoryId);
+        return ResultUtil.success(categoryService.updateCategory(id,categoryName,secondaryCategoryId));
     }
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
+    @SuppressWarnings("unchecked")
     public Result<List<CategoryDTO>> selectAll(){
 
-        return categoryService.selectCategoryAll();
+        return ResultUtil.success(categoryService.selectCategoryAll());
     }
 
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
+    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> selectCategoryById(Integer id){
-
-        return categoryService.selectCategoryById(id);
+        return ResultUtil.success(categoryService.selectCategoryById(id));
     }
 
    /* @ApiOperation(value = "动态查询")
