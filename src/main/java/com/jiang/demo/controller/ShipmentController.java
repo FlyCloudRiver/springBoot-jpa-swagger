@@ -55,8 +55,8 @@ public class ShipmentController {
         return ResultUtil.success(shipmentDetailDTOS);
     }
 
-    @ApiOperation(value = "采购单显示")
-    @PostMapping("/selectAll")
+    @ApiOperation(value = "销售单动态分页显示")
+    @PostMapping("/select")
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<List<ShipmentDTO>> select(ShipmentForm purchaseForm, Integer pageNum, Integer pageSize){
