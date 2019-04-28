@@ -27,9 +27,9 @@ public class GoodsController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public Result<GoodsDTO> insertGoods(GoodsForm goodsForm){
+    public Result<GoodsDTO> insertGoods(GoodsForm goodsForm,String person){
 
-        GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm);
+        GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm,person);
         //return goodsDTO;
         return ResultUtil.success(goodsDTO);
     }

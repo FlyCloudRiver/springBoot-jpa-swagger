@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,7 @@ public class PurchaseController {
     }
 
     /*提交订单详情的集合  以及订单*/
+    //@RequestBody
     @ApiOperation(value = "采购商品")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")

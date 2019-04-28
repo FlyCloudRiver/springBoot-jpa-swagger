@@ -28,7 +28,7 @@ import java.util.Random;
  */
 
 @RestController
-@Api(description = "用户" )
+@Api(description = "用户登陆" )
 @RequestMapping("/userInfo")
 public class UserInfoController {
     // 通过set方法注入  优先选择

@@ -1,5 +1,7 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.entity.Storeroom;
+import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
@@ -10,6 +12,7 @@ import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.GoodsService;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.criteria.*;
 import java.util.*;
 /**
@@ -47,7 +52,14 @@ public class GoodsServiceImpl implements GoodsService {
         this.supplierRepository = supplierRepository;
     }
 
-    public GoodsDTO insertGoods(GoodsForm goodsForm){
+    private StoreroomRepository storeroomRepository;
+    @Autowired
+    public void setStoreroomRepository(StoreroomRepository storeroomRepository) {
+        this.storeroomRepository = storeroomRepository;
+    }
+
+
+    public GoodsDTO insertGoods(GoodsForm goodsForm,String person){
 
         Goods goods=new Goods();
         /*将前者赋值给后者*/
@@ -58,6 +70,16 @@ public class GoodsServiceImpl implements GoodsService {
 
         Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).orElse(null);
         goods.setSupplier(supplier);
+
+        Goods save = goodsRepository.save(goods);
+        //添加商品的时候将商品添加进库存
+        Storeroom storeroom = new Storeroom();
+        storeroom.setAmount(0);
+        storeroom.setPerson(person);
+        storeroom.setUpdateTime(new Date());
+        storeroom.setGoods(save);
+
+        storeroomRepository.save(storeroom);
 
         /*传进去实体类 返回 DTO类*/
         return  GoodsDTO.convert(goods);

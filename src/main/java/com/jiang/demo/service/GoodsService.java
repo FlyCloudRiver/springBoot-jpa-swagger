@@ -10,7 +10,7 @@ import com.jiang.demo.dto.goods.GoodsForm;
  */
 public interface GoodsService {
 
-    GoodsDTO insertGoods(GoodsForm goodsForm);
+    GoodsDTO insertGoods(GoodsForm goodsForm,String person);
     PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm, Integer pageNum, Integer pageSize);
     GoodsDTO findGoodsDTOById(Integer id);
 }

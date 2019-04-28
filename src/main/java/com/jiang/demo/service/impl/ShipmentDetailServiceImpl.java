@@ -15,13 +15,13 @@ import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.ShipmentDetailRepository;
 import com.jiang.demo.repository.ShipmentRepository;
 import com.jiang.demo.service.ShipmentDetailService;
+import com.jiang.demo.service.StoreroomService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: 江云飞
@@ -49,6 +49,12 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         this.goodsRepository = goodsRepository;
     }
 
+    private StoreroomService storeroomService;
+    @Autowired
+    public void setStoreroomService(StoreroomService storeroomService) {
+        this.storeroomService = storeroomService;
+    }
+
     @Override
     @Transactional
     public List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm) {
@@ -60,6 +66,16 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
 
 
         List<ShipmentDetailDTO> shipmentDetailDTOList=new ArrayList<>();
+
+        //商品id  数量集合
+        Map<Integer,Integer> map = new HashMap<>();
+        //时间
+
+        Date time= shipmentForm.getShipmentTime();
+        System.out.println("time"+time);
+        //操作人
+        String lastPerson=shipmentForm.getPerson();
+
         for(ShipmentDetailForm s: shipmentForm.getShipmentDetailForms()) {
 
             ShipmentDetail shipmentDetail=new ShipmentDetail();
@@ -69,7 +85,7 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
             shipmentDetail.setGoodsNumber(goodsNumber);
 
             Integer goodsId = s.getGoodsId();
-
+            map.put(goodsId,-goodsNumber);
             //根据商品id查询商品
             shipmentDetail.setGoods(goodsRepository.findById(goodsId).orElse(null));
 
@@ -81,6 +97,9 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
 
             shipmentDetailDTOList.add(ShipmentDetailDTO.convert(save));
         }
+
+        /*出售商品的时候更新库房*/
+        storeroomService.updateStoreroom(map,time,lastPerson);
 
         return shipmentDetailDTOList;
     }

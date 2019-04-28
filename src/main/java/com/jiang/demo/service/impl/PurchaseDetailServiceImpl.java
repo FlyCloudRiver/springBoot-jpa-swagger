@@ -1,21 +1,23 @@
 package com.jiang.demo.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiang.demo.dto.purchase.PurchaseForm;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailForm;
 import com.jiang.demo.entity.Purchase;
 import com.jiang.demo.entity.PurchaseDetail;
+import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.PurchaseDetailRepository;
 import com.jiang.demo.repository.PurchaseRepository;
 import com.jiang.demo.service.PurchaseDetailService;
+import com.jiang.demo.service.StoreroomService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: 江云飞
@@ -42,10 +44,15 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         this.purchaseRepository = purchaseRepository;
     }
 
+    private StoreroomService storeroomService;
+    @Autowired
+    public void setStoreroomService(StoreroomService storeroomService) {
+        this.storeroomService = storeroomService;
+    }
+
+    /*添加订单  */
     @Transactional
     public List<PurchaseDetailDTO> insertPurchaseDetail(PurchaseForm purchaseForm){
-        //商品数量和商品id
-
 
         /*将前者赋值给后者*/
         Purchase purchase = new Purchase();
@@ -55,6 +62,14 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();
 
+        //商品id  数量集合
+        Map<Integer,Integer> map = new HashMap<>();
+        //时间
+
+        Date time= purchaseForm.getPurchaseTime();
+        System.out.println("time"+time);
+        //操作人
+        String lastPerson=purchaseForm.getPerson();
         for(PurchaseDetailForm p: purchaseForm.getPurchaseDetailForms()) {
 
             PurchaseDetail purchaseDetail=new PurchaseDetail();
@@ -64,6 +79,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             purchaseDetail.setGoodsNumber(goodsNumber);
 
             Integer goodsId = p.getGoodsId();
+            map.put(goodsId,goodsNumber);
             System.out.println("goodsId"+goodsId);
             //根据商品id查询商品
             purchaseDetail.setGoods(goodsRepository.findById(goodsId).orElse(null));
@@ -78,6 +94,8 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             purchaseDetailDTOList.add(PurchaseDetailDTO.convert(save));
         }
 
+        /*增加订单的时候更新库房*/
+        storeroomService.updateStoreroom(map,time,lastPerson);
            return purchaseDetailDTOList;
 
     }
