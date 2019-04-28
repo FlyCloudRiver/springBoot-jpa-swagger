@@ -1,6 +1,8 @@
 package com.jiang.demo.service;
 
+import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
+import com.jiang.demo.utils.Result;
 
 
 import java.util.List;
@@ -13,13 +15,13 @@ import java.util.List;
 
 public interface BigCategoryService {
 
-    BigCategory insertBigCategory(BigCategory bigCategory);
+    Result<BigCategoryDTO> insertBigCategory(BigCategory bigCategory);
 
-    void deleteBigCategoryById(Integer id);
+    Result deleteBigCategoryById(Integer id);
 
-    BigCategory updateBigCategory(BigCategory bigCategory);
+    Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName);
 
-    List<BigCategory> selectBigCategoryAll();
+    Result<List<BigCategoryDTO>> selectBigCategoryAll();
 
-    BigCategory selectBigCategoryById(Integer id) throws Exception;
+    Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception;
 }

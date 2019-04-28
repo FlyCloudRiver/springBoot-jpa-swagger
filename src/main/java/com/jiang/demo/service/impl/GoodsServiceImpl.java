@@ -12,7 +12,6 @@ import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.GoodsService;
-import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.criteria.*;
 import java.util.*;

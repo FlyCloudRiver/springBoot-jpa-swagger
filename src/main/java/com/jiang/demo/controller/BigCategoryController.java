@@ -65,49 +65,35 @@ public class BigCategoryController {
     /*@RequestParam   可以设置默认值defaulValue="0"   也可以要求参数为空 required=false*/
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
-    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     public Result<BigCategoryDTO> insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
-        BigCategory entity = bigCategoryService.insertBigCategory(insertBigCategory);
+        Result<BigCategoryDTO> result = bigCategoryService.insertBigCategory(insertBigCategory);
         //return BigCategoryDTO.convert(entity);
-        return ResultUtil.success(BigCategoryDTO.convert(entity));
+        return result;
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
     public Result deleteBigCategory(Integer id){
-        bigCategoryService.deleteBigCategoryById(id);
-        return ResultUtil.success();
+        return bigCategoryService.deleteBigCategoryById(id);
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
-    @SuppressWarnings("unchecked")
     @Login
     @Permission
     public Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName){
 
-        BigCategory updateBigCategory=new BigCategory();
-        updateBigCategory.setBigCategoryName(bigCategoryName);
-        updateBigCategory.setId(id);
-
-        BigCategory bigCategory1 = bigCategoryService.updateBigCategory(updateBigCategory);
-        return ResultUtil.success(BigCategoryDTO.convert(bigCategory1));
+        Result<BigCategoryDTO> result = bigCategoryService.updateBigCategory(id,bigCategoryName);
+        return result;
     }
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
-    @SuppressWarnings("unchecked")
     public Result<List<BigCategoryDTO>> selectAll(){
-        List<BigCategory> bigCategories = bigCategoryService.selectBigCategoryAll();
-
-        List<BigCategoryDTO> bigCategoryDTOList=new ArrayList<>();
-        for (BigCategory item : bigCategories) {
-            bigCategoryDTOList.add(BigCategoryDTO.convert(item));
-        }
-        return ResultUtil.success(bigCategoryDTOList);
+        return bigCategoryService.selectBigCategoryAll();
     }
 
     /*Get方式url传参    地址后面直接  /参数*/
@@ -116,12 +102,9 @@ public class BigCategoryController {
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    @SuppressWarnings("unchecked")
     public Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception{
 
-        BigCategory bigCategory = bigCategoryService.selectBigCategoryById(id);
-        BigCategoryDTO convert = BigCategoryDTO.convert(bigCategory);
-        return  ResultUtil.success(convert);
+        return  bigCategoryService.selectBigCategoryById(id);
 
     }
 }
