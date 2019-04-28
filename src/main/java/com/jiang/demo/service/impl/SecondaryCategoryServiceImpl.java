@@ -63,15 +63,6 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
         return secondaryCategoryRepository.findAll();
     }
 
-   /* public Iterator<SecondaryCategory> selectSecondaryCategoryAll(Integer pageNum,Integer pageSize){
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(pageNum,pageSize,sort);
-        Page<SecondaryCategory> secondaryCategories = secondaryCategoryRepository.findAll(pageable);
-        Iterator<SecondaryCategory> secondaryCategoryIterator =  secondaryCategories.iterator();
-
-        *//*List<SecondaryCategory> all = SecondaryCategoryRepository.findAll();*//*
-        return secondaryCategoryIterator;
-    }*/
 
     public SecondaryCategory selectSecondaryCategoryById(Integer id){
 

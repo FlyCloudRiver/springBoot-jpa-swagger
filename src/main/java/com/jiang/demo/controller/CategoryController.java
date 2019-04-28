@@ -44,53 +44,36 @@ public class CategoryController {
 
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
-    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName){
-        Category category = categoryService.insertCategory(secondaryCategoryId, categoryName);
-        return ResultUtil.success(CategoryDTO.convert(category));
-        //return CategoryDTO.convert(category);
+        return categoryService.insertCategory(secondaryCategoryId, categoryName);
+
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
     public Result deleteCategory(Integer id){
-        categoryService.deleteCategoryById(id);
-        return ResultUtil.success();
+        return categoryService.deleteCategoryById(id);
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
-    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> updateCategory(Integer id, String categoryName, Integer secondaryCategoryId){
-
-        Category category = categoryService.updateCategory(id,categoryName,secondaryCategoryId);
-        //return CategoryDTO.convert(category);
-        return ResultUtil.success(CategoryDTO.convert(category));
+        return categoryService.updateCategory(id,categoryName,secondaryCategoryId);
     }
 
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
-    @SuppressWarnings("unchecked")
     public Result<List<CategoryDTO>> selectAll(){
-        List<Category> categories = categoryService.selectCategoryAll();
 
-        List<CategoryDTO> categoryDTOList=new ArrayList<>();
-        for (Category item:categories) {
-            categoryDTOList.add(CategoryDTO.convert(item));
-        }
-        //return categoryDTOList;
-        return ResultUtil.success(categoryDTOList);
+        return categoryService.selectCategoryAll();
     }
 
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
-    @SuppressWarnings("unchecked")
     public Result<CategoryDTO> selectCategoryById(Integer id){
-        Category category = categoryService.selectCategoryById(id);
 
-        //return  CategoryDTO.convert(category);
-        return ResultUtil.success(CategoryDTO.convert(category));
+        return categoryService.selectCategoryById(id);
     }
 
    /* @ApiOperation(value = "动态查询")

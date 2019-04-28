@@ -1,7 +1,10 @@
 package com.jiang.demo.service;
 
 
+import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.entity.Category;
+import com.jiang.demo.utils.Result;
+
 import java.util.List;
 
 /**
@@ -10,15 +13,15 @@ import java.util.List;
  */
 public interface CategoryService {
 
-    Category insertCategory(Integer secondaryCategoryId, String categoryName);
+    Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName);
 
-    void deleteCategoryById(Integer id);
+    Result deleteCategoryById(Integer id);
 
-    Category updateCategory(Integer id,String categoryName,Integer secondaryCategoryId);
+    Result<CategoryDTO> updateCategory(Integer id,String categoryName,Integer secondaryCategoryId);
 
-    List<Category> selectCategoryAll();
+    Result<List<CategoryDTO>> selectCategoryAll();
 
-    Category selectCategoryById(Integer id);
+    Result<CategoryDTO> selectCategoryById(Integer id);
 
     //PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId, Integer secondaryCategoryId, Integer pageNum, Integer pageSize);
 }

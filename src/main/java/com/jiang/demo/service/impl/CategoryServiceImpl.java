@@ -1,13 +1,18 @@
 package com.jiang.demo.service.impl;
 
 
+import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.entity.Category;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.CategoryService;
+import com.jiang.demo.utils.Result;
+import com.jiang.demo.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,23 +36,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category insertCategory(Integer secondaryCategoryId, String categoryName) {
+    @SuppressWarnings("unchecked")
+    public Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName) {
 
         SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).orElse(null);
 
         Category category=new Category();
         category.setSecondaryCategory(secondaryCategory);
         category.setCategoryName(categoryName);
-        return categoryRepository.save(category);
+        return ResultUtil.success(CategoryDTO.convert(categoryRepository.save(category)));
     }
 
     @Override
-    public void deleteCategoryById(Integer id) {
+    public Result deleteCategoryById(Integer id) {
         categoryRepository.deleteById(id);
+        return ResultUtil.success();
     }
 
     @Override
-    public Category updateCategory(Integer id, String categoryName, Integer secondaryCategoryId) {
+    @SuppressWarnings("unchecked")
+    public Result<CategoryDTO> updateCategory(Integer id, String categoryName, Integer secondaryCategoryId) {
         SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryCategoryId).orElse(null);
 
         Category category =new Category();
@@ -55,33 +63,27 @@ public class CategoryServiceImpl implements CategoryService {
         category.setCategoryName(categoryName);
         category.setSecondaryCategory(secondaryCategory);
 
-        return categoryRepository.save(category);
+        return ResultUtil.success(CategoryDTO.convert(categoryRepository.save(category)));
     }
 
     @Override
-    public List<Category> selectCategoryAll() {
-        return categoryRepository.findAll();
+    @SuppressWarnings("unchecked")
+    public Result<List<CategoryDTO>> selectCategoryAll() {
+        List<Category> all = categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        for (Category c:all) {
+            CategoryDTO convert = CategoryDTO.convert(c);
+            categoryDTOList.add(convert);
+        }
+        return ResultUtil.success(categoryDTOList);
     }
 
     @Override
-    public Category selectCategoryById(Integer id) {
-        return categoryRepository.findById(id).orElse(null);
+    @SuppressWarnings("unchecked")
+    public Result<CategoryDTO> selectCategoryById(Integer id) {
+        return ResultUtil.success(CategoryDTO.convert(categoryRepository.findById(id).orElse(null)));
     }
 
 
-    /*根据大类id  中类id 动态查询细类*/
-   /* @Override
-    public PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId, Integer secondaryCategoryId, Integer pageNum, Integer pageSize) {
 
-        //分页插件
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
-
-        Page<Category> gooodsies = categoryRepository.findAll(pageable);
-
-        //封装分页
-        PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
-        BeanUtils.copyProperties(gooodsies, pageDTO);
-        return null;
-    }*/
 }
