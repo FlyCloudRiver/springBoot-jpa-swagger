@@ -1,12 +1,15 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.dto.purchase.PurchaseDTO;
 import com.jiang.demo.dto.purchase.PurchaseForm;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
+import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.entity.ShipmentDetail;
 import com.jiang.demo.service.ShipmentDetailService;
 import com.jiang.demo.service.ShipmentService;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -50,5 +53,14 @@ public class ShipmentController {
         List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.insertShipmentDetail(shipmentForm);
 
         return ResultUtil.success(shipmentDetailDTOS);
+    }
+
+    @ApiOperation(value = "采购单显示")
+    @PostMapping("/selectAll")
+    @SuppressWarnings("unchecked")
+    //动态分页查询（编号，时间，姓名）
+    public Result<List<ShipmentDTO>> select(ShipmentForm purchaseForm, Integer pageNum, Integer pageSize){
+        PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm, pageNum, pageSize);
+        return ResultUtil.success(select);
     }
 }

@@ -62,13 +62,5 @@ public class PurchaseController {
         return ResultUtil.success(select);
     }
 
-    @ApiOperation(value = "采购单显示")
-    @PostMapping("/selectAll")
-    @SuppressWarnings("unchecked")
-    //动态分页查询（编号，时间，姓名）
-    public Result<List<PurchaseDTO>> selectAll(){
-        List<PurchaseDTO> all = purchaseService.findAll();
-        return ResultUtil.success(all);
-    }
 
 }

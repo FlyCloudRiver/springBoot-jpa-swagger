@@ -3,7 +3,6 @@ package com.jiang.demo.service.impl;
 import com.jiang.demo.dto.purchase.PurchaseDTO;
 import com.jiang.demo.dto.purchase.PurchaseForm;
 import com.jiang.demo.entity.Purchase;
-import com.jiang.demo.repository.PurchaseDetailRepository;
 import com.jiang.demo.repository.PurchaseRepository;
 import com.jiang.demo.service.PurchaseService;
 import com.jiang.demo.utils.PageDTO;
@@ -38,21 +37,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     public void setPurchaseRepository(PurchaseRepository purchaseRepository) {
         this.purchaseRepository = purchaseRepository;
     }
-    private PurchaseDetailRepository purchaseDetailRepository;
-    @Autowired
-    public void setPurchaseDetailRepository(PurchaseDetailRepository purchaseDetailRepository) {
-        this.purchaseDetailRepository = purchaseDetailRepository;
-    }
 
-    @Override
-    public List<PurchaseDTO> findAll(){
-        List<Purchase> all = purchaseRepository.findAll();
-        List<PurchaseDTO> list=new ArrayList<>();
-        for (Purchase p:all) {
-            list.add(PurchaseDTO.convert(p));
-        }
-        return  list;
-    }
 
     //动态分页查询（编号，时间，姓名）
     public PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm, Integer pageNum, Integer pageSize){
@@ -128,61 +113,5 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
 
     }
-    //添加购买记录
-    @Override
-
-    public Purchase insertPurchase(PurchaseForm purchaseForm) {
-
-        //首先添加一个订单
-        Purchase purchase2 = new Purchase();
-        //BeanUtils.copyProperties(purchaseForm, purchase2);
-        //Purchase save3 = purchaseRepository.save(purchase2);
-        return purchase2;
-    }
-      /*  //商品详情集合  添加商品详情
-        List<PurchaseDetail> purchaseDetails = new ArrayList<>();
-
-        List<PurchaseDetailForm> purchaseDetailForms = purchaseForm.getPurchaseDetailForms();
-
-        for (PurchaseDetailForm p:purchaseDetailForms) {
-            PurchaseDetail purchaseDetail=new PurchaseDetail();
-            //根据商品id获取商品
-            Goods goods = goodsRepository.findById(p.getGoodsId()).orElse(null);
-            //将商品保存到商品详情中
-            *//*将前者赋值给后者*//*
-            purchaseDetail.setGoodsNumber(p.getGoodsNumber());
-            purchaseDetail.setGoods(goods);
-
-            purchaseDetail.setPurchase(save3);
-
-            //保存商品详情
-            PurchaseDetail save = purchaseDetailRepository.save(purchaseDetail);
-            purchaseDetails.add(save);
-        }
-
-        //save3.setPurchaseDetails(purchaseDetails);
-
-       // Purchase save = purchaseRepository.save(save3);
-
-        List<PurchaseDetail> purchaseDetails1 = save3.getPurchaseDetails();//save3
-        List<PurchaseDetailDTO> purchaseDetailDTOList = new ArrayList<>();
-        for (PurchaseDetail pd:purchaseDetails1) {
-            Goods goods = pd.getGoods();
-            GoodsDTO convert = GoodsDTO.convert(goods);
-
-            PurchaseDetailDTO convert1 = PurchaseDetailDTO.convert(pd);
-            convert1.setGoodsDTO(convert);
-
-            purchaseDetailDTOList.add(convert1);
-        }
-        PurchaseDTO convert = PurchaseDTO.convert(save3);//save3
-        convert.setPurchaseDetailDTOS(purchaseDetailDTOList);
-
-        System.out.println(convert);
-        return convert;
-*/
-
-
-
 
 }

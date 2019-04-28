@@ -3,7 +3,6 @@ package com.jiang.demo.controller;
 import com.jiang.demo.permission.Permission;
 import com.jiang.demo.dto.category.CategoryDTO;
 
-import com.jiang.demo.entity.Category;
 import com.jiang.demo.service.CategoryService;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
