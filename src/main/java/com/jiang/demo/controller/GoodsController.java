@@ -34,7 +34,7 @@ public class GoodsController {
         return ResultUtil.success(goodsDTO);
     }
 
-    @ApiOperation(value = "动态查询")
+    @ApiOperation(value = "分页动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     public Result<PageDTO<GoodsDTO>> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){

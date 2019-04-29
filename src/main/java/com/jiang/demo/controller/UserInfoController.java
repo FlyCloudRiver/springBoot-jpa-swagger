@@ -50,13 +50,13 @@ public class UserInfoController {
     public Result<UserInfoDTO> login(HttpServletResponse response,
                                      @RequestParam String username, @RequestParam String password) {
         //查询用户
-        UserInfo byUsername = userInfoService.findByUsername(username, password);
+        UserInfo user = userInfoService.login(username, password);
         //判断登录
         try {
             //userService为自己定义的Service类
-            if (byUsername != null) {
+            if (user != null) {
                 /*用户id*/
-                Integer uid = byUsername.getUid();
+                Integer uid = user.getUid();
                 List<Tokens> byUid = tokenRepository.findByUid(uid);
                 Tokens save=new Tokens();
                 //如果这个用户的token存在  就更新时间 更新密匙
@@ -73,7 +73,7 @@ public class UserInfoController {
                     String secretKey = isReplace(getItemID(10));
                     tokens.setToken(secretKey);
                     tokens.setBuildtime(new Date());
-                    tokens.setUserInfo(byUsername);
+                    tokens.setUserInfo(user);
                     save = tokenRepository.save(tokens);
                 }
 
@@ -88,7 +88,7 @@ public class UserInfoController {
                 response.addCookie(cookie);
 
 
-                return ResultUtil.success(UserInfoDTO.convert(byUsername));
+                return ResultUtil.success(UserInfoDTO.convert(user));
 
             } else
                 throw new MyException(-6, "用户名或密码错误");

@@ -24,7 +24,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserInfo findByUsername(String username,String password) {
+    public UserInfo login(String username,String password) {
 
         return userInfoRepository.findByUsernameAndPassword(username, password);
 

@@ -17,8 +17,11 @@ public class StoreroomForm {
     @ApiModelProperty(value = "库存量")
     private Integer amount;
 
-    @ApiModelProperty(value = "库存商品id")
-    private Integer goodsId;
+    @ApiModelProperty(value = "商品编号")
+    private  String goodsCode;
+
+    @ApiModelProperty(value = "商品名称")
+    private  String goodsName;
 
     @ApiModelProperty(value = "最后一次更新时间")
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
@@ -37,12 +40,20 @@ public class StoreroomForm {
         this.amount = amount;
     }
 
-    public Integer getGoodsId() {
-        return goodsId;
+    public String getGoodsCode() {
+        return goodsCode;
     }
 
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public Date getUpdateTime() {

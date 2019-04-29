@@ -9,7 +9,7 @@ import com.jiang.demo.entity.UserInfo;
  */
 public interface UserInfoService {
 
-    UserInfo findByUsername(String username, String password);
+    UserInfo login(String username, String password);
 
     UserInfoDTO findByUsername(String username);
 }
