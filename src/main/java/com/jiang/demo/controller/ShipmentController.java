@@ -1,12 +1,9 @@
 package com.jiang.demo.controller;
 
-import com.jiang.demo.dto.purchase.PurchaseDTO;
-import com.jiang.demo.dto.purchase.PurchaseForm;
-import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
+
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
-import com.jiang.demo.entity.ShipmentDetail;
 import com.jiang.demo.service.ShipmentDetailService;
 import com.jiang.demo.service.ShipmentService;
 import com.jiang.demo.utils.PageDTO;

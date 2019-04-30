@@ -4,8 +4,6 @@ import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
 import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.service.BigCategoryService;
-import com.jiang.demo.utils.Result;
-import com.jiang.demo.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +42,6 @@ public class BigCategoryServiceImpl implements BigCategoryService {
         return BigCategoryDTO.convert(bigCategoryRepository.save(bigCategory));
     }
 
-    @SuppressWarnings("unchecked")
     public List<BigCategoryDTO> selectBigCategoryAll(){
         List<BigCategory> all = bigCategoryRepository.findAll();
         List<BigCategoryDTO> bigCategoryDTOs =new ArrayList<>();

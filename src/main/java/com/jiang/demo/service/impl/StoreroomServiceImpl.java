@@ -4,7 +4,6 @@ import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
 import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.Storeroom;
-import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
@@ -38,13 +37,12 @@ public class StoreroomServiceImpl implements StoreroomService {
         this.storeroomRepository = storeroomRepository;
     }
 
-    private GoodsRepository goodsRepository;
-
+   /* private GoodsRepository goodsRepository;
     @Autowired
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
     }
-
+*/
     /*更新库房*/
     public List<Storeroom> updateStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
 
@@ -138,12 +136,17 @@ public class StoreroomServiceImpl implements StoreroomService {
                 predicates.add(predicate);
             }
             //商品编号 模糊查询
-            if (storeroomForm.getGoodsCode() != null){
+            if (StringUtils.isNotBlank(storeroomForm.getGoodsCode())){
                 //Predicate predicate = cb.like(root.get(storeroom.getGoods().getGoodsCode()),"%"+storeroomForm.getGoodsCode()+"%");
                 //ListJoin<Storeroom,Goods> join=root.join(root.getModel().getList("goods",Goods.class));
                 Join<Storeroom,Goods> join=root.join("goods");
                 Predicate predicate = cb.like(join.get("goodsCode").as(String.class),"%"+storeroomForm.getGoodsCode()+"%");
                 System.out.println("开始凭借！！！！！！");
+                predicates.add(predicate);
+            }
+            if(StringUtils.isNotBlank(storeroomForm.getGoodsName())){
+                Join<Storeroom,Goods> join=root.join("goods");
+                Predicate predicate = cb.like(join.get("goodsName").as(String.class),"%"+storeroomForm.getGoodsName()+"%");
                 predicates.add(predicate);
             }
 
@@ -152,7 +155,6 @@ public class StoreroomServiceImpl implements StoreroomService {
             if (predicates.size() == 0) {
                 return null;
             }
-
             //将集合转化为CriteriaBuilder所需要的Predicate[]
             Predicate[] predicateArr = new Predicate[predicates.size()];
             predicateArr = predicates.toArray(predicateArr);

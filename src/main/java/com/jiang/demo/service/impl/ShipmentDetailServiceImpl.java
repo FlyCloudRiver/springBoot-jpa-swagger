@@ -1,14 +1,8 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.dto.goods.GoodsDTO;
-import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
-import com.jiang.demo.dto.purchaseDetail.PurchaseDetailForm;
-import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailForm;
-import com.jiang.demo.entity.Purchase;
-import com.jiang.demo.entity.PurchaseDetail;
 import com.jiang.demo.entity.Shipment;
 import com.jiang.demo.entity.ShipmentDetail;
 import com.jiang.demo.repository.GoodsRepository;

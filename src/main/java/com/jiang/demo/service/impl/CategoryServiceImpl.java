@@ -7,11 +7,8 @@ import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.CategoryService;
-import com.jiang.demo.utils.Result;
-import com.jiang.demo.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
