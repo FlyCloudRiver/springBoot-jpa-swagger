@@ -42,7 +42,7 @@ public class SupplierController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     //@Permission
-    public Result deleteSupplier(@RequestBody Integer id){
+    public Result deleteSupplier(Integer id){
         supplierService.deleteSupplierById(id);
         return ResultUtil.success();
     }
