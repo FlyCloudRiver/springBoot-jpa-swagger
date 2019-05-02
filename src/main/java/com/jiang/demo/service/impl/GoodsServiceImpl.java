@@ -1,6 +1,7 @@
 package com.jiang.demo.service.impl;
 
 import com.jiang.demo.entity.Storeroom;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
@@ -92,6 +93,32 @@ public class GoodsServiceImpl implements GoodsService {
         return  GoodsDTO.convert(goods);
     }
 
+    @Override
+    public GoodsDTO updateGoods(GoodsForm goodsForm, Integer id) {
+        /*将前者赋值给后者*/
+        Goods goods = goodsRepository.findById(id).orElse(null);
+        if(goods!=null){
+            BeanUtils.copyProperties(goodsForm, goods);
+        }
+        Integer categoryId = goodsForm.getCategoryId();
+        Integer supplierId = goodsForm.getSupplierId();
+        if(categoryId==null||categoryId==0){
+            throw new MyException(-1,"类别id不能为空");
+        }
+        if(supplierId==null||supplierId==0){
+            throw new MyException(-1,"厂商不能为空");
+        }
+
+
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        Supplier supplier = supplierRepository.findById(supplierId).orElse(null);
+
+        goods.setSupplier(supplier);
+        goods.setCategory(category);
+
+        return GoodsDTO.convert(goodsRepository.save(goods));
+    }
+
 
     //动态查询:
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm){
@@ -104,7 +131,7 @@ public class GoodsServiceImpl implements GoodsService {
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
-        Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(goods),pageable);
+        Page<Goods> gooodsies = goodsRepository.findAll(new MySpec(goodsForm),pageable);
         //封装分页
         PageDTO<GoodsDTO> pageDTO =new PageDTO<>();
         BeanUtils.copyProperties(gooodsies, pageDTO);
@@ -119,19 +146,36 @@ public class GoodsServiceImpl implements GoodsService {
 
     }
     private class MySpec implements Specification<Goods>{
-        private Goods goods;
-        private MySpec(Goods goods){
-            this.goods=goods;
+        private GoodsForm goodsForm;
+        private MySpec(GoodsForm goodsForm){
+            this.goodsForm=goodsForm;
         }
         @Override
         public Predicate toPredicate(Root<Goods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-            String goodsCode = goods.getGoodsCode();
-            String goodsName = goods.getGoodsName();
-            String goodsShelfLife = goods.getGoodsShelfLife();
+            String goodsCode = goodsForm.getGoodsCode();
+            String goodsName = goodsForm.getGoodsName();
+            String goodsShelfLife = goodsForm.getGoodsShelfLife();
+
+            //类别名 厂商名
+            String categoryName = goodsForm.getCategoryName();
+            String supplierName = goodsForm.getSupplierName();
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
+            if (StringUtils.isNotBlank(categoryName)){
+                //Predicate predicate = cb.like(root.get(storeroom.getGoods().getGoodsCode()),"%"+storeroomForm.getGoodsCode()+"%");
+                //ListJoin<Storeroom,Goods> join=root.join(root.getModel().getList("goods",Goods.class));
+                Join<Goods,Category> join=root.join("category");
+                Predicate predicate = cb.like(join.get("categoryName").as(String.class),"%"+categoryName+"%");
+                predicates.add(predicate);
+            }
+            if (StringUtils.isNotBlank(supplierName)){
+
+                Join<Goods,Supplier> join=root.join("supplier");
+                Predicate predicate = cb.like(join.get("supplierName").as(String.class),"%"+supplierName+"%");
+                predicates.add(predicate);
+            }
             //对客户端查询条件进行判断,并封装Predicate断言对象
             // isNotBlank(str) 等价于 str != null && str.length > 0 && str.trim().length > 0
             if (StringUtils.isNotBlank(goodsName)) {

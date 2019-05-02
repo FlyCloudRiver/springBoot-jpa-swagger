@@ -37,6 +37,25 @@ public class GoodsForm {
     private Integer pageSize;
     private String person;
 
+    private String supplierName;
+    private String categoryName;
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public String getPerson() {
         return person;
     }

@@ -44,10 +44,18 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "查询ById")
-    @GetMapping("selectById")
+    @PostMapping("selectById")
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> selectGoodsDTOById(@RequestBody Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
+        return  ResultUtil.success(goodsDTOById);
+    }
+
+    @ApiOperation(value = "修改")
+    @PostMapping("update")
+    @SuppressWarnings("unchecked")
+    public Result<GoodsDTO> updateGoods(@RequestBody GoodsForm goodsForm,Integer id){
+        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsForm,id);
         return  ResultUtil.success(goodsDTOById);
     }
 }
