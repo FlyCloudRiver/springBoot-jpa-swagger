@@ -26,6 +26,17 @@ public class SupplierDTO {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
+    @ApiModelProperty(value = "供应商评价")
+    private  String supplierEvaluate;
+
+    public String getSupplierEvaluate() {
+        return supplierEvaluate;
+    }
+
+    public void setSupplierEvaluate(String supplierEvaluate) {
+        this.supplierEvaluate = supplierEvaluate;
+    }
+
     public static SupplierDTO convert(Supplier entity) {
         SupplierDTO dto = new SupplierDTO();
         BeanUtils.copyProperties(entity, dto);
