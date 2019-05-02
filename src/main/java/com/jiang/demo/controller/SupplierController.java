@@ -41,7 +41,7 @@ public class SupplierController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    @Permission
+    //@Permission
     public Result deleteSupplier(@RequestBody Integer id){
         supplierService.deleteSupplierById(id);
         return ResultUtil.success();
@@ -68,7 +68,7 @@ public class SupplierController {
     @ApiOperation(value = "更新")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
-    public Result<SupplierDTO> updateSupplier(SupplierForm supplierForm, Integer id){
+    public Result<SupplierDTO> updateSupplier(@RequestBody SupplierForm supplierForm, Integer id){
         SupplierDTO supplierDTO = supplierService.updateSupplier(supplierForm, id);
         //return supplierDTO;
         return ResultUtil.success(supplierDTO);

@@ -80,14 +80,9 @@ public class PermissionAspect {
             //如果该方法上有注解
             Cookie[] cookies = request.getCookies();
             try {
-                //获取cookie
-                /*String token=null;*/
-               /* for (Cookie cookie : cookies) {
-                    if(cookie.getName().equals("token")){
-                        token= cookie.getValue();
-                    }
-                }*/
+
                 String token=cookies[0].getValue();
+                System.out.println("token==="+cookies[0].getName());
                 System.out.println("token==="+token);
                 //根据token密匙查询 信息
                 try {
