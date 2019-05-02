@@ -35,6 +35,15 @@ public class GoodsForm {
 
     private Integer pageNum;
     private Integer pageSize;
+    private String person;
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
 
     public Integer getPageNum() {
         return pageNum;

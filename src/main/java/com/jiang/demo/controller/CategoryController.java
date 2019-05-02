@@ -72,9 +72,9 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "查询ById")
-    @GetMapping("/selectOne")
+    @PostMapping("/selectOne")
     @SuppressWarnings("unchecked")
-    public Result<CategoryDTO> selectCategoryById(Integer id){
+    public Result<CategoryDTO> selectCategoryById(@RequestBody Integer id){
         return ResultUtil.success(categoryService.selectCategoryById(id));
     }
 

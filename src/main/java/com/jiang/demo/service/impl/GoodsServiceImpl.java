@@ -58,8 +58,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
-    public GoodsDTO insertGoods(GoodsForm goodsForm,String person){
-
+    public GoodsDTO insertGoods(GoodsForm goodsForm){
+        String person=goodsForm.getPerson();
         Goods goods=new Goods();
         /*将前者赋值给后者*/
         BeanUtils.copyProperties(goodsForm, goods);
