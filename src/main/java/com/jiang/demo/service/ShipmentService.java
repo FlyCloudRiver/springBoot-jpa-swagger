@@ -12,5 +12,5 @@ import com.jiang.demo.utils.PageDTO;
 public interface ShipmentService {
 
     //动态分页查询（编号，时间，姓名）
-    PageDTO<ShipmentDTO> select(ShipmentForm purchaseForm, Integer pageNum, Integer pageSize);
+    PageDTO<ShipmentDTO> select(ShipmentForm purchaseForm);
 }

@@ -11,6 +11,6 @@ import com.jiang.demo.dto.goods.GoodsForm;
 public interface GoodsService {
 
     GoodsDTO insertGoods(GoodsForm goodsForm,String person);
-    PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm, Integer pageNum, Integer pageSize);
+    PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm);
     GoodsDTO findGoodsDTOById(Integer id);
 }

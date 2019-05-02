@@ -27,7 +27,7 @@ public class GoodsController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public Result<GoodsDTO> insertGoods(GoodsForm goodsForm,String person){
+    public Result<GoodsDTO> insertGoods(@RequestBody GoodsForm goodsForm,String person){
 
         GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm,person);
         //return goodsDTO;
@@ -37,8 +37,8 @@ public class GoodsController {
     @ApiOperation(value = "分页动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
-    public Result<PageDTO<GoodsDTO>> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
-        PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm,pageNum, pageSize);
+    public Result<PageDTO<GoodsDTO>> findByDynamicCases(@RequestBody GoodsForm goodsForm){
+        PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm);
         return ResultUtil.success(goodsPage);
         //return goodsPage;
     }
@@ -46,7 +46,7 @@ public class GoodsController {
     @ApiOperation(value = "查询ById")
     @GetMapping("selectById")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> selectGoodsDTOById(Integer id){
+    public Result<GoodsDTO> selectGoodsDTOById(@RequestBody Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
         return  ResultUtil.success(goodsDTOById);
     }

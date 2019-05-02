@@ -74,8 +74,10 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     //动态查询:
-    public PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm, Integer pageNum, Integer pageSize){
+    public PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm){
 
+        Integer pageNum = supplierForm.getPageNum();
+        Integer pageSize = supplierForm.getPageSize();
         Supplier supplier=new Supplier();
         BeanUtils.copyProperties(supplierForm, supplier);
 

@@ -19,13 +19,13 @@ import java.util.List;
 public class BigCategory implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     @ApiModelProperty(value = "商品大类ID",example = "1")
     private Integer id;
 
 
     @ApiModelProperty(value = "商品大类名")
-    @Column(name = "big_category_name")
+    @Column(name = "big_category_name")//可省
     private  String bigCategoryName;
 
     /*子级分类*/

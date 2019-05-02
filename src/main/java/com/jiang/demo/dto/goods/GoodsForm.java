@@ -33,6 +33,25 @@ public class GoodsForm {
     @ApiModelProperty(value = "厂商ID")
     private Integer supplierId;
 
+    private Integer pageNum;
+    private Integer pageSize;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }

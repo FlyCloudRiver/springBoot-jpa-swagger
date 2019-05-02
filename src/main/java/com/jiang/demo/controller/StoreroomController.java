@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,8 +36,8 @@ public class StoreroomController {
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
-    public Result<List<StoreroomDTO>> select(StoreroomForm storeroomForm, Integer pageNum, Integer pageSize){
-        PageDTO<StoreroomDTO> select = storeroomService.select(storeroomForm, pageNum, pageSize);
+    public Result<List<StoreroomDTO>> select(@RequestBody StoreroomForm storeroomForm){
+        PageDTO<StoreroomDTO> select = storeroomService.select(storeroomForm);
         return ResultUtil.success(select);
     }
 }

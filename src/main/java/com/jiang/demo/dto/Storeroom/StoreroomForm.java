@@ -14,6 +14,8 @@ import java.util.Date;
  */
 public class StoreroomForm {
 
+    private Integer pageNum;
+    private Integer pageSize;
     @ApiModelProperty(value = "库存量")
     private Integer amount;
 
@@ -31,6 +33,22 @@ public class StoreroomForm {
 
     @ApiModelProperty(value = "更新人员")
     private String person;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public Integer getAmount() {
         return amount;

@@ -73,8 +73,10 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
     @Override
-    public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm, Integer pageNum, Integer pageSize) {
+    public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {
 
+        Integer pageNum=storeroomForm.getPageNum();
+        Integer pageSize=storeroomForm.getPageSize();
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);

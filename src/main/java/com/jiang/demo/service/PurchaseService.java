@@ -14,5 +14,5 @@ public interface PurchaseService {
 
 
     //动态分页查询（编号，时间，姓名）
-    PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm, Integer pageNum, Integer pageSize);
+    PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm);
 }

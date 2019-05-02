@@ -64,7 +64,7 @@ public class BigCategoryController {
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
-    public Result<BigCategoryDTO> insertBigCategory(@RequestParam(value = "bigCategoryName") String bigCategoryName){
+    public Result<BigCategoryDTO> insertBigCategory(@RequestBody String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
         //return BigCategoryDTO.convert(entity);
@@ -74,17 +74,17 @@ public class BigCategoryController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
-    public Result deleteBigCategory(Integer id){
+    public Result deleteBigCategory(@RequestBody Integer id){
         bigCategoryService.deleteBigCategoryById(id);
         return ResultUtil.success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
-    @Login
-    @Permission
+    //@Login
+    //@Permission
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
-    public Result<BigCategoryDTO> updateBigCategory(Integer id,String bigCategoryName){
+    public Result<BigCategoryDTO> updateBigCategory( Integer id, String bigCategoryName){
 
         return ResultUtil.success(bigCategoryService.updateBigCategory(id,bigCategoryName));
     }
@@ -102,9 +102,9 @@ public class BigCategoryController {
     @GetMapping("/selectOne/{id}")
     public Result<BigCategoryDTO> selectBigCategoryById(@PathVariable("id") Integer id){*/
     @ApiOperation(value = "查询ById")
-    @GetMapping("/selectOne")
+    @PostMapping("/selectOne")
     @SuppressWarnings("unchecked")
-    public Result<BigCategoryDTO> selectBigCategoryById(Integer id) throws Exception{
+    public Result<BigCategoryDTO> selectBigCategoryById(@RequestBody Integer id) throws Exception{
 
         return  ResultUtil.success(bigCategoryService.selectBigCategoryById(id));
 

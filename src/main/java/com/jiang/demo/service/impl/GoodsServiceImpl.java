@@ -94,8 +94,10 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     //动态查询:
-    public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm,Integer pageNum,Integer pageSize){
+    public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm){
 
+        Integer pageNum=goodsForm.getPageNum();
+        Integer pageSize=goodsForm.getPageSize();
         //新建商品类  将form转换成goods
         Goods goods=new Goods();
         BeanUtils.copyProperties(goodsForm, goods);

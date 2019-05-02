@@ -6,6 +6,7 @@ package com.jiang.demo.utils;
  */
 public class ResultUtil {
 
+    @SuppressWarnings("unchecked")
     public static Result success(Object object){
         Result result = new Result();
         result.setCode(0);
@@ -15,7 +16,10 @@ public class ResultUtil {
     }
 
     public static Result success(){
-        return null;
+        Result result = new Result();
+        result.setCode(0);
+        result.setMsg("成功！");
+        return result;
     }
 
     public static Result error(Integer code,String msg){

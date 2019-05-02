@@ -18,5 +18,5 @@ public interface StoreroomService {
 
     List<Storeroom> updateStoreroom(Map<Integer,Integer> map, Date time, String lastPerson);
 
-    PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm, Integer pageNum, Integer pageSize);
+    PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm);
 }

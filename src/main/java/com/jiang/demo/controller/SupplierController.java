@@ -33,7 +33,7 @@ public class SupplierController {
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
-    public Result<SupplierDTO> insertSupplier(SupplierForm supplierForm){
+    public Result<SupplierDTO> insertSupplier(@RequestBody SupplierForm supplierForm){
         SupplierDTO supplierDTO = supplierService.insertSupplier(supplierForm);
         //return supplierDTO;
         return ResultUtil.success(supplierDTO);
@@ -42,15 +42,15 @@ public class SupplierController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
-    public Result deleteSupplier(Integer id){
+    public Result deleteSupplier(@RequestBody Integer id){
         supplierService.deleteSupplierById(id);
         return ResultUtil.success();
     }
 
     @ApiOperation(value = "查询ById")
-    @GetMapping("/selectById")
+    @PostMapping("/selectById")
     @SuppressWarnings("unchecked")
-    public Result<SupplierDTO> selectSupplierById(Integer id){
+    public Result<SupplierDTO> selectSupplierById(@RequestBody Integer id){
         SupplierDTO supplierDTO = supplierService.selectSupplier(id);
         //return supplierDTO;
         return ResultUtil.success(supplierDTO);
@@ -59,8 +59,8 @@ public class SupplierController {
     @ApiOperation(value = "(动态分页)查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
-    public Result<PageDTO<SupplierDTO>> selectByDynamicCases(SupplierForm supplierForm, Integer pageNum, Integer pageSize){
-        PageDTO<SupplierDTO> byDynamicCases = supplierService.findByDynamicCases(supplierForm, pageNum, pageSize);
+    public Result<PageDTO<SupplierDTO>> selectByDynamicCases(@RequestBody SupplierForm supplierForm){
+        PageDTO<SupplierDTO> byDynamicCases = supplierService.findByDynamicCases(supplierForm);
         //return byDynamicCases;
         return ResultUtil.success(byDynamicCases);
     }

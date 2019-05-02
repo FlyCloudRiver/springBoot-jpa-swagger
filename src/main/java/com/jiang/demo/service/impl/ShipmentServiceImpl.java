@@ -40,7 +40,9 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public PageDTO<ShipmentDTO> select(ShipmentForm shipmentForm, Integer pageNum, Integer pageSize) {
+    public PageDTO<ShipmentDTO> select(ShipmentForm shipmentForm) {
+        Integer pageNum=shipmentForm.getPageNum();
+        Integer pageSize=shipmentForm.getPageSize();
         //新建商品类  将form转换成goods
         Shipment shipment=new Shipment();
         BeanUtils.copyProperties(shipmentForm, shipment);

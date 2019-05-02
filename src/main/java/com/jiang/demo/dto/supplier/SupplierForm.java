@@ -24,7 +24,24 @@ public class SupplierForm {
     @ApiModelProperty(value = "供应商评价")
     private  String supplierEvaluate;
 
+    private Integer pageNum;
+    private Integer pageSize;
 
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public String getSupplierName() {
         return supplierName;

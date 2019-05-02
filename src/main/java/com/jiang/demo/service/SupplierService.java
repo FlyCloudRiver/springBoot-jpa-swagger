@@ -15,7 +15,7 @@ public interface SupplierService {
 
     void deleteSupplierById(Integer id);
 
-    PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm, Integer pageNum, Integer pageSize);
+    PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm);
 
     SupplierDTO updateSupplier(SupplierForm supplierForm,Integer id);
 }

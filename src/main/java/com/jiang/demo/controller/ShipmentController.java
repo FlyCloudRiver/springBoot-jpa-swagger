@@ -12,9 +12,7 @@ import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class ShipmentController {
     @ApiOperation(value = "出售商品")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
-    public Result<List<ShipmentDetailDTO>> insertShipment(ShipmentForm shipmentForm){
+    public Result<List<ShipmentDetailDTO>> insertShipment(@RequestBody ShipmentForm shipmentForm){
 
         //然后添加订单详情
         List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.insertShipmentDetail(shipmentForm);
@@ -56,8 +54,8 @@ public class ShipmentController {
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
-    public Result<List<ShipmentDTO>> select(ShipmentForm purchaseForm, Integer pageNum, Integer pageSize){
-        PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm, pageNum, pageSize);
+    public Result<List<ShipmentDTO>> select(@RequestBody ShipmentForm purchaseForm){
+        PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm);
         return ResultUtil.success(select);
     }
 }

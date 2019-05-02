@@ -40,8 +40,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 
     //动态分页查询（编号，时间，姓名）
-    public PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm, Integer pageNum, Integer pageSize){
+    public PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm){
 
+        Integer pageNum=purchaseForm.getPageNum();
+        Integer pageSize=purchaseForm.getPageSize();
         //新建商品类  将form转换成goods
         Purchase purchase=new Purchase();
         BeanUtils.copyProperties(purchaseForm, purchase);
