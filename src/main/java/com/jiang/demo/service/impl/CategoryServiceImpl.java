@@ -125,7 +125,6 @@ public class CategoryServiceImpl implements CategoryService {
         public Predicate toPredicate(Root<Category> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
             String categoryName = categoryForm.getCategoryName();
-            String secondaryCategoryName = categoryForm.getSecondaryCategoryName();
 
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
