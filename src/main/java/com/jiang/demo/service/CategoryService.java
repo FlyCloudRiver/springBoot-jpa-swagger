@@ -2,7 +2,9 @@ package com.jiang.demo.service;
 
 
 import com.jiang.demo.dto.category.CategoryDTO;
+import com.jiang.demo.dto.category.CategoryForm;
 import com.jiang.demo.entity.Category;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
 
 import java.util.List;
@@ -23,5 +25,5 @@ public interface CategoryService {
 
     CategoryDTO selectCategoryById(Integer id);
 
-    //PageDTO<CategoryDTO> findByDynamicCases(Integer bigCategoryId, Integer secondaryCategoryId, Integer pageNum, Integer pageSize);
+    PageDTO<CategoryDTO> findByDynamicCases(CategoryForm categoryForm);
 }

@@ -1,9 +1,11 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.dto.category.CategoryForm;
 import com.jiang.demo.permission.Permission;
 import com.jiang.demo.dto.category.CategoryDTO;
 
 import com.jiang.demo.service.CategoryService;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -78,13 +80,13 @@ public class CategoryController {
         return ResultUtil.success(categoryService.selectCategoryById(id));
     }
 
-   /* @ApiOperation(value = "动态查询")
+    @ApiOperation(value = "动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
-    public Result<PageDTO<CategoryDTO>> findByDynamicCases(Integer bigCategoryId,Integer secondaryCategoryId, Integer pageNum, Integer pageSize){
+    public Result<PageDTO<CategoryDTO>> findByDynamicCases(CategoryForm categoryForm){
 
-        PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(bigCategoryId,secondaryCategoryId,pageNum, pageSize);
+        PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(categoryForm);
         //return goodsPage;
         return ResultUtil.success(goodsPage);
-    }*/
+    }
 }
