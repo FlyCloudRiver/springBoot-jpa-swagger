@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 public class UserInfo implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer uid;
 
     @Column(unique =true)//不能重复，所有记录值都要唯一，就像主键那样;

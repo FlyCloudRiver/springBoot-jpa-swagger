@@ -13,7 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "roles" })
 public class SysPermission implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer id;//主键.
 
     private String name;//名称.

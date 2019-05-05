@@ -15,7 +15,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "userInfos" })
 public class SysRole implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer id; // 编号
 
     @Column(unique =true)

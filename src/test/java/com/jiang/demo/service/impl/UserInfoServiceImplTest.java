@@ -23,7 +23,7 @@ public class UserInfoServiceImplTest {
 
     @Test
     public void demo(){
-        UserInfoDTO admin1 = userInfoService.findByUsername("admin1");
+
 
     }
 }

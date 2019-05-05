@@ -19,4 +19,5 @@ public interface StoreroomService {
     List<Storeroom> updateStoreroom(Map<Integer,Integer> map, Date time, String lastPerson);
 
     PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm);
+    List<Storeroom> insertStoreroom (Map<Integer,Integer> map, Date time, String lastPerson);
 }

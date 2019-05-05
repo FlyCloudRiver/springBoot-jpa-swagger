@@ -4,6 +4,8 @@ import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
 import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.Storeroom;
+import com.jiang.demo.exception.MyException;
+import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.*;
@@ -37,13 +40,37 @@ public class StoreroomServiceImpl implements StoreroomService {
         this.storeroomRepository = storeroomRepository;
     }
 
-   /* private GoodsRepository goodsRepository;
+    private GoodsRepository goodsRepository;
     @Autowired
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
     }
-*/
+
+
+    @Override
+    public List<Storeroom> insertStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
+
+        List<Storeroom> storeroomList = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+
+            Storeroom storeroom = new Storeroom();
+            //商品
+            storeroom.setGoods(goodsRepository.findById(entry.getKey()).orElse(null));
+            //库存量
+            storeroom.setAmount(Integer.valueOf(entry.getValue()));
+            //更新时间
+            storeroom.setUpdateTime(time);
+            //保存库存
+            storeroom.setPerson(lastPerson);
+
+            Storeroom save = storeroomRepository.save(storeroom);
+            storeroomList.add(save);
+
+        }
+        return storeroomList;
+    }
     /*更新库房*/
+    @Transactional
     public List<Storeroom> updateStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
 
         Lock lock = new ReentrantLock();
@@ -60,6 +87,9 @@ public class StoreroomServiceImpl implements StoreroomService {
             storeroom.setUpdateTime(time);
             //更新库存
             lock.lock();
+            if(amount + Integer.valueOf(entry.getValue())<0){
+                throw new MyException(-1,"库存不够");
+            }
             storeroom.setAmount(amount + Integer.valueOf(entry.getValue()));
             lock.unlock();
             storeroom.setPerson(lastPerson);

@@ -52,14 +52,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
 
-    public UserInfoDTO findByUsername(String username){
-        UserInfo byUsername = userInfoRepository.findByUsername(username);
-
-        UserInfoDTO userInfoDTO=UserInfoDTO.convert(byUsername);
-        System.out.println(byUsername);
-        return userInfoDTO;
-    }
-
     @Override
     public UserInfoDTO insertUser(UserInfoForm userInfoForm) {
         /*将前者赋值给后者*/
@@ -144,6 +136,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         return  UserInfoDTO.convert(userInfoRepository.findByUsername(username));
     }
+
     @Override
     public PageDTO<UserInfoDTO> selectUser(Integer pageNum, Integer pageSize) {
         System.out.println("进controller  IMPL");

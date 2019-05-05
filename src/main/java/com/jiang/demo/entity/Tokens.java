@@ -12,7 +12,7 @@ import java.util.Date;
 public class Tokens {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer tokenid;
 
     @OneToOne(fetch = FetchType.EAGER)

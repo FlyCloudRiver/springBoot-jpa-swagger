@@ -71,15 +71,6 @@ public class GoodsServiceImpl implements GoodsService {
         Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).orElse(null);
         goods.setSupplier(supplier);
 
-        Goods save = goodsRepository.save(goods);
-        //添加商品的时候将商品添加进库存
-        Storeroom storeroom = new Storeroom();
-        storeroom.setAmount(0);
-        storeroom.setPerson(person);
-        storeroom.setUpdateTime(new Date());
-        storeroom.setGoods(save);
-
-        storeroomRepository.save(storeroom);
 
         /*传进去实体类 返回 DTO类*/
         return  GoodsDTO.convert(goods);
