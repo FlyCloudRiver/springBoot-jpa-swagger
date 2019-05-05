@@ -83,7 +83,7 @@ public class CategoryController {
     @ApiOperation(value = "动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
-    public Result<PageDTO<CategoryDTO>> findByDynamicCases(CategoryForm categoryForm){
+    public Result<PageDTO<CategoryDTO>> findByDynamicCases(@RequestBody CategoryForm categoryForm){
 
         PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(categoryForm);
         //return goodsPage;
