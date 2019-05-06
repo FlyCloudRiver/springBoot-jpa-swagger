@@ -84,7 +84,7 @@ public class SupplierServiceImpl implements SupplierService {
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
-        Page<Supplier> suppliers = supplierRepository.findAll(new MySpec(supplier),pageable);
+        Page<Supplier> suppliers = supplierRepository.findAll(new MySpec(supplierForm),pageable);
         //封装分页
         PageDTO<SupplierDTO> pageDTO =new PageDTO<>();
         BeanUtils.copyProperties(suppliers, pageDTO);
@@ -100,22 +100,27 @@ public class SupplierServiceImpl implements SupplierService {
 
     }
     private class MySpec implements Specification<Supplier> {
-        private Supplier supplier;
-        private MySpec(Supplier supplier){
-            this.supplier=supplier;
+        private SupplierForm supplierForm;
+        private MySpec(SupplierForm supplierForm){
+            this.supplierForm=supplierForm;
         }
         @Override
         public Predicate toPredicate(Root<Supplier> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-            String supplierName = supplier.getSupplierName();
-            String supplierAddress = supplier.getSupplierAddress();
-            String supplierPhone = supplier.getSupplierPhone();
-            String supplierEvaluate = supplier.getSupplierEvaluate();
+            String supplierName = supplierForm.getSupplierName();
+            String supplierAddress = supplierForm.getSupplierAddress();
+            String supplierPhone = supplierForm.getSupplierPhone();
+            String supplierEvaluate = supplierForm.getSupplierEvaluate();
+            String supplierAddressDetail = supplierForm.getSupplierAddressDetail();
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
             //对客户端查询条件进行判断,并封装Predicate断言对象
             // isNotBlank(str) 等价于 str != null && str.length > 0 && str.trim().length > 0
+            if (StringUtils.isNotBlank(supplierAddressDetail)) {
+                Predicate predicate = cb.like(root.get("supplierAddressDetail").as(String.class), "%"+supplierAddressDetail+"%");
+                predicates.add(predicate);
+            }
             if (StringUtils.isNotBlank(supplierEvaluate)) {
                 Predicate predicate = cb.like(root.get("supplierEvaluate").as(String.class), "%"+supplierEvaluate+"%");
                 predicates.add(predicate);

@@ -51,7 +51,7 @@ public class ShipmentServiceImpl implements ShipmentService {
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
-        Page<Shipment> shipments = shipmentRepository.findAll(new ShipmentServiceImpl.MySpec(shipment),pageable);
+        Page<Shipment> shipments = shipmentRepository.findAll(new ShipmentServiceImpl.MySpec(shipmentForm),pageable);
 
         //封装分页
         PageDTO<ShipmentDTO> shipmentDTO =new PageDTO<>();
@@ -69,16 +69,16 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     private class MySpec implements Specification<Shipment> {
-        private Shipment shipment;
-        private MySpec(Shipment shipment){
-            this.shipment=shipment;
+        private ShipmentForm shipmentForm;
+        private MySpec(ShipmentForm shipmentForm){
+            this.shipmentForm=shipmentForm;
         }
         @Override
         public Predicate toPredicate(Root<Shipment> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-            String shipmentCode = shipment.getShipmentCode();
-            String person = shipment.getPerson();
-            Date ShipmentTime = shipment.getShipmentTime();
+            String shipmentCode = shipmentForm.getShipmentCode();
+            String person = shipmentForm.getPerson();
+            Date ShipmentTime = shipmentForm.getShipmentTime();
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 

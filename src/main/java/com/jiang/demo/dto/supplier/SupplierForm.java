@@ -2,6 +2,7 @@ package com.jiang.demo.dto.supplier;
 
 import io.swagger.annotations.ApiModelProperty;
 
+
 /**
  * Author: 江云飞
  * Date:   2019/4/1
@@ -20,12 +21,22 @@ public class SupplierForm {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
+    @ApiModelProperty(value = "供应商详细地址")
+    private  String supplierAddressDetail;
 
     @ApiModelProperty(value = "供应商评价")
     private  String supplierEvaluate;
 
     private Integer pageNum;
     private Integer pageSize;
+
+    public String getSupplierAddressDetail() {
+        return supplierAddressDetail;
+    }
+
+    public void setSupplierAddressDetail(String supplierAddressDetail) {
+        this.supplierAddressDetail = supplierAddressDetail;
+    }
 
     public Integer getPageNum() {
         return pageNum;

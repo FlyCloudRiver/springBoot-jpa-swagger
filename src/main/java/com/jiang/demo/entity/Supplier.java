@@ -35,6 +35,10 @@ public class Supplier implements Serializable {
     @Column(name = "supplier_address")
     private  String supplierAddress;
 
+    @ApiModelProperty(value = "供应商详细地址")
+    @Column(name = "supplier_address_detail")
+    private  String supplierAddressDetail;
+
     @ApiModelProperty(value = "商品")
     @OneToMany(mappedBy = "supplier",cascade=CascadeType.ALL,fetch= FetchType.LAZY)
     private List<Goods> goodsList;
@@ -97,5 +101,13 @@ public class Supplier implements Serializable {
 
     public void setGoodsList(List<Goods> goodsList) {
         this.goodsList = goodsList;
+    }
+
+    public String getSupplierAddressDetail() {
+        return supplierAddressDetail;
+    }
+
+    public void setSupplierAddressDetail(String supplierAddressDetail) {
+        this.supplierAddressDetail = supplierAddressDetail;
     }
 }
