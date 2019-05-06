@@ -1,6 +1,5 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.dto.userInfo.UserInfoDTO;
 import com.jiang.demo.service.UserInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
