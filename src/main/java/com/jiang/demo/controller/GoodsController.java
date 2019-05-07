@@ -47,7 +47,7 @@ public class GoodsController {
     @ApiOperation(value = "查询ById")
     @PostMapping("selectById")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> selectGoodsDTOById(Integer id){
+    public Result<GoodsDTO> selectGoodsDTOById(@RequestBody Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
         return  ResultUtil.success(goodsDTOById);
     }
@@ -55,8 +55,8 @@ public class GoodsController {
     @ApiOperation(value = "修改")
     @PostMapping("update")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> updateGoods(@RequestBody GoodsDTO goodsDTO){
-        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsDTO);
+    public Result<GoodsDTO> updateGoods(@RequestBody GoodsForm goodsForm,Integer id){
+        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsForm,id);
         return  ResultUtil.success(goodsDTOById);
     }
 

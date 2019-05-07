@@ -1,8 +1,6 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.exception.MyException;
-import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
@@ -52,11 +50,6 @@ public class GoodsServiceImpl implements GoodsService {
         this.supplierRepository = supplierRepository;
     }
 
-    private StoreroomRepository storeroomRepository;
-    @Autowired
-    public void setStoreroomRepository(StoreroomRepository storeroomRepository) {
-        this.storeroomRepository = storeroomRepository;
-    }
 
 
     public GoodsDTO insertGoods(GoodsForm goodsForm){
@@ -85,28 +78,20 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsDTO updateGoods(GoodsDTO goodsDTO) {
+    public GoodsDTO updateGoods(GoodsForm goodsForm, Integer id) {
         /*将前者赋值给后者*/
-        Goods goods = goodsRepository.findById(goodsDTO.getId()).orElse(null);
-        String goodsCode = goodsDTO.getGoodsCode();
-        String goodsName = goodsDTO.getGoodsName();
-        Float goodsPrice = goodsDTO.getGoodsPrice();
-        Date goodsDate = goodsDTO.getGoodsDate();
-        String goodsShelfLife = goodsDTO.getGoodsShelfLife();
-        goods.setGoodsCode(goodsCode);
-        goods.setGoodsName(goodsName);
-        goods.setGoodsPrice(goodsPrice);
-        goods.setGoodsDate(goodsDate);
-        goods.setGoodsShelfLife(goodsShelfLife);
-        Integer categoryId = goodsDTO.getCategoryDTO().getId();
-        Integer supplierId = goodsDTO.getSupplierDTO().getId();
+        Goods goods = goodsRepository.findById(id).orElse(null);
+        if(goods!=null){
+            BeanUtils.copyProperties(goodsForm, goods);
+        }
+        Integer categoryId = goodsForm.getCategoryId();
+        Integer supplierId = goodsForm.getSupplierId();
         if(categoryId==null||categoryId==0){
             throw new MyException(-1,"类别id不能为空");
         }
         if(supplierId==null||supplierId==0){
             throw new MyException(-1,"厂商不能为空");
         }
-
 
         Category category = categoryRepository.findById(categoryId).orElse(null);
         Supplier supplier = supplierRepository.findById(supplierId).orElse(null);
