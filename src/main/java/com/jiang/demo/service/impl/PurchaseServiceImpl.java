@@ -53,7 +53,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
-        Page<Purchase> purchases = purchaseRepository.findAll(new MySpec(purchase),pageable);
+        Page<Purchase> purchases = purchaseRepository.findAll(new MySpec(purchaseForm),pageable);
 
         //封装分页
         PageDTO<PurchaseDTO> purchaseDTO =new PageDTO<>();
@@ -84,21 +84,27 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     private class MySpec implements Specification<Purchase> {
-        private Purchase purchase;
-        private MySpec(Purchase purchase){
-            this.purchase=purchase;
+        private PurchaseForm purchaseForm;
+        private MySpec(PurchaseForm purchaseForm){
+            this.purchaseForm=purchaseForm;
         }
         @Override
         public Predicate toPredicate(Root<Purchase> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-            String purchaseCode = purchase.getPurchaseCode();
-            String person = purchase.getPerson();
-            Date purchaseTime = purchase.getPurchaseTime();
+            String purchaseCode = purchaseForm.getPurchaseCode();
+            String person = purchaseForm.getPerson();
+            Date purchaseTime = purchaseForm.getPurchaseTime();
+            Boolean storage = purchaseForm.getStorage();
+
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
             //对客户端查询条件进行判断,并封装Predicate断言对象
             // isNotBlank(str) 等价于 str != null && str.length > 0 && str.trim().length > 0
+            if (storage!=null) {
+                Predicate predicate = cb.equal(root.get("isStorage").as(Boolean.class), storage);
+                predicates.add(predicate);
+            }
             if (StringUtils.isNotBlank(purchaseCode)) {
                 Predicate predicate = cb.like(root.get("purchaseCode").as(String.class), "%"+purchaseCode+"%");
                 predicates.add(predicate);
