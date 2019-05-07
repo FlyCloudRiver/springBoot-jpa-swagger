@@ -64,10 +64,17 @@ public class PurchaseController {
 
     @ApiOperation(value = "更新采购单")
     @PutMapping("/update")
-    @SuppressWarnings("unchecked")
-    public Result update(List<Integer> id,List<Integer> goodsNumber){
+    public Result update(@RequestBody PurchaseDTO purchaseDTO){
         //参数  采购单详情id  以及对应的商品的数量
-        //return supplierDTO;
+        purchaseDetailService.update(purchaseDTO);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping("/delete")
+    //@Permission
+    public Result delete(Integer id){
+        purchaseService.delete(id);
         return ResultUtil.success();
     }
 

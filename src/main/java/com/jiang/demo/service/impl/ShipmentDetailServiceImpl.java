@@ -1,10 +1,15 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
+import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailForm;
+import com.jiang.demo.entity.Purchase;
+import com.jiang.demo.entity.PurchaseDetail;
 import com.jiang.demo.entity.Shipment;
 import com.jiang.demo.entity.ShipmentDetail;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.ShipmentDetailRepository;
 import com.jiang.demo.repository.ShipmentRepository;
@@ -96,5 +101,35 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         //storeroomService.updateStoreroom(map,time,lastPerson);
 
         return shipmentDetailDTOList;
+    }
+
+    @Override
+    public void update(ShipmentDTO shipmentDTO) {
+        //查询此订单是否已经出库
+        Shipment shipment = shipmentRepository.findById(shipmentDTO.getId()).orElse(null);
+        if(shipment!=null) {
+            if (shipment.getStorage()) {
+                throw new MyException(-1, "商品已出库，不能修改");
+            }
+
+            List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDTO.getShipmentDetailDTOS();
+            for (ShipmentDetailDTO s:shipmentDetailDTOS) {
+                Integer id = s.getId();
+                ShipmentDetail shipmentDetail = shipmentDetailRepository.findById(id).orElse(null);
+                if(shipmentDetail!=null) {
+                    if(s.getGoodsNumber()<0){
+                        throw new MyException(-1,"商品数量不能为负数");
+                    }
+                    shipmentDetail.setGoodsNumber(s.getGoodsNumber());
+                    shipmentDetailRepository.save(shipmentDetail);
+                }else {
+                    throw new MyException(-1,"修改的订单详情不存在");
+                }
+
+            }
+        }else{
+            throw new MyException(-1,"该订单不存在");
+        }
+
     }
 }

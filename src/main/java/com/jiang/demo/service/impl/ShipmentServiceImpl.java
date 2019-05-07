@@ -4,6 +4,7 @@ package com.jiang.demo.service.impl;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.entity.Shipment;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.ShipmentRepository;
 import com.jiang.demo.service.ShipmentService;
 import com.jiang.demo.utils.PageDTO;
@@ -66,6 +67,19 @@ public class ShipmentServiceImpl implements ShipmentService {
         shipmentDTO.setContent(shipmentDTOList);
 
         return shipmentDTO;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Shipment shipment = shipmentRepository.findById(id).orElse(null);
+        if(shipment!=null) {
+            if (shipment.getStorage()) {
+                throw new MyException(-1, "商品已入库，不能修改");
+            }
+            shipmentRepository.deleteById(id);
+        }else{
+            throw new MyException(-1,"该订单不存在");
+        }
     }
 
     private class MySpec implements Specification<Shipment> {

@@ -1,6 +1,7 @@
 package com.jiang.demo.controller;
 
 
+import com.jiang.demo.dto.purchase.PurchaseDTO;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
@@ -58,4 +59,21 @@ public class ShipmentController {
         PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm);
         return ResultUtil.success(select);
     }
+
+    @ApiOperation(value = "更新采购单")
+    @PutMapping("/update")
+    public Result update(@RequestBody ShipmentDTO shipmentDTO){
+        //参数  采购单详情id  以及对应的商品的数量
+        shipmentDetailService.update(shipmentDTO);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping("/delete")
+    //@Permission
+    public Result delete(Integer id){
+        shipmentService.delete(id);
+        return ResultUtil.success();
+    }
+
 }

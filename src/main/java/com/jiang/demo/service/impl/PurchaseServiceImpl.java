@@ -3,6 +3,7 @@ package com.jiang.demo.service.impl;
 import com.jiang.demo.dto.purchase.PurchaseDTO;
 import com.jiang.demo.dto.purchase.PurchaseForm;
 import com.jiang.demo.entity.Purchase;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.PurchaseRepository;
 import com.jiang.demo.service.PurchaseService;
 import com.jiang.demo.utils.PageDTO;
@@ -67,6 +68,19 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchaseDTO.setContent(purchaseDTOList);
 
         return purchaseDTO;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Purchase purchase = purchaseRepository.findById(id).orElse(null);
+        if(purchase!=null) {
+            if (purchase.getStorage()) {
+                throw new MyException(-1, "商品已入库，不能修改");
+            }
+            purchaseRepository.deleteById(id);
+        }else{
+            throw new MyException(-1,"该订单不存在");
+        }
     }
 
     private class MySpec implements Specification<Purchase> {

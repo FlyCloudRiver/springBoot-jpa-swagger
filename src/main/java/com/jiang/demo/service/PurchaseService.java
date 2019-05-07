@@ -15,4 +15,6 @@ public interface PurchaseService {
 
     //动态分页查询（编号，时间，姓名）
     PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm);
+
+    void delete(Integer id);
 }

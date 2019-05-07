@@ -1,6 +1,8 @@
 package com.jiang.demo.service;
 
 
+import com.jiang.demo.dto.purchase.PurchaseDTO;
+import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 
@@ -12,5 +14,5 @@ import java.util.List;
  */
 public interface ShipmentDetailService {
     List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm);
-
+    void update(ShipmentDTO shipmentDTO);
 }
