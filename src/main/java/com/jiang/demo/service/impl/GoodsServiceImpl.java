@@ -60,7 +60,6 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     public GoodsDTO insertGoods(GoodsForm goodsForm){
-        String person=goodsForm.getPerson();
         Goods goods=new Goods();
         /*将前者赋值给后者*/
         BeanUtils.copyProperties(goodsForm, goods);
@@ -71,9 +70,10 @@ public class GoodsServiceImpl implements GoodsService {
         Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).orElse(null);
         goods.setSupplier(supplier);
 
+        Goods save = goodsRepository.save(goods);
 
         /*传进去实体类 返回 DTO类*/
-        return  GoodsDTO.convert(goods);
+        return  GoodsDTO.convert(save);
     }
 
 
