@@ -62,13 +62,13 @@ public class PurchaseController {
         return ResultUtil.success(select);
     }
 
-    /*@ApiOperation(value = "更新采购单")
+    @ApiOperation(value = "更新采购单")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
-    public Result update(Integer ){
-
+    public Result update(List<Integer> id,List<Integer> goodsNumber){
+        //参数  采购单详情id  以及对应的商品的数量
         //return supplierDTO;
         return ResultUtil.success();
-    }*/
+    }
 
 }
