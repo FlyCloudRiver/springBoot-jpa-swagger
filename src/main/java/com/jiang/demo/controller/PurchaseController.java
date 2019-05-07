@@ -3,6 +3,8 @@ package com.jiang.demo.controller;
 import com.jiang.demo.dto.purchase.PurchaseDTO;
 import com.jiang.demo.dto.purchase.PurchaseForm;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
+import com.jiang.demo.dto.supplier.SupplierDTO;
+import com.jiang.demo.dto.supplier.SupplierForm;
 import com.jiang.demo.service.PurchaseDetailService;
 import com.jiang.demo.service.PurchaseService;
 import com.jiang.demo.utils.PageDTO;
@@ -11,10 +13,7 @@ import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -63,5 +62,13 @@ public class PurchaseController {
         return ResultUtil.success(select);
     }
 
+    /*@ApiOperation(value = "更新采购单")
+    @PutMapping("/update")
+    @SuppressWarnings("unchecked")
+    public Result update(Integer ){
+
+        //return supplierDTO;
+        return ResultUtil.success();
+    }*/
 
 }

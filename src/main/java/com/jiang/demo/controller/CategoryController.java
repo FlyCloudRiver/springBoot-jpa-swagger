@@ -52,7 +52,7 @@ public class CategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    @Permission
+    //@Permission
     public Result deleteCategory(Integer id){
         categoryService.deleteCategoryById(id);
         return ResultUtil.success();
