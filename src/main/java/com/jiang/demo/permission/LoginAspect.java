@@ -113,9 +113,8 @@ public class LoginAspect {
                 System.out.println("时间差："+(time1 - time));
 
                 if (time1 - time >= 60000) {
-                    System.out.println("进来没有呢");
                     //时间过期
-                    throw new MyException(-4, "登陆过期！");
+                    throw new MyException(-4, "登陆过期，请重新登陆！");
                 }
                 //token信息存在  并且未过期  执行需要登陆的方法  返回数据
                 result = point.proceed();

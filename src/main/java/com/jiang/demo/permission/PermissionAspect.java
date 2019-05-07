@@ -109,7 +109,7 @@ public class PermissionAspect {
                 }*/
 
             }catch (Exception e){
-                throw new MyException(-5, "大大的错！");
+                throw new MyException(-3, "您还未登陆！");
             }
 
         }
