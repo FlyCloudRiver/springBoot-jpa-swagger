@@ -110,6 +110,11 @@ public class GoodsServiceImpl implements GoodsService {
         return GoodsDTO.convert(goodsRepository.save(goods));
     }
 
+    @Override
+    public void deleteGoods(Integer id) {
+        goodsRepository.deleteById(id);
+    }
+
 
     //动态查询:
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm){

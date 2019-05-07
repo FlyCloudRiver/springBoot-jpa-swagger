@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @RestController
-@Api(description = "销售单" )   //swagger
+@Api(description = "销售单管理" )   //swagger
 @RequestMapping("/shipment")
 public class ShipmentController {
     private ShipmentService shipmentService;

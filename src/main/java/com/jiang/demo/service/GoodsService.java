@@ -14,4 +14,5 @@ public interface GoodsService {
     PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm);
     GoodsDTO findGoodsDTOById(Integer id);
     GoodsDTO updateGoods(GoodsForm goodsForm,Integer id);
+    void deleteGoods(Integer id);
 }

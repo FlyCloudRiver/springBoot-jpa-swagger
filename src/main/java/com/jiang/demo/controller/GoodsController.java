@@ -1,5 +1,6 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
@@ -57,5 +58,13 @@ public class GoodsController {
     public Result<GoodsDTO> updateGoods(@RequestBody GoodsForm goodsForm,Integer id){
         GoodsDTO goodsDTOById = goodsService.updateGoods(goodsForm,id);
         return  ResultUtil.success(goodsDTOById);
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping("/delete")
+    @Permission
+    public Result deleteGoods(Integer id){
+        goodsService.deleteGoods(id);
+        return ResultUtil.success();
     }
 }

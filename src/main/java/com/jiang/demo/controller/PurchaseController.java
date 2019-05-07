@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 @RestController
-@Api(description = "采购单" )   //swagger
+@Api(description = "采购单管理" )   //swagger
 @RequestMapping("/purchase")
 public class PurchaseController {
     // 通过set方法注入  优先选择

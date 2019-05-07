@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 @RestController
-@Api(description = "商品库存" )   //swagger
+@Api(description = "商品库存管理" )   //swagger
 @RequestMapping("/storeroom")
 public class StoreroomController {
 
