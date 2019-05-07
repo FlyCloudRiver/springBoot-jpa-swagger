@@ -14,7 +14,7 @@ public class Province {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer id;//主键.
 
-    @Column(name = "provinceid",columnDefinition="int (11)",nullable = false)
+    @Column(name = "provinceid",columnDefinition="int(11)",nullable = false)
     private Integer provinceid;
 
     @Column(name = "province",columnDefinition="varchar(100)",nullable = false)
