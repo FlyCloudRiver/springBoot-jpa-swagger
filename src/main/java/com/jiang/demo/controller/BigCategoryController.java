@@ -63,7 +63,7 @@ public class BigCategoryController {
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
-    public Result<BigCategoryDTO> insertBigCategory(@RequestBody String bigCategoryName){
+    public Result<BigCategoryDTO> insertBigCategory(String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
         insertBigCategory.setBigCategoryName(bigCategoryName);
         //return BigCategoryDTO.convert(entity);
@@ -73,7 +73,7 @@ public class BigCategoryController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     @Permission
-    public Result deleteBigCategory(@RequestBody Integer id){
+    public Result deleteBigCategory(Integer id){
         bigCategoryService.deleteBigCategoryById(id);
         return ResultUtil.success();
     }
