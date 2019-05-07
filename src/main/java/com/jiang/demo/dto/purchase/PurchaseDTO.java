@@ -24,7 +24,7 @@ public class PurchaseDTO {
     private String purchaseCode;
 
     @ApiModelProperty(value = "是否入库")
-    private Boolean isStorage=false;
+    private Boolean isStorage;
 
     @ApiModelProperty(value = "入库时间")
     private Date purchaseTime;

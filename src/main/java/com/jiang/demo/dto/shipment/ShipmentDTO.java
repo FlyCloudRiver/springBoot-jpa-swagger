@@ -34,7 +34,7 @@ public class ShipmentDTO {
     private String person;
 
     @ApiModelProperty(value = "是否入库")
-    private Boolean isStorage=false;
+    private Boolean isStorage;
 
     public Boolean getStorage() {
         return isStorage;
