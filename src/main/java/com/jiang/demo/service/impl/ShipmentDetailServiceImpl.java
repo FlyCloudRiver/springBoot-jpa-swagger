@@ -43,12 +43,12 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         this.goodsRepository = goodsRepository;
     }
 
-    private StoreroomService storeroomService;
+    /*private StoreroomService storeroomService;
     @Autowired
     public void setStoreroomService(StoreroomService storeroomService) {
         this.storeroomService = storeroomService;
     }
-
+*/
     @Override
     @Transactional
     public List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm) {
@@ -62,13 +62,13 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         List<ShipmentDetailDTO> shipmentDetailDTOList=new ArrayList<>();
 
         //商品id  数量集合
-        Map<Integer,Integer> map = new HashMap<>();
+        //Map<Integer,Integer> map = new HashMap<>();
         //时间
 
         Date time= shipmentForm.getShipmentTime();
         System.out.println("time"+time);
         //操作人
-        String lastPerson=shipmentForm.getPerson();
+        //String lastPerson=shipmentForm.getPerson();
 
         for(ShipmentDetailForm s: shipmentForm.getShipmentDetailForms()) {
 
@@ -79,7 +79,7 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
             shipmentDetail.setGoodsNumber(goodsNumber);
 
             Integer goodsId = s.getGoodsId();
-            map.put(goodsId,-goodsNumber);
+            //map.put(goodsId,-goodsNumber);
             //根据商品id查询商品
             shipmentDetail.setGoods(goodsRepository.findById(goodsId).orElse(null));
 
@@ -93,7 +93,7 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         }
 
         /*出售商品的时候更新库房*/
-        storeroomService.updateStoreroom(map,time,lastPerson);
+        //storeroomService.updateStoreroom(map,time,lastPerson);
 
         return shipmentDetailDTOList;
     }

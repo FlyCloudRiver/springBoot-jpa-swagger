@@ -23,6 +23,9 @@ public class PurchaseDTO {
     @ApiModelProperty(value = "订单编号")
     private String purchaseCode;
 
+    @ApiModelProperty(value = "是否入库")
+    private Boolean isStorage=false;
+
     @ApiModelProperty(value = "入库时间")
     private Date purchaseTime;
 
@@ -50,6 +53,14 @@ public class PurchaseDTO {
             dto.setPurchaseDetailDTOS(purchaseDetails);
         }
         return dto;
+    }
+
+    public Boolean getStorage() {
+        return isStorage;
+    }
+
+    public void setStorage(Boolean storage) {
+        isStorage = storage;
     }
 
     public Integer getId() {

@@ -2,11 +2,11 @@ package com.jiang.demo.service.impl;
 
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
-import com.jiang.demo.entity.Goods;
-import com.jiang.demo.entity.Storeroom;
+import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
+import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
+import com.jiang.demo.entity.*;
 import com.jiang.demo.exception.MyException;
-import com.jiang.demo.repository.GoodsRepository;
-import com.jiang.demo.repository.StoreroomRepository;
+import com.jiang.demo.repository.*;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -40,15 +40,26 @@ public class StoreroomServiceImpl implements StoreroomService {
         this.storeroomRepository = storeroomRepository;
     }
 
-    private GoodsRepository goodsRepository;
+   /* private GoodsRepository goodsRepository;
     @Autowired
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
     }
+*/
+    private PurchaseRepository purchaseRepository;
+    @Autowired
+    public void setPurchaseRepository(PurchaseRepository purchaseRepository) {
+        this.purchaseRepository = purchaseRepository;
+    }
+
+    private ShipmentRepository shipmentRepository;
+    @Autowired
+    public void setShipmentRepository(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
+    }
 
 
-    @Override
-    public List<Storeroom> insertStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
+    /*public List<Storeroom> insertStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
 
         List<Storeroom> storeroomList = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
@@ -68,8 +79,96 @@ public class StoreroomServiceImpl implements StoreroomService {
 
         }
         return storeroomList;
+    }*/
+
+    @Override
+    @Transactional
+    public void insertStorage(PurchaseStorageFrom purchaseStorageFrom) {
+
+        //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
+        Purchase purchase = purchaseRepository.findById(purchaseStorageFrom.getId()).orElse(null);
+        if(purchase==null){
+            throw new MyException(-1,"该订单不存在");
+        }
+        if(purchase.getStorage()){
+            throw new MyException(2,"该订单已入库");
+        }
+        purchase.setStorage(true);
+        purchaseRepository.save(purchase);
+        //2.添加库房(得到采购单详情——商品id 商品数量)
+
+        List<PurchaseDetail> purchaseDetails = purchase.getPurchaseDetails();
+        for (PurchaseDetail p:purchaseDetails) {
+            Integer goodsId = p.getGoods().getId();
+            Integer goodsNumber = p.getGoodsNumber();
+            //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有 添加商品到库存
+            Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
+            Lock lock = new ReentrantLock();
+            lock.lock();
+            if(storeroom!=null){
+                //更新时间
+                storeroom.setUpdateTime(purchaseStorageFrom.getUpdateTime());
+                //库存量
+                storeroom.setAmount(storeroom.getAmount() +goodsNumber );
+                storeroom.setPerson(purchaseStorageFrom.getPerson());
+
+                //更新库存
+                storeroomRepository.save(storeroom);
+            }else{
+                Storeroom storeroom2 = new Storeroom();
+                storeroom2.setUpdateTime(purchaseStorageFrom.getUpdateTime());
+                //库存量
+                storeroom2.setAmount(goodsNumber );
+                storeroom2.setPerson(purchaseStorageFrom.getPerson());
+                //更新库存
+                storeroomRepository.save(storeroom2);
+            }
+            lock.unlock();
+        }
+
     }
-    /*更新库房*/
+
+    @Override
+    public void outputStorage(ShipmentStorageFrom shipmentStorageFrom) {
+        Lock lock = new ReentrantLock();
+
+        //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
+        Shipment shipment = shipmentRepository.findById(shipmentStorageFrom.getId()).orElse(null);
+        if (shipment == null) {
+            throw new MyException(-1, "该订单不存在");
+        }
+        if (shipment.getStorage()) {
+            throw new MyException(2, "该订单已出库");
+        }
+        shipment.setStorage(true);
+        shipmentRepository.save(shipment);
+        //2.添加库房(得到采购单详情——商品id 商品数量)
+
+        List<ShipmentDetail> shipmentDetailList = shipment.getShipmentDetailList();
+        for (ShipmentDetail p : shipmentDetailList) {
+            Integer goodsId = p.getGoods().getId();
+            Integer goodsNumber = p.getGoodsNumber();
+            //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有或者 出库数量大于库存量返回错误
+            Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
+            lock.lock();
+            if (storeroom != null) {
+                if (goodsNumber > storeroom.getAmount()) {
+                    throw new MyException(-2, "出库量大于库存量");
+                }
+                //更新时间
+                storeroom.setUpdateTime(shipmentStorageFrom.getUpdateTime());
+                //库存量
+                storeroom.setAmount(storeroom.getAmount() - goodsNumber);
+                storeroom.setPerson(shipmentStorageFrom.getPerson());
+
+                //更新库存
+                storeroomRepository.save(storeroom);
+
+                lock.unlock();
+            }
+        }
+
+        /*更新库房*//*
     @Transactional
     public List<Storeroom> updateStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
 
@@ -100,8 +199,8 @@ public class StoreroomServiceImpl implements StoreroomService {
         }
 
         return storeroomList;
+    }*/
     }
-
     @Override
     public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {
 

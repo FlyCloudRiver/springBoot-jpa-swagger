@@ -40,6 +40,17 @@ public class Purchase implements Serializable {
     @ApiModelProperty(value = "操作人员")
     private String person;
 
+    @ApiModelProperty(value = "是否入库")
+    private Boolean isStorage=false;
+
+    public Boolean getStorage() {
+        return isStorage;
+    }
+
+    public void setStorage(Boolean storage) {
+        isStorage = storage;
+    }
+
     public String getPerson() {
         return person;
     }

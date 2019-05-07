@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @RestController
-@Api(description = "商品出货" )   //swagger
+@Api(description = "销售单" )   //swagger
 @RequestMapping("/shipment")
 public class ShipmentController {
     private ShipmentService shipmentService;
@@ -39,7 +39,7 @@ public class ShipmentController {
     }
 
     /*提交订单详情的集合  以及订单*/
-    @ApiOperation(value = "出售商品")
+    @ApiOperation(value = "生成销售单")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     public Result<List<ShipmentDetailDTO>> insertShipment(@RequestBody ShipmentForm shipmentForm){

@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 @RestController
-@Api(description = "商品进货" )   //swagger
+@Api(description = "采购单" )   //swagger
 @RequestMapping("/purchase")
 public class PurchaseController {
     // 通过set方法注入  优先选择
@@ -42,7 +42,7 @@ public class PurchaseController {
 
     /*提交订单详情的集合  以及订单*/
     //@RequestBody
-    @ApiOperation(value = "采购商品")
+    @ApiOperation(value = "生成采购单")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     public Result<List<PurchaseDetailDTO>> insertPurchase(@RequestBody PurchaseForm purchaseForm){

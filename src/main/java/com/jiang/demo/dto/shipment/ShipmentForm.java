@@ -22,7 +22,8 @@ public class ShipmentForm {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
     private Date shipmentTime;
-
+    @ApiModelProperty(value = "是否入库")
+    private Boolean isStorage;
 
     @ApiModelProperty(value = "操作人员")
     private String person;
@@ -36,6 +37,14 @@ public class ShipmentForm {
 
     private Integer pageNum;
     private Integer pageSize;
+
+    public Boolean getStorage() {
+        return isStorage;
+    }
+
+    public void setStorage(Boolean storage) {
+        isStorage = storage;
+    }
 
     public Integer getPageNum() {
         return pageNum;

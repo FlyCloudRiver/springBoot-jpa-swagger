@@ -66,14 +66,14 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();
 
         //商品id  数量集合
-        Map<Integer,Integer> map = new HashMap<>();
-        Map<Integer,Integer> map2 = new HashMap<>();
+       // Map<Integer,Integer> map = new HashMap<>();
+        //Map<Integer,Integer> map2 = new HashMap<>();
         //时间
 
         Date time= purchaseForm.getPurchaseTime();
         System.out.println("time"+time);
         //操作人
-        String lastPerson=purchaseForm.getPerson();
+       // String lastPerson=purchaseForm.getPerson();
         for(PurchaseDetailForm p: purchaseForm.getPurchaseDetailForms()) {
 
             PurchaseDetail purchaseDetail=new PurchaseDetail();
@@ -86,12 +86,12 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             System.out.println("goodsId"+goodsId);
 
             //此处查询库房中是否有该商品  如果有放入map  如果没有放入map2
-            Storeroom byGoodsId = storeroomRepository.findByGoodsId(goodsId);
+            /*Storeroom byGoodsId = storeroomRepository.findByGoodsId(goodsId);
             if(byGoodsId!=null){
                 map.put(goodsId,goodsNumber);
             }else{
                 map2.put(goodsId,goodsNumber);
-            }
+            }*/
 
             //根据商品id查询商品
             purchaseDetail.setGoods(goodsRepository.findById(goodsId).orElse(null));
@@ -108,11 +108,11 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 
         /*增加订单的时候判断库房是否有该商品集合  如果有就更新库房  没有就创建*/
         //定义两个map 一个装有的  一个装没的  没的创建  有的更新
-           storeroomService.updateStoreroom(map,time,lastPerson);
+          /* storeroomService.updateStoreroom(map,time,lastPerson);
 
            if(map2.size()!=0){
                storeroomService.insertStoreroom(map2,time,lastPerson);
-           }
+           }*/
            return purchaseDetailDTOList;
 
     }

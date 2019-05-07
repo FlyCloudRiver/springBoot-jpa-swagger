@@ -2,6 +2,9 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
+import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
+import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
+import com.jiang.demo.entity.Shipment;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +31,7 @@ import java.util.List;
 public class StoreroomController {
 
     private StoreroomService storeroomService;
+
     @Autowired
     public void setStoreroomService(StoreroomService storeroomService) {
         this.storeroomService = storeroomService;
@@ -36,8 +41,24 @@ public class StoreroomController {
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
-    public Result<List<StoreroomDTO>> select(@RequestBody StoreroomForm storeroomForm){
+    public Result<List<StoreroomDTO>> select(@RequestBody StoreroomForm storeroomForm) {
         PageDTO<StoreroomDTO> select = storeroomService.select(storeroomForm);
         return ResultUtil.success(select);
     }
+
+
+    @ApiOperation(value = "商品进库")
+    @PostMapping("/insert")
+    public Result insertStorage(@RequestBody PurchaseStorageFrom purchaseStorageFrom) {
+        storeroomService.insertStorage(purchaseStorageFrom);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "商品出库")
+    @PostMapping("/output")
+    public Result outputStorage(@RequestBody ShipmentStorageFrom shipmentStorageFrom) {
+        storeroomService.outputStorage(shipmentStorageFrom);
+        return ResultUtil.success();
+    }
+
 }

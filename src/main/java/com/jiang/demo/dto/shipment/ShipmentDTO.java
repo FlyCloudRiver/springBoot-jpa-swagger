@@ -33,6 +33,17 @@ public class ShipmentDTO {
     @ApiModelProperty(value = "操作人员")
     private String person;
 
+    @ApiModelProperty(value = "是否入库")
+    private Boolean isStorage=false;
+
+    public Boolean getStorage() {
+        return isStorage;
+    }
+
+    public void setStorage(Boolean storage) {
+        isStorage = storage;
+    }
+
     public static ShipmentDTO convert(Shipment entity) {
         ShipmentDTO dto = new ShipmentDTO();
         BeanUtils.copyProperties(entity, dto);
