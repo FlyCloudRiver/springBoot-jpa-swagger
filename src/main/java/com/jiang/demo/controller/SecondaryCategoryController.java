@@ -42,7 +42,7 @@ public class SecondaryCategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    @Permission
+   // @Permission
     public Result deleteSecondaryCategory(Integer id){
         secondaryCategoryService.deleteSecondaryCategoryById(id);
         return ResultUtil.success();

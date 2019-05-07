@@ -72,7 +72,7 @@ public class BigCategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    @Permission
+    //@Permission
     public Result deleteBigCategory(Integer id){
         bigCategoryService.deleteBigCategoryById(id);
         return ResultUtil.success();
