@@ -54,7 +54,7 @@ public class GoodsController {
     }
 
     @ApiOperation(value = "修改")
-    @PostMapping("update")
+    @PutMapping("update")
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> updateGoods(@RequestBody GoodsUpdateForm goodsUpdateForm){
         GoodsDTO goodsDTOById = goodsService.updateGoods(goodsUpdateForm);
