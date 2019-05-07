@@ -1,5 +1,6 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.dto.goods.GoodsUpdateForm;
 import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
@@ -55,8 +56,8 @@ public class GoodsController {
     @ApiOperation(value = "修改")
     @PostMapping("update")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> updateGoods(@RequestBody GoodsForm goodsForm,Integer id){
-        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsForm,id);
+    public Result<GoodsDTO> updateGoods(@RequestBody GoodsUpdateForm goodsUpdateForm){
+        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsUpdateForm);
         return  ResultUtil.success(goodsDTOById);
     }
 

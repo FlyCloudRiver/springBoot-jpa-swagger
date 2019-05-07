@@ -1,5 +1,6 @@
 package com.jiang.demo.service;
 
+import com.jiang.demo.dto.goods.GoodsUpdateForm;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
@@ -13,6 +14,6 @@ public interface GoodsService {
     GoodsDTO insertGoods(GoodsForm goodsForm);
     PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm);
     GoodsDTO findGoodsDTOById(Integer id);
-    GoodsDTO updateGoods(GoodsForm goodsForm,Integer id);
+    GoodsDTO updateGoods(GoodsUpdateForm goodsUpdateForm);
     void deleteGoods(Integer id);
 }

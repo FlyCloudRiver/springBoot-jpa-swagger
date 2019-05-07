@@ -1,5 +1,6 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.dto.goods.GoodsUpdateForm;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
@@ -78,14 +79,14 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsDTO updateGoods(GoodsForm goodsForm, Integer id) {
+    public GoodsDTO updateGoods(GoodsUpdateForm goodsUpdateForm) {
         /*将前者赋值给后者*/
-        Goods goods = goodsRepository.findById(id).orElse(null);
+        Goods goods = goodsRepository.findById(goodsUpdateForm.getId()).orElse(null);
         if(goods!=null){
-            BeanUtils.copyProperties(goodsForm, goods);
+            BeanUtils.copyProperties(goodsUpdateForm, goods);
         }
-        Integer categoryId = goodsForm.getCategoryId();
-        Integer supplierId = goodsForm.getSupplierId();
+        Integer categoryId = goodsUpdateForm.getCategoryId();
+        Integer supplierId = goodsUpdateForm.getSupplierId();
         if(categoryId==null||categoryId==0){
             throw new MyException(-1,"类别id不能为空");
         }
