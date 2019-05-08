@@ -1,6 +1,5 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.dto.goods.GoodsUpdateForm;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
