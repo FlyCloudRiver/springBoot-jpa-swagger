@@ -41,8 +41,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public PurchaseDTO selectById(Integer id) {
-        Purchase purchase = purchaseRepository.findById(id).orElse(null);
-        return PurchaseDTO.convert(purchase);
+        return PurchaseDTO.convert(purchaseRepository.findById(id).orElse(null));
     }
     //动态分页查询（编号，时间，姓名）
     public PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm){

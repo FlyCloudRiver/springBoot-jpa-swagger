@@ -82,6 +82,11 @@ public class ShipmentServiceImpl implements ShipmentService {
         }
     }
 
+    @Override
+    public ShipmentDTO selectById(Integer id) {
+        return ShipmentDTO.convert(shipmentRepository.findById(id).orElse(null));
+    }
+
     private class MySpec implements Specification<Shipment> {
         private ShipmentForm shipmentForm;
         private MySpec(ShipmentForm shipmentForm){

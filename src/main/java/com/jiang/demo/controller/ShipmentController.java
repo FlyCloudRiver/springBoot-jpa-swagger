@@ -79,9 +79,10 @@ public class ShipmentController {
     @ApiOperation(value = "获取销售单详情")
     @PostMapping("/selectDetail")
     @SuppressWarnings("unchecked")
-    public Result<List<ShipmentDetailDTO>> selectDetail(Integer shipmentId){
-        List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.selectDetail(shipmentId);
-        return ResultUtil.success(shipmentDetailDTOS);
+    public Result<ShipmentDTO> selectById(Integer id){
+        return ResultUtil.success(shipmentService.selectById(id));
     }
+
+
 
 }

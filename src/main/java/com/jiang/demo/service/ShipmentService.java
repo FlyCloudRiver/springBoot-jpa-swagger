@@ -15,4 +15,5 @@ public interface ShipmentService {
     PageDTO<ShipmentDTO> select(ShipmentForm purchaseForm);
 
     void delete(Integer id);
+    ShipmentDTO selectById(Integer id);
 }

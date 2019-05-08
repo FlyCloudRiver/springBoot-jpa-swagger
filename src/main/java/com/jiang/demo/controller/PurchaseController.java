@@ -82,7 +82,6 @@ public class PurchaseController {
     @PostMapping("/selectId")
     @SuppressWarnings("unchecked")
     public Result<PurchaseDTO> selectById(Integer id){
-       // List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.selectDetail(purchaseId);
         PurchaseDTO purchaseDTO = purchaseService.selectById(id);
         return ResultUtil.success(purchaseDTO);
     }

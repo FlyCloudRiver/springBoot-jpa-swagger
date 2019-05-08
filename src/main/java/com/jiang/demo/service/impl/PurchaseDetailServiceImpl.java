@@ -118,13 +118,5 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 
     }
 
-    @Override
-    public List<PurchaseDetailDTO> selectDetail(Integer purchaseId) {
-        List<PurchaseDetail> byPurchaseId = purchaseDetailRepository.findByPurchaseId(purchaseId);
-        List<PurchaseDetailDTO> purchaseDetailDTOList = new ArrayList<>();
-        for (PurchaseDetail p:byPurchaseId) {
-            purchaseDetailDTOList.add(PurchaseDetailDTO.convert(p));
-        }
-        return purchaseDetailDTOList;
-    }
+
 }

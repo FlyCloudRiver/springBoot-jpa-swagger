@@ -129,14 +129,4 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
 
     }
 
-    @Override
-    public List<ShipmentDetailDTO> selectDetail(Integer shipmentId) {
-        List<ShipmentDetail> byShipmentId = shipmentDetailRepository.findByShipmentId(shipmentId);
-
-        List<ShipmentDetailDTO> shipmentDetailDTOList = new ArrayList<>();
-        for (ShipmentDetail s:byShipmentId) {
-            shipmentDetailDTOList.add(ShipmentDetailDTO.convert(s));
-        }
-        return shipmentDetailDTOList;
-    }
 }

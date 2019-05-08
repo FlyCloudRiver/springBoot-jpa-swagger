@@ -14,5 +14,5 @@ import java.util.List;
 public interface ShipmentDetailService {
     List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm);
     void update(ShipmentDTO shipmentDTO);
-    List<ShipmentDetailDTO> selectDetail(Integer id);
+
 }
