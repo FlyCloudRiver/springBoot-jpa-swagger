@@ -17,4 +17,6 @@ public interface PurchaseService {
     PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm);
 
     void delete(Integer id);
+
+    PurchaseDTO selectById(Integer id);
 }

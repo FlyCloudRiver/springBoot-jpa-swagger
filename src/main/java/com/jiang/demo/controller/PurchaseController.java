@@ -66,7 +66,7 @@ public class PurchaseController {
     @PutMapping("/update")
     public Result update(@RequestBody PurchaseDTO purchaseDTO){
         //参数  采购单详情id  以及对应的商品的数量
-        purchaseDetailService.update(purchaseDTO);
+        purchaseDetailService.update(purchaseDTO);//PurchaseForm purchaseForm,Integer id
         return ResultUtil.success();
     }
 
@@ -79,10 +79,11 @@ public class PurchaseController {
     }
 
     @ApiOperation(value = "获取采购单详情")
-    @PostMapping("/selectDetail")
+    @PostMapping("/selectId")
     @SuppressWarnings("unchecked")
-    public Result<List<PurchaseDetailDTO>> selectDetail(Integer purchaseId){
-        List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.selectDetail(purchaseId);
-        return ResultUtil.success(purchaseDetailDTOList);
+    public Result<PurchaseDTO> selectById(Integer id){
+       // List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.selectDetail(purchaseId);
+        PurchaseDTO purchaseDTO = purchaseService.selectById(id);
+        return ResultUtil.success(purchaseDTO);
     }
 }

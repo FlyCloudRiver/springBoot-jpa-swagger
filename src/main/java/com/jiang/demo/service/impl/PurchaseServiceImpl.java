@@ -39,7 +39,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.purchaseRepository = purchaseRepository;
     }
 
-
+    @Override
+    public PurchaseDTO selectById(Integer id) {
+        Purchase purchase = purchaseRepository.findById(id).orElse(null);
+        return PurchaseDTO.convert(purchase);
+    }
     //动态分页查询（编号，时间，姓名）
     public PageDTO<PurchaseDTO> select(PurchaseForm purchaseForm){
 
@@ -82,6 +86,8 @@ public class PurchaseServiceImpl implements PurchaseService {
             throw new MyException(-1,"该订单不存在");
         }
     }
+
+
 
     private class MySpec implements Specification<Purchase> {
         private PurchaseForm purchaseForm;
