@@ -48,7 +48,7 @@ public class GoodsController {
     @ApiOperation(value = "查询ById")
     @PostMapping("selectById")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> selectGoodsDTOById(@RequestBody Integer id){
+    public Result<GoodsDTO> selectGoodsDTOById(Integer id){
         GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
         return  ResultUtil.success(goodsDTOById);
     }
