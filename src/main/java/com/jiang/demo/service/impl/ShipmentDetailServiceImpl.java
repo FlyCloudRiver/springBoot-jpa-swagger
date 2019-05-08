@@ -132,4 +132,10 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         }
 
     }
+
+    @Override
+    public ShipmentDetailDTO selectDetail(Integer id) {
+        ShipmentDetail shipmentDetail = shipmentDetailRepository.findById(id).orElse(null);
+        return ShipmentDetailDTO.convert(shipmentDetail);
+    }
 }

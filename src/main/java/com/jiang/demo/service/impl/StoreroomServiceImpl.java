@@ -40,12 +40,6 @@ public class StoreroomServiceImpl implements StoreroomService {
         this.storeroomRepository = storeroomRepository;
     }
 
-   /* private GoodsRepository goodsRepository;
-    @Autowired
-    public void setGoodsRepository(GoodsRepository goodsRepository) {
-        this.goodsRepository = goodsRepository;
-    }
-*/
     private PurchaseRepository purchaseRepository;
     @Autowired
     public void setPurchaseRepository(PurchaseRepository purchaseRepository) {
@@ -58,28 +52,6 @@ public class StoreroomServiceImpl implements StoreroomService {
         this.shipmentRepository = shipmentRepository;
     }
 
-
-    /*public List<Storeroom> insertStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
-
-        List<Storeroom> storeroomList = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-
-            Storeroom storeroom = new Storeroom();
-            //商品
-            storeroom.setGoods(goodsRepository.findById(entry.getKey()).orElse(null));
-            //库存量
-            storeroom.setAmount(Integer.valueOf(entry.getValue()));
-            //更新时间
-            storeroom.setUpdateTime(time);
-            //保存库存
-            storeroom.setPerson(lastPerson);
-
-            Storeroom save = storeroomRepository.save(storeroom);
-            storeroomList.add(save);
-
-        }
-        return storeroomList;
-    }*/
 
     @Override
     @Transactional
@@ -94,10 +66,10 @@ public class StoreroomServiceImpl implements StoreroomService {
             throw new MyException(2,"该订单已入库");
         }
         purchase.setStorage(true);
-        purchaseRepository.save(purchase);
+        Purchase save = purchaseRepository.save(purchase);
         //2.添加库房(得到采购单详情——商品id 商品数量)
 
-        List<PurchaseDetail> purchaseDetails = purchase.getPurchaseDetails();
+        List<PurchaseDetail> purchaseDetails = save.getPurchaseDetails();
         for (PurchaseDetail p:purchaseDetails) {
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
@@ -129,6 +101,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
     @Override
+    @Transactional
     public void outputStorage(ShipmentStorageFrom shipmentStorageFrom) {
         Lock lock = new ReentrantLock();
 
@@ -141,10 +114,10 @@ public class StoreroomServiceImpl implements StoreroomService {
             throw new MyException(2, "该订单已出库");
         }
         shipment.setStorage(true);
-        shipmentRepository.save(shipment);
+        Shipment save = shipmentRepository.save(shipment);
         //2.添加库房(得到采购单详情——商品id 商品数量)
 
-        List<ShipmentDetail> shipmentDetailList = shipment.getShipmentDetailList();
+        List<ShipmentDetail> shipmentDetailList = save.getShipmentDetailList();
         for (ShipmentDetail p : shipmentDetailList) {
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
@@ -168,38 +141,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             }
         }
 
-        /*更新库房*//*
-    @Transactional
-    public List<Storeroom> updateStoreroom(Map<Integer, Integer> map, Date time, String lastPerson) {
 
-        Lock lock = new ReentrantLock();
-
-        List<Storeroom> storeroomList = new ArrayList<>();
-        //map  key为goodsId   value为goods Number
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-
-            //根据商品id查询库存  然后改变库存量  操作人  更新时间
-            Storeroom storeroom = storeroomRepository.findByGoodsId(entry.getKey());
-            //库存量
-            Integer amount = storeroom.getAmount();
-            //更新时间
-            storeroom.setUpdateTime(time);
-            //更新库存
-            lock.lock();
-            if(amount + Integer.valueOf(entry.getValue())<0){
-                throw new MyException(-1,"库存不够");
-            }
-            storeroom.setAmount(amount + Integer.valueOf(entry.getValue()));
-            lock.unlock();
-            storeroom.setPerson(lastPerson);
-
-            Storeroom save = storeroomRepository.save(storeroom);
-            storeroomList.add(save);
-
-        }
-
-        return storeroomList;
-    }*/
     }
     @Override
     public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {

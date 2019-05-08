@@ -117,4 +117,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         }
 
     }
+
+    @Override
+    public PurchaseDetailDTO selectDetail(Integer id) {
+        PurchaseDetail purchaseDetail = purchaseDetailRepository.findById(id).orElse(null);
+        return PurchaseDetailDTO.convert(purchaseDetail);
+    }
 }

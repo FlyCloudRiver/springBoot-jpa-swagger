@@ -78,4 +78,11 @@ public class PurchaseController {
         return ResultUtil.success();
     }
 
+    @ApiOperation(value = "获取采购单详情")
+    @PostMapping("/selectDetail")
+    @SuppressWarnings("unchecked")
+    public Result<PurchaseDetailDTO> selectDetail(Integer id){
+        PurchaseDetailDTO purchaseDetailDTO = purchaseDetailService.selectDetail(id);
+        return ResultUtil.success(purchaseDetailDTO);
+    }
 }

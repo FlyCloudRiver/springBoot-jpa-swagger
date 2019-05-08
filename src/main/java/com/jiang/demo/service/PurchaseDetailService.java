@@ -15,4 +15,6 @@ public interface PurchaseDetailService {
     List<PurchaseDetailDTO> insertPurchaseDetail(PurchaseForm purchaseForm);
 
     void update(PurchaseDTO purchaseDTO);
+
+    PurchaseDetailDTO selectDetail(Integer id);
 }
