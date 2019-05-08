@@ -89,14 +89,16 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     }
 
     @Override
-    public void update(PurchaseDTO purchaseDTO) {
+    @Transactional
+    public void update(PurchaseDTO purchaseDTO){
         //查询此订单是否已经进库
         Purchase purchase = purchaseRepository.findById(purchaseDTO.getId()).orElse(null);
+        System.out.println(purchase);
+
         if(purchase!=null) {
-            if (purchase.getStorage()) {
+            if (purchase.getStorage()){
                 throw new MyException(-1, "商品已入库，不能修改");
             }
-
             List<PurchaseDetailDTO> purchaseDetailDTOS = purchaseDTO.getPurchaseDetailDTOS();
             for (PurchaseDetailDTO p:purchaseDetailDTOS) {
                 Integer id = p.getId();
@@ -106,6 +108,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
                         throw new MyException(-1,"商品数量不能为负数");
                     }
                     purchaseDetail.setGoodsNumber(p.getGoodsNumber());
+                    //保存商品详情
                     purchaseDetailRepository.save(purchaseDetail);
                 }else {
                     throw new MyException(-1,"修改的订单详情不存在");

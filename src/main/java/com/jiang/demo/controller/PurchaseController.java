@@ -66,7 +66,11 @@ public class PurchaseController {
     @PutMapping("/update")
     public Result update(@RequestBody PurchaseDTO purchaseDTO){
         //参数  采购单详情id  以及对应的商品的数量
-        purchaseDetailService.update(purchaseDTO);//PurchaseForm purchaseForm,Integer id
+        try {
+            purchaseDetailService.update(purchaseDTO);//PurchaseForm purchaseForm,Integer id
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return ResultUtil.success();
     }
 
