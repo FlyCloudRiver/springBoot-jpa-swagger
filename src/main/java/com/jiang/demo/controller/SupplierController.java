@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Author: 江云飞
  * Date:   2019/4/16
@@ -74,4 +76,11 @@ public class SupplierController {
         return ResultUtil.success(supplierDTO);
     }
 
+    @ApiOperation(value = "查询所有")
+    @PostMapping("/selectAll")
+    @SuppressWarnings("unchecked")
+    public Result<SupplierDTO> selectAll(){
+        List<SupplierDTO> all = supplierService.selectAll();
+        return ResultUtil.success(all);
+    }
 }

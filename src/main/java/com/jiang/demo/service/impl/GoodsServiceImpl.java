@@ -79,14 +79,14 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsDTO updateGoods(GoodsUpdateForm goodsUpdateForm) {
+    public GoodsDTO updateGoods(GoodsDTO goodsDTO) {
         /*将前者赋值给后者*/
-        Goods goods = goodsRepository.findById(goodsUpdateForm.getId()).orElse(null);
+        Goods goods = goodsRepository.findById(goodsDTO.getId()).orElse(null);
         if(goods!=null){
-            BeanUtils.copyProperties(goodsUpdateForm, goods);
+            BeanUtils.copyProperties(goodsDTO, goods);
         }
-        Integer categoryId = goodsUpdateForm.getCategoryId();
-        Integer supplierId = goodsUpdateForm.getSupplierId();
+        Integer categoryId = goodsDTO.getCategoryId();
+        Integer supplierId = goodsDTO.getSupplierId();
         if(categoryId==null||categoryId==0){
             throw new MyException(-1,"类别id不能为空");
         }

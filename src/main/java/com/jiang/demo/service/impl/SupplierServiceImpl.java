@@ -73,6 +73,16 @@ public class SupplierServiceImpl implements SupplierService {
         return SupplierDTO.convert(save);
     }
 
+    @Override
+    public List<SupplierDTO> selectAll() {
+        List<Supplier> all = supplierRepository.findAll();
+        List<SupplierDTO> supplierDTOS = new ArrayList<>();
+        for (Supplier s:all) {
+            supplierDTOS.add(SupplierDTO.convert(s));
+        }
+        return supplierDTOS;
+    }
+
     //动态查询:
     public PageDTO<SupplierDTO> findByDynamicCases(SupplierForm supplierForm){
 

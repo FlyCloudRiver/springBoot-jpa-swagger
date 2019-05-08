@@ -34,13 +34,31 @@ public class GoodsDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date goodsDate;
 
-    @ApiModelProperty(value = "商品所属厂商DTO")
+    @ApiModelProperty(value = "商品所属厂商id")
+    private Integer supplierId;
+
+    @ApiModelProperty(value = "商品所属类别DTO")
+    private Integer categoryId;
+    public static GoodsDTO convert(Goods entity) {
+        GoodsDTO dto = new GoodsDTO();
+        BeanUtils.copyProperties(entity, dto);
+
+        if(entity.getCategory()!=null){
+            dto.setCategoryId(entity.getCategory().getId());
+        }
+        if(entity.getSupplier()!=null){
+            dto.setSupplierId(entity.getSupplier().getId());
+
+        }
+        return dto;
+    }
+    /*@ApiModelProperty(value = "商品所属厂商DTO")
     private SupplierDTO supplierDTO;
 
     @ApiModelProperty(value = "商品所属类别DTO")
-    private CategoryDTO categoryDTO;
+    private CategoryDTO categoryDTO;*/
 
-    public static GoodsDTO convert(Goods entity) {
+   /* public static GoodsDTO convert(Goods entity) {
         GoodsDTO dto = new GoodsDTO();
         BeanUtils.copyProperties(entity, dto);
 
@@ -52,7 +70,7 @@ public class GoodsDTO {
 
         }
         return dto;
-    }
+    }*/
 
 
     public Integer getId() {
@@ -103,19 +121,19 @@ public class GoodsDTO {
         this.goodsDate = goodsDate;
     }
 
-    public SupplierDTO getSupplierDTO() {
-        return supplierDTO;
+    public Integer getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplierDTO(SupplierDTO supplierDTO) {
-        this.supplierDTO = supplierDTO;
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public CategoryDTO getCategoryDTO() {
-        return categoryDTO;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryDTO(CategoryDTO categoryDTO) {
-        this.categoryDTO = categoryDTO;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

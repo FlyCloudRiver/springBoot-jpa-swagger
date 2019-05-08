@@ -14,6 +14,6 @@ public interface GoodsService {
     GoodsDTO insertGoods(GoodsForm goodsForm);
     PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm);
     GoodsDTO findGoodsDTOById(Integer id);
-    GoodsDTO updateGoods(GoodsUpdateForm goodsUpdateForm);
+    GoodsDTO updateGoods(GoodsDTO goodsDTO);
     void deleteGoods(Integer id);
 }

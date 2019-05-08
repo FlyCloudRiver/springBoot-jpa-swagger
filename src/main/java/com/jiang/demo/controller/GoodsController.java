@@ -56,14 +56,14 @@ public class GoodsController {
     @ApiOperation(value = "修改")
     @PutMapping("update")
     @SuppressWarnings("unchecked")
-    public Result<GoodsDTO> updateGoods(@RequestBody GoodsUpdateForm goodsUpdateForm){
-        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsUpdateForm);
+    public Result<GoodsDTO> updateGoods(@RequestBody GoodsDTO goodsDTO){
+        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsDTO);
         return  ResultUtil.success(goodsDTOById);
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    @Permission
+    //@Permission
     public Result deleteGoods(Integer id){
         goodsService.deleteGoods(id);
         return ResultUtil.success();
