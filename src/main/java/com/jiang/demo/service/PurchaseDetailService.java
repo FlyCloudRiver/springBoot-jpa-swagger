@@ -16,5 +16,5 @@ public interface PurchaseDetailService {
 
     void update(PurchaseDTO purchaseDTO);
 
-    PurchaseDetailDTO selectDetail(Integer id);
+    List<PurchaseDetailDTO> selectDetail(Integer purchaseId);
 }

@@ -81,8 +81,8 @@ public class PurchaseController {
     @ApiOperation(value = "获取采购单详情")
     @PostMapping("/selectDetail")
     @SuppressWarnings("unchecked")
-    public Result<PurchaseDetailDTO> selectDetail(Integer id){
-        PurchaseDetailDTO purchaseDetailDTO = purchaseDetailService.selectDetail(id);
-        return ResultUtil.success(purchaseDetailDTO);
+    public Result<List<PurchaseDetailDTO>> selectDetail(Integer purchaseId){
+        List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.selectDetail(purchaseId);
+        return ResultUtil.success(purchaseDetailDTOList);
     }
 }

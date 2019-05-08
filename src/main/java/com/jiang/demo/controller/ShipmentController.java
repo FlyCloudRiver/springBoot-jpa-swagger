@@ -1,6 +1,7 @@
 package com.jiang.demo.controller;
 
 
+import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
@@ -79,8 +80,9 @@ public class ShipmentController {
     @ApiOperation(value = "获取销售单详情")
     @PostMapping("/selectDetail")
     @SuppressWarnings("unchecked")
-    public Result<ShipmentDetailDTO> selectDetail(Integer id){
-        ShipmentDetailDTO shipmentDetailDTO = shipmentDetailService.selectDetail(id);
-        return ResultUtil.success(shipmentDetailDTO);
+    public Result<List<ShipmentDetailDTO>> selectDetail(Integer shipmentId){
+        List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.selectDetail(shipmentId);
+        return ResultUtil.success(shipmentDetailDTOS);
     }
+
 }
