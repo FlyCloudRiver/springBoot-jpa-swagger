@@ -3,9 +3,7 @@ package com.jiang.demo.service;
 
 import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.dto.category.CategoryForm;
-import com.jiang.demo.entity.Category;
 import com.jiang.demo.utils.PageDTO;
-import com.jiang.demo.utils.Result;
 
 import java.util.List;
 

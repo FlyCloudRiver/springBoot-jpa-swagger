@@ -40,8 +40,7 @@ public class ProvinceServiceImpl implements ProvinceService {
     }
 
     public List<Province> select(){
-        List<Province> all = provinceRepository.findAll();
-        return all;
+        return provinceRepository.findAll();
     }
 
     @Override

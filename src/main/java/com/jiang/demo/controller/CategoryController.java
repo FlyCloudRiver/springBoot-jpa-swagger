@@ -1,9 +1,7 @@
 package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.category.CategoryForm;
-import com.jiang.demo.permission.Permission;
 import com.jiang.demo.dto.category.CategoryDTO;
-
 import com.jiang.demo.service.CategoryService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;

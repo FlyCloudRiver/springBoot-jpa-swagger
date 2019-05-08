@@ -1,7 +1,6 @@
 package com.jiang.demo.controller;
 
 
-import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;

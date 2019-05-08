@@ -33,21 +33,18 @@ public class ProvinceController {
     @ApiOperation(value = "查找省份")
     @PostMapping("/select")
     public List<Province> select(){
-        List<Province> select = provinceService.select();
-        return select;
+        return provinceService.select();
     }
 
     @ApiOperation(value = "查找市")
     @PostMapping("/selectCity")
     public List<City> selectCity(String procinceid){
-        List<City> cities = provinceService.selectCity(procinceid);
-        return cities;
+        return provinceService.selectCity(procinceid);
     }
 
     @ApiOperation(value = "查找县区")
     @PostMapping("/selectArea")
     public List<Area> selectArea(String cityid){
-        List<Area> areas = provinceService.selectArea(cityid);
-        return areas;
+        return provinceService.selectArea(cityid);
     }
 }

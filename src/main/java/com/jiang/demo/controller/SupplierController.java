@@ -1,6 +1,5 @@
 package com.jiang.demo.controller;
 
-import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.supplier.SupplierDTO;
 import com.jiang.demo.dto.supplier.SupplierForm;

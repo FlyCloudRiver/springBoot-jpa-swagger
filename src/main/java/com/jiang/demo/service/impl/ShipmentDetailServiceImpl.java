@@ -1,12 +1,9 @@
 package com.jiang.demo.service.impl;
 
-import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailForm;
-import com.jiang.demo.entity.Purchase;
-import com.jiang.demo.entity.PurchaseDetail;
 import com.jiang.demo.entity.Shipment;
 import com.jiang.demo.entity.ShipmentDetail;
 import com.jiang.demo.exception.MyException;
@@ -14,7 +11,6 @@ import com.jiang.demo.repository.GoodsRepository;
 import com.jiang.demo.repository.ShipmentDetailRepository;
 import com.jiang.demo.repository.ShipmentRepository;
 import com.jiang.demo.service.ShipmentDetailService;
-import com.jiang.demo.service.StoreroomService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

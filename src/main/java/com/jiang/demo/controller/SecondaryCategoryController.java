@@ -1,7 +1,6 @@
 package com.jiang.demo.controller;
 import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryDTO;
 import com.jiang.demo.entity.SecondaryCategory;
-import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.SecondaryCategoryService;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;

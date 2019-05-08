@@ -2,7 +2,6 @@ package com.jiang.demo.service;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
-import com.jiang.demo.utils.Result;
 
 
 import java.util.List;
