@@ -31,7 +31,7 @@ public class Purchase implements Serializable {
     private List<PurchaseDetail> purchaseDetails;
 
 
-    @ApiModelProperty(value = "入库时间")
+    @ApiModelProperty(value = "订单生成时间")
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
@@ -42,6 +42,20 @@ public class Purchase implements Serializable {
 
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage=false;
+
+    @ApiModelProperty(value = "入库时间")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
+    private Date storeTime;
+
+    public Date getStoreTime() {
+        return storeTime;
+    }
+
+    public void setStoreTime(Date storeTime) {
+        this.storeTime = storeTime;
+    }
 
     public Boolean getStorage() {
         return isStorage;
