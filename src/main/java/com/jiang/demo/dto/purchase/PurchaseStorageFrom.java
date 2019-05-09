@@ -12,8 +12,6 @@ public class PurchaseStorageFrom {
     //定单id
     private Integer id;
 
-
-
     //进库操作人员
     private String person;
 

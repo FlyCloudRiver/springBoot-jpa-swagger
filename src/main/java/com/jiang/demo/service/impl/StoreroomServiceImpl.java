@@ -53,6 +53,12 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
 
+    private GoodsRepository goodsRepository;
+    @Autowired
+    public void setGoodsRepository(GoodsRepository goodsRepository) {
+        this.goodsRepository = goodsRepository;
+    }
+
     @Override
     @Transactional
     public void insertStorage(PurchaseStorageFrom purchaseStorageFrom) {
@@ -91,6 +97,8 @@ public class StoreroomServiceImpl implements StoreroomService {
                 storeroomRepository.save(storeroom);
             }else{
                 Storeroom storeroom2 = new Storeroom();
+
+                storeroom2.setGoods(goodsRepository.findById(goodsId).orElse(null));
                 storeroom2.setUpdateTime(date);
                 //库存量
                 storeroom2.setAmount(goodsNumber );
