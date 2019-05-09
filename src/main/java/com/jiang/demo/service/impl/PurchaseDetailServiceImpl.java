@@ -50,6 +50,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         Purchase purchase = new Purchase();
         BeanUtils.copyProperties(purchaseForm, purchase);
         //保存 并且  得到订单
+        purchase.setPurchaseTime(new Date());
         Purchase save1 = purchaseRepository.save(purchase);
 
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();

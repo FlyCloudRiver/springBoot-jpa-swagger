@@ -44,18 +44,13 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         this.goodsRepository = goodsRepository;
     }
 
-    /*private StoreroomService storeroomService;
-    @Autowired
-    public void setStoreroomService(StoreroomService storeroomService) {
-        this.storeroomService = storeroomService;
-    }
-*/
     @Override
     @Transactional
     public List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm) {
         /*将前者赋值给后者*/
         Shipment shipment = new Shipment();
         BeanUtils.copyProperties(shipmentForm, shipment);
+        shipment.setShipmentTime(new Date());
         //保存 并且  得到订单
         Shipment save1 = shipmentRepository.save(shipment);
 
