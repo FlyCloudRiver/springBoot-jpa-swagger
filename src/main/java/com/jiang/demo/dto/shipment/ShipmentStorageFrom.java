@@ -12,9 +12,6 @@ public class ShipmentStorageFrom {
     private Integer id;
 
 
-    //进库时间
-    private Date updateTime;
-
     //进库操作人员
     private String person;
 
@@ -27,13 +24,7 @@ public class ShipmentStorageFrom {
         this.id = id;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getPerson() {
         return person;

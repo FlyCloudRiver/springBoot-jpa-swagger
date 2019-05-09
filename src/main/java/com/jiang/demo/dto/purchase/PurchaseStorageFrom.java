@@ -13,8 +13,6 @@ public class PurchaseStorageFrom {
     private Integer id;
 
 
-    //进库时间
-    private Date updateTime;
 
     //进库操作人员
     private String person;
@@ -28,13 +26,6 @@ public class PurchaseStorageFrom {
         this.id = id;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getPerson() {
         return person;

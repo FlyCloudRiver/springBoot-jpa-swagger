@@ -79,7 +79,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             lock.lock();
             if(storeroom!=null){
                 //更新时间
-                storeroom.setUpdateTime(purchaseStorageFrom.getUpdateTime());
+                storeroom.setUpdateTime(new Date());
                 //库存量
                 storeroom.setAmount(storeroom.getAmount() +goodsNumber );
                 storeroom.setPerson(purchaseStorageFrom.getPerson());
@@ -88,7 +88,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                 storeroomRepository.save(storeroom);
             }else{
                 Storeroom storeroom2 = new Storeroom();
-                storeroom2.setUpdateTime(purchaseStorageFrom.getUpdateTime());
+                storeroom2.setUpdateTime(new Date());
                 //库存量
                 storeroom2.setAmount(goodsNumber );
                 storeroom2.setPerson(purchaseStorageFrom.getPerson());
@@ -129,7 +129,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                     throw new MyException(-2, "出库量大于库存量");
                 }
                 //更新时间
-                storeroom.setUpdateTime(shipmentStorageFrom.getUpdateTime());
+                storeroom.setUpdateTime(new Date());
                 //库存量
                 storeroom.setAmount(storeroom.getAmount() - goodsNumber);
                 storeroom.setPerson(shipmentStorageFrom.getPerson());

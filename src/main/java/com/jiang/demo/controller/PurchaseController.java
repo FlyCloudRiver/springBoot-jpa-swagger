@@ -69,6 +69,7 @@ public class PurchaseController {
         try {
             purchaseDetailService.update(purchaseDTO);//PurchaseForm purchaseForm,Integer id
         }catch (Exception e){
+            ResultUtil.error(-1,e.getMessage());
             System.out.println(e.getMessage());
         }
         return ResultUtil.success();
