@@ -57,6 +57,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     @Transactional
     public void insertStorage(PurchaseStorageFrom purchaseStorageFrom) {
 
+        Date date = new Date();
         //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
         Purchase purchase = purchaseRepository.findById(purchaseStorageFrom.getId()).orElse(null);
         if(purchase==null){
@@ -66,6 +67,8 @@ public class StoreroomServiceImpl implements StoreroomService {
             throw new MyException(2,"该订单已入库");
         }
         purchase.setStorage(true);
+        //商品出库时间
+        purchase.setStoreTime(date);
         Purchase save = purchaseRepository.save(purchase);
         //2.添加库房(得到采购单详情——商品id 商品数量)
 
@@ -79,7 +82,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             lock.lock();
             if(storeroom!=null){
                 //更新时间
-                storeroom.setUpdateTime(new Date());
+                storeroom.setUpdateTime(date);
                 //库存量
                 storeroom.setAmount(storeroom.getAmount() +goodsNumber );
                 storeroom.setPerson(purchaseStorageFrom.getPerson());
@@ -88,7 +91,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                 storeroomRepository.save(storeroom);
             }else{
                 Storeroom storeroom2 = new Storeroom();
-                storeroom2.setUpdateTime(new Date());
+                storeroom2.setUpdateTime(date);
                 //库存量
                 storeroom2.setAmount(goodsNumber );
                 storeroom2.setPerson(purchaseStorageFrom.getPerson());
@@ -104,7 +107,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     @Transactional
     public void outputStorage(ShipmentStorageFrom shipmentStorageFrom) {
         Lock lock = new ReentrantLock();
-
+        Date date = new Date();
         //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
         Shipment shipment = shipmentRepository.findById(shipmentStorageFrom.getId()).orElse(null);
         if (shipment == null) {
@@ -114,6 +117,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             throw new MyException(2, "该订单已出库");
         }
         shipment.setStorage(true);
+        shipment.setStoreTime(date);
         Shipment save = shipmentRepository.save(shipment);
         //2.添加库房(得到采购单详情——商品id 商品数量)
 
@@ -129,7 +133,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                     throw new MyException(-2, "出库量大于库存量");
                 }
                 //更新时间
-                storeroom.setUpdateTime(new Date());
+                storeroom.setUpdateTime(date);
                 //库存量
                 storeroom.setAmount(storeroom.getAmount() - goodsNumber);
                 storeroom.setPerson(shipmentStorageFrom.getPerson());
