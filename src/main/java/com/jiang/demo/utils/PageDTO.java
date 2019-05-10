@@ -14,24 +14,32 @@ import java.util.List;
 
 
 public class PageDTO<T> implements Serializable {
-    /*总记录数*/
+
     @ApiModelProperty(value = "总记录数")
     private Long totalElements;
-    //总页数
+
+    @ApiModelProperty(value = "总页数")
     private Integer totalPages;
-    //是否是第一页
+
+    @ApiModelProperty(value = "是否是第一页")
     private Boolean first;
-    //是否是最后一页
+
+    @ApiModelProperty(value = "是否是最后一页")
     private Boolean last;
-    //当前页上的元素数
+
+    @ApiModelProperty(value = "当前页上的元素数")
     private Integer numberOfElements;
-    //返回数据是否有内容。
+
+    @ApiModelProperty(value = "返回数据是否有内容")
     private Boolean hasContent;
-    //第几页
+
+    @ApiModelProperty(value = "第几页")
     private Integer number;
-    //每页大小
+
+    @ApiModelProperty(value = "每页大小")
     private Integer size;
 
+    @ApiModelProperty(value = "列表")
     private List<T> content=new ArrayList<T>();
 
     public Long getTotalElements() {
