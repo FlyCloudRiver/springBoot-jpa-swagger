@@ -54,17 +54,8 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         //保存 并且  得到订单
         Shipment save1 = shipmentRepository.save(shipment);
 
-
         List<ShipmentDetailDTO> shipmentDetailDTOList=new ArrayList<>();
 
-        //商品id  数量集合
-        //Map<Integer,Integer> map = new HashMap<>();
-        //时间
-
-        Date time= shipmentForm.getShipmentTime();
-        System.out.println("time"+time);
-        //操作人
-        //String lastPerson=shipmentForm.getPerson();
 
         for(ShipmentDetailForm s: shipmentForm.getShipmentDetailForms()) {
 

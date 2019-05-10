@@ -63,8 +63,14 @@ public class ShipmentController {
     @PutMapping("/update")
     public Result update(@RequestBody ShipmentDTO shipmentDTO){
         //参数  采购单详情id  以及对应的商品的数量
-        shipmentDetailService.update(shipmentDTO);
-        return ResultUtil.success();
+        try{
+            shipmentDetailService.update(shipmentDTO);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "删除")

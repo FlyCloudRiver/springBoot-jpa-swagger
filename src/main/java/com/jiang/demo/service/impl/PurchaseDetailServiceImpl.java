@@ -58,8 +58,6 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();
 
 
-        Date time= purchaseForm.getPurchaseTime();
-        System.out.println("time"+time);
         //操作人
        // String lastPerson=purchaseForm.getPerson();
         for(PurchaseDetailForm p: purchaseForm.getPurchaseDetailForms()) {

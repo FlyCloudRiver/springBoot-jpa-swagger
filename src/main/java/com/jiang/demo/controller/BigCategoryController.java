@@ -64,8 +64,14 @@ public class BigCategoryController {
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     public Result<BigCategoryDTO> insertBigCategory(String bigCategoryName){
         BigCategory insertBigCategory=new BigCategory();
-        insertBigCategory.setBigCategoryName(bigCategoryName);
-        //return BigCategoryDTO.convert(entity);
+        try{
+            insertBigCategory.setBigCategoryName(bigCategoryName);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
         return ResultUtil.success(bigCategoryService.insertBigCategory(insertBigCategory));
     }
 
@@ -73,7 +79,13 @@ public class BigCategoryController {
     @DeleteMapping("/delete")
     //@Permission
     public Result deleteBigCategory(Integer id){
-        bigCategoryService.deleteBigCategoryById(id);
+        try{
+            bigCategoryService.deleteBigCategoryById(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+
+            return ResultUtil.error(-1,e.getMessage());
+        }
         return ResultUtil.success();
     }
 
@@ -84,7 +96,16 @@ public class BigCategoryController {
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     public Result<BigCategoryDTO> updateBigCategory( Integer id, String bigCategoryName){
 
-        return ResultUtil.success(bigCategoryService.updateBigCategory(id,bigCategoryName));
+        try{
+            BigCategoryDTO bigCategoryDTO = bigCategoryService.updateBigCategory(id, bigCategoryName);
+            return ResultUtil.success(bigCategoryDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+
     }
 
     @ApiOperation(value = "查询")
