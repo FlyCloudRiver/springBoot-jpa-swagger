@@ -1,5 +1,7 @@
 package com.jiang.demo.dto.shipment;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 /**
@@ -8,11 +10,10 @@ import java.util.Date;
  */
 public class ShipmentStorageFrom {
 
-    //定单id
+    @ApiModelProperty(value = "订单id")
     private Integer id;
 
-
-    //进库操作人员
+    @ApiModelProperty(value = "操作人员")
     private String person;
 
 

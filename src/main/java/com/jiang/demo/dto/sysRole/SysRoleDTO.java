@@ -6,6 +6,7 @@ import com.jiang.demo.dto.sysPermission.SysPermissionDTO;
 import com.jiang.demo.entity.Supplier;
 import com.jiang.demo.entity.SysPermission;
 import com.jiang.demo.entity.SysRole;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
@@ -20,10 +21,13 @@ public class SysRoleDTO {
 
     private Integer id; // 编号
 
+    @ApiModelProperty(value = "角色名")
     private String role; // 角色标识程序中判断使用,如"admin",这个是唯一的:
 
+    @ApiModelProperty(value = "描述")
     private String description; // 角色描述,UI界面显示使用
 
+    @ApiModelProperty(value = "权限列表")
     private List<SysPermissionDTO> permissionDTOS;
 
 

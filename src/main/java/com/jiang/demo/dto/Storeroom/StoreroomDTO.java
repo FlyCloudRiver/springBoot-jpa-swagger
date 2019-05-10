@@ -21,6 +21,7 @@ public class StoreroomDTO {
     @ApiModelProperty(value = "库存商品")
     private GoodsDTO goodsDTO;
 
+    @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
     @ApiModelProperty(value = "更新人员")

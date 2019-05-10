@@ -1,14 +1,8 @@
 package com.jiang.demo.dto.purchase;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailForm;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,13 +17,6 @@ public class PurchaseForm {
     @ApiModelProperty(value = "订单详情")
     private List<PurchaseDetailForm> purchaseDetailForms;
 
-
-  /*  //起始时间
-    private Date startTime;
-    //结束时间
-    private Date endTime;
-*/
-    private Date purchaseTime;
 
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage;
@@ -64,13 +51,6 @@ public class PurchaseForm {
         this.pageSize = pageSize;
     }
 
-    public Date getPurchaseTime() {
-        return purchaseTime;
-    }
-
-    public void setPurchaseTime(Date purchaseTime) {
-        this.purchaseTime = purchaseTime;
-    }
 
     public String getPerson() {
         return person;

@@ -3,6 +3,7 @@ package com.jiang.demo.dto.sysPermission;
 import com.jiang.demo.dto.userInfo.UserInfoDTO;
 import com.jiang.demo.entity.SysPermission;
 import com.jiang.demo.entity.UserInfo;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -13,8 +14,10 @@ public class SysPermissionDTO {
 
     private Integer id;//主键.
 
+    @ApiModelProperty(value = "权限名")
     private String name;//名称.
 
+    @ApiModelProperty(value = "权限等级")
     private String permission; //权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view
 
     public static SysPermissionDTO convert(SysPermission entity) {

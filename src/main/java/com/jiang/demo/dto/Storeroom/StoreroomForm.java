@@ -25,11 +25,6 @@ public class StoreroomForm {
     @ApiModelProperty(value = "商品名称")
     private  String goodsName;
 
-    @ApiModelProperty(value = "最后一次更新时间")
-    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
-    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    private Date updateTime;
 
     @ApiModelProperty(value = "更新人员")
     private String person;
@@ -74,13 +69,7 @@ public class StoreroomForm {
         this.goodsName = goodsName;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getPerson() {
         return person;

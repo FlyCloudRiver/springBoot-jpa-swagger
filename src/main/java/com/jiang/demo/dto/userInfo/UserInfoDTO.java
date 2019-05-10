@@ -9,6 +9,7 @@ import com.jiang.demo.entity.Supplier;
 import com.jiang.demo.entity.SysPermission;
 import com.jiang.demo.entity.SysRole;
 import com.jiang.demo.entity.UserInfo;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -21,8 +22,12 @@ import java.util.List;
 public class UserInfoDTO {
 
     private Integer uid;
+    @ApiModelProperty(value = "账号")
     private String username;//帐号
+
+    @ApiModelProperty(value = "名称（昵称或者真实姓名）")
     private String name;//名称（昵称或者真实姓名，不同系统不同定义）
+
     private List<SysRoleDTO> roleDTOS;//角色
     public static UserInfoDTO convert(UserInfo entity) {
         UserInfoDTO dto = new UserInfoDTO();

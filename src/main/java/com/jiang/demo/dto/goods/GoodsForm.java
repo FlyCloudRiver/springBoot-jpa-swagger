@@ -35,9 +35,13 @@ public class GoodsForm {
 
     private Integer pageNum;
     private Integer pageSize;
+
+    @ApiModelProperty(value = "添加商品的操作人")
     private String person;
 
+    @ApiModelProperty(value = "厂商名字（查询）")
     private String supplierName;
+    @ApiModelProperty(value = "商品细类（查询）")
     private String categoryName;
 
     public String getSupplierName() {

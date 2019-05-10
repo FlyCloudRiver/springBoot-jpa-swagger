@@ -1,5 +1,7 @@
 package com.jiang.demo.dto.userInfo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 /**
@@ -8,12 +10,16 @@ import java.util.List;
  */
 public class UserInfoForm {
 
+    @ApiModelProperty(value = "帐号")
     private String username;//帐号
 
+    @ApiModelProperty(value = "名称（昵称或者真实姓名）")
     private String name;//名称（昵称或者真实姓名，不同系统不同定义）
 
+    @ApiModelProperty(value = "密码")
     private String password; //密码;
 
+    @ApiModelProperty(value = "角色列表")
     private List<Integer> roleListId;// 一个用户具有多个角色
 
     public List<Integer> getRoleListId() {

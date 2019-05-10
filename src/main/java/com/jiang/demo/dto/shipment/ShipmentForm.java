@@ -17,11 +17,7 @@ import java.util.List;
  */
 public class ShipmentForm {
 
-    @ApiModelProperty(value = "商品出库时间")
-    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
-    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    private Date shipmentTime;
+
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage;
 
@@ -79,13 +75,7 @@ public class ShipmentForm {
     }
 
 
-    public Date getShipmentTime() {
-        return shipmentTime;
-    }
 
-    public void setShipmentTime(Date shipmentTime) {
-        this.shipmentTime = shipmentTime;
-    }
 
     public String getPerson() {
         return person;
