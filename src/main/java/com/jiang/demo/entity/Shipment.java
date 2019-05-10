@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,7 @@ public class Shipment implements Serializable {
     private Date updateTime;
 
     @ApiModelProperty(value = "是否出库")
+    @NotNull
     private Boolean isStorage=false;
 
     @ApiModelProperty(value = "出库时间")

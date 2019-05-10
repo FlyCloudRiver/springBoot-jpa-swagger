@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +54,7 @@ public class Purchase implements Serializable {
     private String person;
 
     @ApiModelProperty(value = "是否入库")
+    @NotNull
     private Boolean isStorage=false;
 
 
