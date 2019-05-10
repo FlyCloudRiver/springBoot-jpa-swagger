@@ -98,7 +98,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 
             String purchaseCode = purchaseForm.getPurchaseCode();
             String person = purchaseForm.getPerson();
-            Date purchaseTime = purchaseForm.getPurchaseTime();
+            Date startTime = purchaseForm.getStartTime();
+            Date endTime = purchaseForm.getEndTime();
             Boolean storage = purchaseForm.getStorage();
 
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
@@ -118,16 +119,20 @@ public class PurchaseServiceImpl implements PurchaseService {
                 Predicate predicate = cb.like(root.get("person").as(String.class), "%"+person+"%");
                 predicates.add(predicate);
             }
-            if (purchaseTime!=null) {
-                //大于或等于
-                //lessThanOrEqualTo  小于或等于
-                Predicate predicate = cb.greaterThanOrEqualTo(root.get("purchaseTime").as(Date.class),purchaseTime);
+            if (startTime!=null&&endTime==null) {
+
+                Predicate predicate = cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class),startTime);
                 predicates.add(predicate);
             }
-
-            //判断结合中是否有数据
-            if (predicates.size() == 0) {
-                return null;
+            if (endTime!=null&&startTime==null) {
+                Predicate predicate = cb.lessThanOrEqualTo(root.get("createTime").as(Date.class),endTime);
+                predicates.add(predicate);
+            }
+            if (endTime!=null&&startTime!=null) {
+                Predicate predicate1 = cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class),startTime);
+                Predicate predicate2 = cb.lessThanOrEqualTo(root.get("createTime").as(Date.class),endTime);
+                predicates.add(predicate1);
+                predicates.add(predicate2);
             }
 
             //将集合转化为CriteriaBuilder所需要的Predicate[]

@@ -74,7 +74,7 @@ public class PermissionAspect {
         System.out.println("访问的权限："+methodAccess);
         //如果该方法上没有权限注解，直接调用目标方法
         if (StringUtils.isEmpty(methodAccess)) {
-            System.out.println("我调用了。。。。。。。。。。。。。。。。。。。。。。。。。。");
+            System.out.println("该方法上没有管理员权限注解");
             return joinPoint.proceed();
         } else {
             //如果该方法上有注解

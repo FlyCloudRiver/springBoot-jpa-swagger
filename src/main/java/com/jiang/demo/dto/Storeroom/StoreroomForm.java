@@ -16,18 +16,40 @@ public class StoreroomForm {
 
     private Integer pageNum;
     private Integer pageSize;
-    @ApiModelProperty(value = "库存量")
+    @ApiModelProperty(value = "库存量(查询)")
     private Integer amount;
 
-    @ApiModelProperty(value = "商品编号")
+    @ApiModelProperty(value = "商品编号(查询)")
     private  String goodsCode;
 
-    @ApiModelProperty(value = "商品名称")
+    @ApiModelProperty(value = "商品名称(查询)")
     private  String goodsName;
 
 
-    @ApiModelProperty(value = "更新人员")
+    @ApiModelProperty(value = "更新人员(查询)")
     private String person;
+
+    @ApiModelProperty(value = "订单生成时间上限(查询)")
+    private Date startTime;
+
+    @ApiModelProperty(value = "订单生成时间下限(查询)")
+    private Date endTime;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
     public Integer getPageNum() {
         return pageNum;

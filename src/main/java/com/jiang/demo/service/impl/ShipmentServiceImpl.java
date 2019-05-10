@@ -97,7 +97,8 @@ public class ShipmentServiceImpl implements ShipmentService {
 
             String shipmentCode = shipmentForm.getShipmentCode();
             String person = shipmentForm.getPerson();
-            Date ShipmentTime = shipmentForm.getShipmentTime();
+            Date startTime = shipmentForm.getStartTime();
+            Date endTime = shipmentForm.getEndTime();
             Boolean storage = shipmentForm.getStorage();
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
@@ -116,11 +117,21 @@ public class ShipmentServiceImpl implements ShipmentService {
                 Predicate predicate = cb.like(root.get("person").as(String.class), "%"+person+"%");
                 predicates.add(predicate);
             }
-            if (ShipmentTime!=null) {
-                //大于或等于
-                //lessThanOrEqualTo  小于或等于
-                Predicate predicate = cb.greaterThanOrEqualTo(root.get("ShipmentTime").as(Date.class),ShipmentTime);
+
+            if (startTime!=null&&endTime==null) {
+
+                Predicate predicate = cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class),startTime);
                 predicates.add(predicate);
+            }
+            if (endTime!=null&&startTime==null) {
+                Predicate predicate = cb.lessThanOrEqualTo(root.get("createTime").as(Date.class),endTime);
+                predicates.add(predicate);
+            }
+            if (endTime!=null&&startTime!=null) {
+                Predicate predicate1 = cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class),startTime);
+                Predicate predicate2 = cb.lessThanOrEqualTo(root.get("createTime").as(Date.class),endTime);
+                predicates.add(predicate1);
+                predicates.add(predicate2);
             }
 
             //判断结合中是否有数据

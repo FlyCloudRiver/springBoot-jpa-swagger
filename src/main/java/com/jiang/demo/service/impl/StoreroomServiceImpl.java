@@ -193,14 +193,16 @@ public class StoreroomServiceImpl implements StoreroomService {
         @Override
         public Predicate toPredicate(Root<Storeroom> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
             //新建商品类  将form转换成goods
-            Storeroom storeroom = new Storeroom();
-            BeanUtils.copyProperties(storeroomForm, storeroom);
+         /*   Storeroom storeroom = new Storeroom();
+            BeanUtils.copyProperties(storeroomForm, storeroom);*/
 
 
-            Integer amount = storeroom.getAmount();
-            String person = storeroom.getPerson();
-            Date updateTime = storeroom.getUpdateTime();
-
+            Integer amount = storeroomForm.getAmount();
+            String person = storeroomForm.getPerson();
+            Date startTime = storeroomForm.getStartTime();
+            Date endTime = storeroomForm.getEndTime();
+           /* String goodsCode = storeroomForm.getGoodsCode();
+            String goodsName = storeroomForm.getGoodsName();*/
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
@@ -210,11 +212,24 @@ public class StoreroomServiceImpl implements StoreroomService {
                 Predicate predicate = cb.like(root.get("person").as(String.class), "%" + person + "%");
                 predicates.add(predicate);
             }
-            if (updateTime != null) {
-                //不超过
-                Predicate predicate = cb.lessThanOrEqualTo(root.get("updateTime").as(Date.class), updateTime);
+
+            if (startTime!=null&&endTime==null) {
+
+                Predicate predicate = cb.greaterThanOrEqualTo(root.get("updateTime").as(Date.class),startTime);
                 predicates.add(predicate);
             }
+            if (endTime!=null&&startTime==null) {
+                Predicate predicate = cb.lessThanOrEqualTo(root.get("updateTime").as(Date.class),endTime);
+                predicates.add(predicate);
+            }
+            if (endTime!=null&&startTime!=null) {
+                Predicate predicate1 = cb.greaterThanOrEqualTo(root.get("updateTime").as(Date.class),startTime);
+                Predicate predicate2 = cb.lessThanOrEqualTo(root.get("updateTime").as(Date.class),endTime);
+                predicates.add(predicate1);
+                predicates.add(predicate2);
+            }
+
+
             if (amount != null) {
                 //不超过
                 Predicate predicate = cb.lessThanOrEqualTo(root.get("amount").as(Integer.class), amount);
@@ -226,7 +241,6 @@ public class StoreroomServiceImpl implements StoreroomService {
                 //ListJoin<Storeroom,Goods> join=root.join(root.getModel().getList("goods",Goods.class));
                 Join<Storeroom,Goods> join=root.join("goods");
                 Predicate predicate = cb.like(join.get("goodsCode").as(String.class),"%"+storeroomForm.getGoodsCode()+"%");
-                System.out.println("开始凭借！！！！！！");
                 predicates.add(predicate);
             }
             if(StringUtils.isNotBlank(storeroomForm.getGoodsName())){
