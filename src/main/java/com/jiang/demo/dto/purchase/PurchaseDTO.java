@@ -1,13 +1,17 @@
 package com.jiang.demo.dto.purchase;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.entity.Purchase;
 import com.jiang.demo.entity.PurchaseDetail;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +30,17 @@ public class PurchaseDTO {
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage;
 
+    @ApiModelProperty(value = "生成时间")
+    private Date createTime;
+
     @ApiModelProperty(value = "入库时间")
-    private Date purchaseTime;
+    private Date storeTime;
+
+    @ApiModelProperty(value = "订单更新时间")
+    private Date updateTime;
 
     @ApiModelProperty(value = "操作人员")
     private String person;
-
-
     @ApiModelProperty(value = "订单详情")
     private List<PurchaseDetailDTO> purchaseDetailDTOS;
 
@@ -53,6 +61,22 @@ public class PurchaseDTO {
             dto.setPurchaseDetailDTOS(purchaseDetails);
         }
         return dto;
+    }
+
+    public Date getStoreTime() {
+        return storeTime;
+    }
+
+    public void setStoreTime(Date storeTime) {
+        this.storeTime = storeTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Boolean getStorage() {
@@ -87,12 +111,13 @@ public class PurchaseDTO {
         this.purchaseDetailDTOS = purchaseDetailDTOS;
     }
 
-    public Date getPurchaseTime() {
-        return purchaseTime;
+
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setPurchaseTime(Date purchaseTime) {
-        this.purchaseTime = purchaseTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getPerson() {

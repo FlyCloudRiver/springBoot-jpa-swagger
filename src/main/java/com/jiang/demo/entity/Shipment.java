@@ -37,7 +37,13 @@ public class Shipment implements Serializable {
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    private Date shipmentTime;
+    private Date createTime;
+
+    @ApiModelProperty(value = "订单更新时间")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
+    private Date updateTime;
 
     @ApiModelProperty(value = "是否出库")
     private Boolean isStorage=false;
@@ -51,6 +57,14 @@ public class Shipment implements Serializable {
 
     @ApiModelProperty(value = "操作人员")
     private String person;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Date getStoreTime() {
         return storeTime;
@@ -76,15 +90,13 @@ public class Shipment implements Serializable {
         this.shipmentCode = shipmentCode;
     }
 
-    public Date getShipmentTime() {
-        return shipmentTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setShipmentTime(Date shipmentTime) {
-        this.shipmentTime = shipmentTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
-
-
 
     public String getPerson() {
         return person;

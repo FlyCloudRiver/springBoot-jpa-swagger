@@ -1,6 +1,7 @@
 package com.jiang.demo.dto.shipment;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiang.demo.dto.purchaseDetail.PurchaseDetailDTO;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.entity.PurchaseDetail;
@@ -8,7 +9,10 @@ import com.jiang.demo.entity.Shipment;
 import com.jiang.demo.entity.ShipmentDetail;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,14 +31,21 @@ public class ShipmentDTO {
     @ApiModelProperty(value = "订单编号")
     private String shipmentCode;
 
-    @ApiModelProperty(value = "商品出库时间")
-    private Date goodsInputTime;
+    @ApiModelProperty(value = "商品生成时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "出库时间")
+    private Date storeTime;
+
+    @ApiModelProperty(value = "订单更新时间")
+    private Date updateTime;
 
     @ApiModelProperty(value = "操作人员")
     private String person;
 
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage;
+
 
     public Boolean getStorage() {
         return isStorage;
@@ -61,6 +72,23 @@ public class ShipmentDTO {
 
         return dto;
     }
+
+    public Date getStoreTime() {
+        return storeTime;
+    }
+
+    public void setStoreTime(Date storeTime) {
+        this.storeTime = storeTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -70,12 +98,12 @@ public class ShipmentDTO {
     }
 
 
-    public Date getGoodsInputTime() {
-        return goodsInputTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setGoodsInputTime(Date goodsInputTime) {
-        this.goodsInputTime = goodsInputTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public List<ShipmentDetailDTO> getShipmentDetailDTOS() {

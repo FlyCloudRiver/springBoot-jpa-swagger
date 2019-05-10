@@ -50,7 +50,7 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
         /*将前者赋值给后者*/
         Shipment shipment = new Shipment();
         BeanUtils.copyProperties(shipmentForm, shipment);
-        shipment.setShipmentTime(new Date());
+        shipment.setCreateTime(new Date());
         //保存 并且  得到订单
         Shipment save1 = shipmentRepository.save(shipment);
 
@@ -102,6 +102,11 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
             if (shipment.getStorage()) {
                 throw new MyException(-1, "商品已出库，不能修改");
             }
+
+            Date date = new Date();
+            shipment.setUpdateTime(date);
+            shipment.setUpdateTime(date);
+            shipmentRepository.save(shipment);
 
             List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDTO.getShipmentDetailDTOS();
             for (ShipmentDetailDTO s:shipmentDetailDTOS) {

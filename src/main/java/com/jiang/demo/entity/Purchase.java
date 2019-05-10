@@ -35,7 +35,19 @@ public class Purchase implements Serializable {
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    private Date purchaseTime;
+    private Date createTime;
+
+    @ApiModelProperty(value = "订单更新时间")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
+    private Date updateTime;
+
+    @ApiModelProperty(value = "入库时间")
+    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
+    private Date storeTime;
 
     @ApiModelProperty(value = "操作人员")
     private String person;
@@ -43,11 +55,14 @@ public class Purchase implements Serializable {
     @ApiModelProperty(value = "是否入库")
     private Boolean isStorage=false;
 
-    @ApiModelProperty(value = "入库时间")
-    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
-    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    private Date storeTime;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Date getStoreTime() {
         return storeTime;
@@ -89,12 +104,12 @@ public class Purchase implements Serializable {
         this.purchaseCode = purchaseCode;
     }
 
-    public Date getPurchaseTime() {
-        return purchaseTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setPurchaseTime(Date purchaseTime) {
-        this.purchaseTime = purchaseTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public List<PurchaseDetail> getPurchaseDetails() {

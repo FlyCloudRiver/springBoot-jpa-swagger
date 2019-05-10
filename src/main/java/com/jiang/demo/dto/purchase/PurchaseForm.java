@@ -24,11 +24,11 @@ public class PurchaseForm {
     private List<PurchaseDetailForm> purchaseDetailForms;
 
 
-    //起始时间
+  /*  //起始时间
     private Date startTime;
     //结束时间
     private Date endTime;
-
+*/
     private Date purchaseTime;
 
     @ApiModelProperty(value = "是否入库")

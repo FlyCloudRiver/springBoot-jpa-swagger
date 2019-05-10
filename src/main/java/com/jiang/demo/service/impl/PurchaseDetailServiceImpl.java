@@ -50,7 +50,9 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         Purchase purchase = new Purchase();
         BeanUtils.copyProperties(purchaseForm, purchase);
         //保存 并且  得到订单
-        purchase.setPurchaseTime(new Date());
+        Date date = new Date();
+        purchase.setCreateTime(date);
+        purchase.setUpdateTime(date);
         Purchase save1 = purchaseRepository.save(purchase);
 
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();
@@ -100,6 +102,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             if (purchase.getStorage()){
                 throw new MyException(-1, "商品已入库，不能修改");
             }
+            //添加修改时间
+            purchase.setUpdateTime(new Date());
+            purchaseRepository.save(purchase);
+
             List<PurchaseDetailDTO> purchaseDetailDTOS = purchaseDTO.getPurchaseDetailDTOS();
             for (PurchaseDetailDTO p:purchaseDetailDTOS) {
                 Integer id = p.getId();
