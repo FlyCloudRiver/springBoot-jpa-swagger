@@ -113,7 +113,12 @@ public class BigCategoryController {
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
 
     public Result<List<BigCategoryDTO>> selectAll(){
-        return ResultUtil.success(bigCategoryService.selectBigCategoryAll());
+        try{
+            return ResultUtil.success(bigCategoryService.selectBigCategoryAll());
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     /*Get方式url传参    地址后面直接  /参数*/
@@ -123,9 +128,14 @@ public class BigCategoryController {
     @ApiOperation(value = "查询ById")
     @PostMapping("/selectOne")
     @SuppressWarnings("unchecked")
-    public Result<BigCategoryDTO> selectBigCategoryById(@RequestBody Integer id) throws Exception{
+    public Result<BigCategoryDTO> selectBigCategoryById(Integer id){
 
-        return  ResultUtil.success(bigCategoryService.selectBigCategoryById(id));
+        try{
+            return  ResultUtil.success(bigCategoryService.selectBigCategoryById(id));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
 
     }
 }

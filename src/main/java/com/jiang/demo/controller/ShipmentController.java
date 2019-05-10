@@ -44,10 +44,16 @@ public class ShipmentController {
     @SuppressWarnings("unchecked")
     public Result<List<ShipmentDetailDTO>> insertShipment(@RequestBody ShipmentForm shipmentForm){
 
-        //然后添加订单详情
-        List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.insertShipmentDetail(shipmentForm);
+        try{
+            //然后添加订单详情
+            List<ShipmentDetailDTO> shipmentDetailDTOS = shipmentDetailService.insertShipmentDetail(shipmentForm);
 
-        return ResultUtil.success(shipmentDetailDTOS);
+            return ResultUtil.success(shipmentDetailDTOS);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "销售单动态分页显示")
@@ -55,8 +61,14 @@ public class ShipmentController {
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<List<ShipmentDTO>> select(@RequestBody ShipmentForm purchaseForm){
-        PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm);
-        return ResultUtil.success(select);
+        try{
+            PageDTO<ShipmentDTO> select = shipmentService.select(purchaseForm);
+            return ResultUtil.success(select);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "更新采购单")
@@ -77,8 +89,14 @@ public class ShipmentController {
     @DeleteMapping("/delete")
     //@Permission
     public Result delete(Integer id){
-        shipmentService.delete(id);
-        return ResultUtil.success();
+        try{
+            shipmentService.delete(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
 
@@ -86,7 +104,13 @@ public class ShipmentController {
     @PostMapping("/selectDetail")
     @SuppressWarnings("unchecked")
     public Result<ShipmentDTO> selectById(Integer id){
-        return ResultUtil.success(shipmentService.selectById(id));
+        try{
+            return ResultUtil.success(shipmentService.selectById(id));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
 

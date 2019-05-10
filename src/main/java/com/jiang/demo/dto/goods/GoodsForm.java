@@ -3,6 +3,7 @@ package com.jiang.demo.dto.goods;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -16,16 +17,18 @@ public class GoodsForm {
 
     @ApiModelProperty(value = "商品名称")
     private  String goodsName;
-    @ApiModelProperty(value = "商品单价")
+
+    @ApiModelProperty(value = "商品售价(元)")
     private  Float goodsPrice;
 
+    @ApiModelProperty(value = "商品进价(元)")
+    private  Float purchasePrice;
 
-    @ApiModelProperty(value = "商品保质期")
-    private  String goodsShelfLife;
+    @ApiModelProperty(value = "商品规格型号")
+    private  String goodsSpecification;
 
-    @ApiModelProperty(value = "商品生产日期")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date goodsDate;
+    @ApiModelProperty(value = "商品计量单位(桶、包、个、瓶......)")
+    private  String goodsUnit;
 
     @ApiModelProperty(value = "细类ID")
     private Integer categoryId;
@@ -41,6 +44,7 @@ public class GoodsForm {
 
     @ApiModelProperty(value = "厂商名字（查询）")
     private String supplierName;
+
     @ApiModelProperty(value = "商品细类（查询）")
     private String categoryName;
 
@@ -125,30 +129,27 @@ public class GoodsForm {
         this.goodsPrice = goodsPrice;
     }
 
-
-    public Date getGoodsDate() {
-        return goodsDate;
+    public Float getPurchasePrice() {
+        return purchasePrice;
     }
 
-    public void setGoodsDate(Date goodsDate) {
-        this.goodsDate = goodsDate;
+    public void setPurchasePrice(Float purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 
-    public String getGoodsShelfLife() {
-        return goodsShelfLife;
+    public String getGoodsSpecification() {
+        return goodsSpecification;
     }
 
-    public void setGoodsShelfLife(String goodsShelfLife) {
-        this.goodsShelfLife = goodsShelfLife;
+    public void setGoodsSpecification(String goodsSpecification) {
+        this.goodsSpecification = goodsSpecification;
     }
 
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
 
-    @Override
-    public String toString() {
-        return "GoodsForm{" +
-                "goodsCode='" + goodsCode + '\'' +
-                ", goodsName='" + goodsName + '\'' +
-                ", goodsShelfLife=" + goodsShelfLife +
-                '}';
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
     }
 }

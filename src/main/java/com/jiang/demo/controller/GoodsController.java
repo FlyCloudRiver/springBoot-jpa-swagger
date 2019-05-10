@@ -30,41 +30,64 @@ public class GoodsController {
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result<GoodsDTO> insertGoods(@RequestBody GoodsForm goodsForm){
 
-        GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm);
-        //return goodsDTO;
-        return ResultUtil.success(goodsDTO);
+        try{
+            GoodsDTO goodsDTO = goodsService.insertGoods(goodsForm);
+            return ResultUtil.success(goodsDTO);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "分页动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     public Result<PageDTO<GoodsDTO>> findByDynamicCases(@RequestBody GoodsForm goodsForm){
-        PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm);
-        return ResultUtil.success(goodsPage);
-        //return goodsPage;
+        try{
+            PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm);
+            return ResultUtil.success(goodsPage);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "查询ById")
     @PostMapping("selectById")
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> selectGoodsDTOById(Integer id){
-        GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
-        return  ResultUtil.success(goodsDTOById);
+
+        try{
+            GoodsDTO goodsDTOById = goodsService.findGoodsDTOById(id);
+            return  ResultUtil.success(goodsDTOById);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("update")
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> updateGoods(@RequestBody GoodsDTO goodsDTO){
-        GoodsDTO goodsDTOById = goodsService.updateGoods(goodsDTO);
-        return  ResultUtil.success(goodsDTOById);
+        try{
+            GoodsDTO goodsDTOById = goodsService.updateGoods(goodsDTO);
+            return  ResultUtil.success(goodsDTOById);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     //@Permission
     public Result deleteGoods(Integer id){
-        goodsService.deleteGoods(id);
-        return ResultUtil.success();
+        try{
+            goodsService.deleteGoods(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 }

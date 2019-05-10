@@ -35,51 +35,87 @@ public class SupplierController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> insertSupplier(@RequestBody SupplierForm supplierForm){
-        SupplierDTO supplierDTO = supplierService.insertSupplier(supplierForm);
-        //return supplierDTO;
-        return ResultUtil.success(supplierDTO);
+        try{
+            SupplierDTO supplierDTO = supplierService.insertSupplier(supplierForm);
+            //return supplierDTO;
+            return ResultUtil.success(supplierDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     //@Permission
     public Result deleteSupplier(Integer id){
-        supplierService.deleteSupplierById(id);
-        return ResultUtil.success();
+        try{
+            supplierService.deleteSupplierById(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "查询ById")
     @PostMapping("/selectById")
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> selectSupplierById(@RequestBody Integer id){
-        SupplierDTO supplierDTO = supplierService.selectSupplier(id);
-        //return supplierDTO;
-        return ResultUtil.success(supplierDTO);
+        try{
+            SupplierDTO supplierDTO = supplierService.selectSupplier(id);
+            //return supplierDTO;
+            return ResultUtil.success(supplierDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "(动态分页)查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
     public Result<PageDTO<SupplierDTO>> selectByDynamicCases(@RequestBody SupplierForm supplierForm){
-        PageDTO<SupplierDTO> byDynamicCases = supplierService.findByDynamicCases(supplierForm);
-        //return byDynamicCases;
-        return ResultUtil.success(byDynamicCases);
+        try{
+            PageDTO<SupplierDTO> byDynamicCases = supplierService.findByDynamicCases(supplierForm);
+            //return byDynamicCases;
+            return ResultUtil.success(byDynamicCases);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "更新")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> updateSupplier(@RequestBody SupplierForm supplierForm, Integer id){
-        SupplierDTO supplierDTO = supplierService.updateSupplier(supplierForm, id);
-        //return supplierDTO;
-        return ResultUtil.success(supplierDTO);
+        try{
+            SupplierDTO supplierDTO = supplierService.updateSupplier(supplierForm, id);
+            //return supplierDTO;
+            return ResultUtil.success(supplierDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "查询所有")
     @PostMapping("/selectAll")
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> selectAll(){
-        List<SupplierDTO> all = supplierService.selectAll();
-        return ResultUtil.success(all);
+        try{
+            List<SupplierDTO> all = supplierService.selectAll();
+            return ResultUtil.success(all);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 }

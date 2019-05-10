@@ -46,10 +46,15 @@ public class PurchaseController {
     @SuppressWarnings("unchecked")
     public Result<List<PurchaseDetailDTO>> insertPurchase(@RequestBody PurchaseForm purchaseForm){
 
-        //然后添加订单详情
-        List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.insertPurchaseDetail(purchaseForm);
+        try{
+            //然后添加订单详情
+            List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.insertPurchaseDetail(purchaseForm);
 
-        return ResultUtil.success(purchaseDetailDTOList);
+            return ResultUtil.success(purchaseDetailDTOList);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "采购单动态分页显示")
@@ -57,9 +62,15 @@ public class PurchaseController {
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<PageDTO<PurchaseDTO>> select(@RequestBody PurchaseForm purchaseForm){
-        PageDTO<PurchaseDTO> select = purchaseService.select(purchaseForm);
+        try{
+            PageDTO<PurchaseDTO> select = purchaseService.select(purchaseForm);
 
-        return ResultUtil.success(select);
+            return ResultUtil.success(select);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+
     }
 
     @ApiOperation(value = "更新采购单")
@@ -80,15 +91,25 @@ public class PurchaseController {
     @DeleteMapping("/delete")
     //@Permission
     public Result delete(Integer id){
-        purchaseService.delete(id);
-        return ResultUtil.success();
+        try{
+            purchaseService.delete(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "获取采购单详情")
     @PostMapping("/selectId")
     @SuppressWarnings("unchecked")
     public Result<PurchaseDTO> selectById(Integer id){
-        PurchaseDTO purchaseDTO = purchaseService.selectById(id);
-        return ResultUtil.success(purchaseDTO);
+        try{
+            PurchaseDTO purchaseDTO = purchaseService.selectById(id);
+            return ResultUtil.success(purchaseDTO);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 }

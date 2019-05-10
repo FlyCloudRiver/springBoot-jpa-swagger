@@ -33,49 +33,73 @@ public class SecondaryCategoryController {
     @SuppressWarnings("unchecked")
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result<SecondaryCategoryDTO> insertSecondaryCategory(Integer bigCategoryId, String secondaryCategoryName){
+        try{
+            SecondaryCategory entity = secondaryCategoryService.insertSecondaryCategory(bigCategoryId,secondaryCategoryName);
+            //return SecondaryCategoryDTO.convert(entity);
+            return ResultUtil.success(SecondaryCategoryDTO.convert(entity));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
 
-        SecondaryCategory entity = secondaryCategoryService.insertSecondaryCategory(bigCategoryId,secondaryCategoryName);
-        //return SecondaryCategoryDTO.convert(entity);
-        return ResultUtil.success(SecondaryCategoryDTO.convert(entity));
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
    // @Permission
     public Result deleteSecondaryCategory(Integer id){
-        secondaryCategoryService.deleteSecondaryCategoryById(id);
-        return ResultUtil.success();
+        try{
+            secondaryCategoryService.deleteSecondaryCategoryById(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
     public Result<SecondaryCategoryDTO> updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){
-        SecondaryCategory secondaryCategory1 = secondaryCategoryService.updateSecondaryCategory(id,secondaryCategoryName,bigCategoryId);
-        //return SecondaryCategoryDTO.convert(secondaryCategory1);
-        return ResultUtil.success(SecondaryCategoryDTO.convert(secondaryCategory1));
+        try{
+            SecondaryCategory secondaryCategory1 = secondaryCategoryService.updateSecondaryCategory(id,secondaryCategoryName,bigCategoryId);
+            //return SecondaryCategoryDTO.convert(secondaryCategory1);
+            return ResultUtil.success(SecondaryCategoryDTO.convert(secondaryCategory1));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "查询")
     @PostMapping("/selectAll")
     @SuppressWarnings("unchecked")
     public Result<List<SecondaryCategoryDTO>> selectAll(){
-        List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.selectSecondaryCategoryAll();
-       List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
-        for (SecondaryCategory item:secondaryCategoryList ) {
-            secondaryCategoryDTOList.add(SecondaryCategoryDTO.convert(item));
+        try{
+            List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.selectSecondaryCategoryAll();
+            List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
+            for (SecondaryCategory item:secondaryCategoryList ) {
+                secondaryCategoryDTOList.add(SecondaryCategoryDTO.convert(item));
+            }
+            return ResultUtil.success(secondaryCategoryDTOList);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
         }
-        //return secondaryCategoryDTOList;
-        return ResultUtil.success(secondaryCategoryDTOList);
+
     }
 
     @ApiOperation(value = "查询ById")
     @GetMapping("/selectOne")
     @SuppressWarnings("unchecked")
     public Result<SecondaryCategoryDTO> selectSecondaryCategoryById(Integer id){
-        SecondaryCategory SecondaryCategory = secondaryCategoryService.selectSecondaryCategoryById(id);
 
-        //return  SecondaryCategoryDTO.convert(SecondaryCategory);
-        return ResultUtil.success(SecondaryCategoryDTO.convert(SecondaryCategory));
+        try{
+            SecondaryCategory SecondaryCategory = secondaryCategoryService.selectSecondaryCategoryById(id);
+
+            //return  SecondaryCategoryDTO.convert(SecondaryCategory);
+            return ResultUtil.success(SecondaryCategoryDTO.convert(SecondaryCategory));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 }

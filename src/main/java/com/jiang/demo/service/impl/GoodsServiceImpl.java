@@ -96,8 +96,18 @@ public class GoodsServiceImpl implements GoodsService {
         Category category = categoryRepository.findById(categoryId).orElse(null);
         Supplier supplier = supplierRepository.findById(supplierId).orElse(null);
 
-        goods.setSupplier(supplier);
-        goods.setCategory(category);
+        if(category!=null){
+            goods.setCategory(category);
+        }else{
+            throw new MyException(-2,"该类不存在");
+        }
+
+        if(supplier!=null){
+            goods.setSupplier(supplier);
+        }else{
+            throw new MyException(-2,"该厂商不存在");
+        }
+
 
         return GoodsDTO.convert(goodsRepository.save(goods));
     }
@@ -143,11 +153,14 @@ public class GoodsServiceImpl implements GoodsService {
 
             String goodsCode = goodsForm.getGoodsCode();
             String goodsName = goodsForm.getGoodsName();
-            String goodsShelfLife = goodsForm.getGoodsShelfLife();
-
             //类别名 厂商名
             String categoryName = goodsForm.getCategoryName();
             String supplierName = goodsForm.getSupplierName();
+
+           /* Float goodsPrice = goodsForm.getGoodsPrice();
+            Float purchasePrice = goodsForm.getPurchasePrice();*/
+
+
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
@@ -174,10 +187,7 @@ public class GoodsServiceImpl implements GoodsService {
                 Predicate predicate = cb.like(root.get("goodsCode").as(String.class), "%"+goodsCode+"%");
                 predicates.add(predicate);
             }
-            if (StringUtils.isNotBlank(goodsShelfLife)) {
-                Predicate predicate = cb.like(root.get("goodsShelfLife").as(String.class), "%"+goodsShelfLife+"%");
-                predicates.add(predicate);
-            }
+
 
             //判断结合中是否有数据
             if (predicates.size() == 0) {

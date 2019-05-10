@@ -32,30 +32,52 @@ public class UerController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     public Result<UserInfoDTO> insertUser(@RequestBody UserInfoForm userInfoForm){
-        return ResultUtil.success(userInfoService.insertUser(userInfoForm));
+        try{
+            return ResultUtil.success(userInfoService.insertUser(userInfoForm));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
     public Result deleteUser(Integer id){
-        userInfoService.deleteUser(id);
-        return ResultUtil.success();
+        try{
+            userInfoService.deleteUser(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "更新")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
     public Result<UserInfoDTO> updateUser(@RequestBody UserInfoForm userInfoForm, Integer id){
+        try{
+            return ResultUtil.success(userInfoService.updateUser(userInfoForm,id));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
 
-        return ResultUtil.success(userInfoService.updateUser(userInfoForm,id));
     }
 
     @ApiOperation(value = "查找所有（分页）")
     @GetMapping("/select")
     @SuppressWarnings("unchecked")
     public Result<PageDTO<UserInfoDTO>>  selectUser(Integer pageNum, Integer pageSize){
-        System.out.println("进controller");
-        return ResultUtil.success(userInfoService.selectUser(pageNum,pageSize));
+        try{
+            return ResultUtil.success(userInfoService.selectUser(pageNum,pageSize));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
 
@@ -63,8 +85,13 @@ public class UerController {
     @PostMapping("/selectByUsername")
     @SuppressWarnings("unchecked")
     public Result<UserInfoDTO> selectByName(String username) {
+        try{
+            return ResultUtil.success(userInfoService.selectByName(username));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
 
-        return ResultUtil.success(userInfoService.selectByName(username));
     }
 
 }

@@ -44,7 +44,11 @@ public class CategoryController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     public Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName){
-        return ResultUtil.success(categoryService.insertCategory(secondaryCategoryId, categoryName));
+        try{
+            return ResultUtil.success(categoryService.insertCategory(secondaryCategoryId, categoryName));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
 
     }
 
@@ -52,15 +56,27 @@ public class CategoryController {
     @DeleteMapping("/delete")
     //@Permission
     public Result deleteCategory(Integer id){
-        categoryService.deleteCategoryById(id);
-        return ResultUtil.success();
+        try{
+            categoryService.deleteCategoryById(id);
+            return ResultUtil.success();
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+
     }
 
     @ApiOperation(value = "修改")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
     public Result<CategoryDTO> updateCategory(Integer id, String categoryName, Integer secondaryCategoryId){
-        return ResultUtil.success(categoryService.updateCategory(id,categoryName,secondaryCategoryId));
+        try{
+            return ResultUtil.success(categoryService.updateCategory(id,categoryName,secondaryCategoryId));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+
     }
 
     @ApiOperation(value = "查询")
@@ -68,14 +84,24 @@ public class CategoryController {
     @SuppressWarnings("unchecked")
     public Result<List<CategoryDTO>> selectAll(){
 
-        return ResultUtil.success(categoryService.selectCategoryAll());
+        try{
+            return ResultUtil.success(categoryService.selectCategoryAll());
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "查询ById")
     @PostMapping("/selectOne")
     @SuppressWarnings("unchecked")
-    public Result<CategoryDTO> selectCategoryById(@RequestBody Integer id){
-        return ResultUtil.success(categoryService.selectCategoryById(id));
+    public Result<CategoryDTO> selectCategoryById(Integer id){
+        try{
+            return ResultUtil.success(categoryService.selectCategoryById(id));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "动态查询")
@@ -83,8 +109,13 @@ public class CategoryController {
     @SuppressWarnings("unchecked")
     public Result<PageDTO<CategoryDTO>> findByDynamicCases(@RequestBody CategoryForm categoryForm){
 
-        PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(categoryForm);
-        //return goodsPage;
-        return ResultUtil.success(goodsPage);
+        try{
+            PageDTO<CategoryDTO> goodsPage=categoryService.findByDynamicCases(categoryForm);
+            //return goodsPage;
+            return ResultUtil.success(goodsPage);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 }

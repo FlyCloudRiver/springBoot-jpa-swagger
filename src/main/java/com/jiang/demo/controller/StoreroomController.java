@@ -39,23 +39,41 @@ public class StoreroomController {
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<List<StoreroomDTO>> select(@RequestBody StoreroomForm storeroomForm) {
-        PageDTO<StoreroomDTO> select = storeroomService.select(storeroomForm);
-        return ResultUtil.success(select);
+        try{
+            PageDTO<StoreroomDTO> select = storeroomService.select(storeroomForm);
+            return ResultUtil.success(select);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
 
     @ApiOperation(value = "商品进库")
     @PostMapping("/insert")
     public Result insertStorage(@RequestBody PurchaseStorageFrom purchaseStorageFrom) {
-        storeroomService.insertStorage(purchaseStorageFrom);
-        return ResultUtil.success();
+        try{
+            storeroomService.insertStorage(purchaseStorageFrom);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
     @ApiOperation(value = "商品出库")
     @PostMapping("/output")
     public Result outputStorage(@RequestBody ShipmentStorageFrom shipmentStorageFrom) {
-        storeroomService.outputStorage(shipmentStorageFrom);
-        return ResultUtil.success();
+        try{
+            storeroomService.outputStorage(shipmentStorageFrom);
+            return ResultUtil.success();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
     }
 
 }

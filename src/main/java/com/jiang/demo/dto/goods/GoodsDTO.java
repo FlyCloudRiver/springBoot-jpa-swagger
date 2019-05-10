@@ -1,14 +1,10 @@
 package com.jiang.demo.dto.goods;
 
-import com.jiang.demo.dto.supplier.SupplierDTO;
-import com.jiang.demo.dto.category.CategoryDTO;
+
 import com.jiang.demo.entity.Goods;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
-import org.springframework.format.annotation.DateTimeFormat;
 
-
-import java.util.Date;
 
 /**
  * Author: 江云飞
@@ -24,21 +20,24 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品名称")
     private  String goodsName;
 
-    @ApiModelProperty(value = "商品单价")
+    @ApiModelProperty(value = "商品售价(元)")
     private  Float goodsPrice;
 
-    @ApiModelProperty(value = "商品保质期")
-    private  String goodsShelfLife;
+    @ApiModelProperty(value = "商品进价(元)")
+    private  Float purchasePrice;
 
-    @ApiModelProperty(value = "商品生产日期")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date goodsDate;
+    @ApiModelProperty(value = "商品规格型号")
+    private  String goodsSpecification;
+
+    @ApiModelProperty(value = "商品计量单位(桶、包、个、瓶......)")
+    private  String goodsUnit;
 
     @ApiModelProperty(value = "商品所属厂商id")
     private Integer supplierId;
 
-    @ApiModelProperty(value = "商品所属类别DTO")
+    @ApiModelProperty(value = "商品所属类别id")
     private Integer categoryId;
+
     public static GoodsDTO convert(Goods entity) {
         GoodsDTO dto = new GoodsDTO();
         BeanUtils.copyProperties(entity, dto);
@@ -105,21 +104,6 @@ public class GoodsDTO {
         this.goodsPrice = goodsPrice;
     }
 
-    public String getGoodsShelfLife() {
-        return goodsShelfLife;
-    }
-
-    public void setGoodsShelfLife(String goodsShelfLife) {
-        this.goodsShelfLife = goodsShelfLife;
-    }
-
-    public Date getGoodsDate() {
-        return goodsDate;
-    }
-
-    public void setGoodsDate(Date goodsDate) {
-        this.goodsDate = goodsDate;
-    }
 
     public Integer getSupplierId() {
         return supplierId;
@@ -135,5 +119,29 @@ public class GoodsDTO {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Float getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(Float purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public String getGoodsSpecification() {
+        return goodsSpecification;
+    }
+
+    public void setGoodsSpecification(String goodsSpecification) {
+        this.goodsSpecification = goodsSpecification;
+    }
+
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
     }
 }

@@ -1,14 +1,11 @@
 package com.jiang.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 /*
 * 一对多双向关联跟多对一是一样的,在多端生成一个外键,不生成第三张表来管理对应关系,由外键来管理对应关系 */
 
@@ -33,21 +30,21 @@ public class Goods implements Serializable {
     @Column(name = "goods_name")
     private  String goodsName;
 
-    @ApiModelProperty(value = "商品单价")
+    @ApiModelProperty(value = "商品售价(元)")
     @Column(name = "goods_price")
     private  Float goodsPrice;
 
+    @ApiModelProperty(value = "商品进价(元)")
+    @Column(name = "purchase_price")
+    private  Float purchasePrice;
 
-    @ApiModelProperty(value = "商品保质期")
-    @Column(name = "goods_shelf_life")
-    private  String goodsShelfLife;
+    @ApiModelProperty(value = "商品规格型号")
+    @Column(name = "goods_specification")
+    private  String goodsSpecification;
 
-    @ApiModelProperty(value = "商品生产日期")
-    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
-    @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
-    @Column(name = "goods_date")
-    private Date goodsDate;
+    @ApiModelProperty(value = "商品计量单位(桶、包、个、瓶......)")
+    @Column(name = "goods_unit")
+    private  String goodsUnit;
 
     @JsonIgnore//防止再去查父类 死循环
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
@@ -59,15 +56,6 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "商品所属类别")
     private  Category category;
 
-
-
-    public String getGoodsShelfLife() {
-        return goodsShelfLife;
-    }
-
-    public void setGoodsShelfLife(String goodsShelfLife) {
-        this.goodsShelfLife = goodsShelfLife;
-    }
 
     public Category getCategory() {
         return category;
@@ -110,14 +98,6 @@ public class Goods implements Serializable {
     }
 
 
-    public Date getGoodsDate() {
-        return goodsDate;
-    }
-
-    public void setGoodsDate(Date goodsDate) {
-        this.goodsDate = goodsDate;
-    }
-
     public Supplier getSupplier() {
         return supplier;
     }
@@ -126,5 +106,27 @@ public class Goods implements Serializable {
         this.supplier = supplier;
     }
 
+    public Float getPurchasePrice() {
+        return purchasePrice;
+    }
 
+    public void setPurchasePrice(Float purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public String getGoodsSpecification() {
+        return goodsSpecification;
+    }
+
+    public void setGoodsSpecification(String goodsSpecification) {
+        this.goodsSpecification = goodsSpecification;
+    }
+
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
+    }
 }
