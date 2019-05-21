@@ -4,6 +4,7 @@ import com.jiang.demo.entity.Supplier;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
+import javax.persistence.Column;
 
 
 /**
@@ -26,8 +27,11 @@ public class SupplierDTO {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
-    @ApiModelProperty(value = "供应商评价")
-    private  String supplierEvaluate;
+
+    @ApiModelProperty(value = "供应编号")
+    private  String supplierCode;
+
+
 
     @ApiModelProperty(value = "供应商详细地址")
     private  String supplierAddressDetail;
@@ -40,12 +44,12 @@ public class SupplierDTO {
         this.supplierAddressDetail = supplierAddressDetail;
     }
 
-    public String getSupplierEvaluate() {
-        return supplierEvaluate;
+    public String getSupplierCode() {
+        return supplierCode;
     }
 
-    public void setSupplierEvaluate(String supplierEvaluate) {
-        this.supplierEvaluate = supplierEvaluate;
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     public static SupplierDTO convert(Supplier entity) {

@@ -2,6 +2,8 @@ package com.jiang.demo.dto.supplier;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Column;
+
 
 /**
  * Author: 江云飞
@@ -24,8 +26,11 @@ public class SupplierForm {
     @ApiModelProperty(value = "供应商详细地址")
     private  String supplierAddressDetail;
 
-    @ApiModelProperty(value = "供应商评价")
-    private  String supplierEvaluate;
+
+    @ApiModelProperty(value = "供应编号")
+    @Column(name = "supplier_code")
+    private  String supplierCode;
+
 
     private Integer pageNum;
     private Integer pageSize;
@@ -36,6 +41,14 @@ public class SupplierForm {
 
     public void setSupplierAddressDetail(String supplierAddressDetail) {
         this.supplierAddressDetail = supplierAddressDetail;
+    }
+
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     public Integer getPageNum() {
@@ -86,12 +99,4 @@ public class SupplierForm {
         this.supplierAddress = supplierAddress;
     }
 
-
-    public String getSupplierEvaluate() {
-        return supplierEvaluate;
-    }
-
-    public void setSupplierEvaluate(String supplierEvaluate) {
-        this.supplierEvaluate = supplierEvaluate;
-    }
 }
