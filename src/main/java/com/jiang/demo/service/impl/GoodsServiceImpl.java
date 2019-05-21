@@ -114,7 +114,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public void deleteGoods(Integer id) {
-        goodsRepository.deleteById(id);
+        try{
+            goodsRepository.deleteById(id);
+        }catch (Exception e){
+            throw  new MyException(-1,"该商品已经入库，不能删除");
+        }
+
     }
 
 
