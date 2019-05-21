@@ -50,7 +50,7 @@ public class PurchaseDTO {
         BeanUtils.copyProperties(entity, dto);
 
         //订单详情DTO
-        List<PurchaseDetailDTO> purchaseDetails=new ArrayList<>();
+       /* List<PurchaseDetailDTO> purchaseDetails=new ArrayList<>();
 
         if(entity.getPurchaseDetails()!=null){
             //便利订单详情
@@ -59,7 +59,7 @@ public class PurchaseDTO {
                 purchaseDetails.add(PurchaseDetailDTO.convert(g));
             }
             dto.setPurchaseDetailDTOS(purchaseDetails);
-        }
+        }*/
         return dto;
     }
 

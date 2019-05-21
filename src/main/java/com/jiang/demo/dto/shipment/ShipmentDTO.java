@@ -59,7 +59,7 @@ public class ShipmentDTO {
         ShipmentDTO dto = new ShipmentDTO();
         BeanUtils.copyProperties(entity, dto);
         //订单详情DTO
-        List<ShipmentDetailDTO> shipmentDetailDTOS=new ArrayList<>();
+        /*List<ShipmentDetailDTO> shipmentDetailDTOS=new ArrayList<>();
 
         if(entity.getShipmentDetailList()!=null){
             //便利订单详情
@@ -68,7 +68,7 @@ public class ShipmentDTO {
                 shipmentDetailDTOS.add(ShipmentDetailDTO.convert(s));
             }
             dto.setShipmentDetailDTOS(shipmentDetailDTOS);
-        }
+        }*/
 
         return dto;
     }

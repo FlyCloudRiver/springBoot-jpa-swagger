@@ -86,6 +86,7 @@ public class GoodsController {
             goodsService.deleteGoods(id);
             return ResultUtil.success();
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return ResultUtil.error(-1,e.getMessage());
         }
 

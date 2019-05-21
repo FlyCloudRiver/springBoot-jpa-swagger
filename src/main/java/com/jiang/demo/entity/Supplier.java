@@ -23,6 +23,10 @@ public class Supplier implements Serializable {
     @Column(name = "supplier_name")
     private  String supplierName;
 
+    @ApiModelProperty(value = "供应编号")
+    @Column(name = "supplier_code")
+    private  String supplierCode;
+
     @ApiModelProperty(value = "供应商电话")
     @Column(name = "supplier_phone")
     private  String supplierPhone;
@@ -43,17 +47,15 @@ public class Supplier implements Serializable {
     @OneToMany(mappedBy = "supplier",cascade=CascadeType.ALL,fetch= FetchType.LAZY)
     private List<Goods> goodsList;
 
-    @ApiModelProperty(value = "供应商评价")
-    @Column(name = "supplier_evaluate")
-    private  String supplierEvaluate;
 
-    public String getSupplierEvaluate() {
-        return supplierEvaluate;
+    public String getSupplierCode() {
+        return supplierCode;
     }
 
-    public void setSupplierEvaluate(String supplierEvaluate) {
-        this.supplierEvaluate = supplierEvaluate;
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
+
 
     public Integer getId() {
         return id;
