@@ -99,7 +99,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         //判断数据的名字和穿过来的名字是否相同  如果相同就修改其他值
         if(userInfoForm.getUsername().equals(userInfo.getUsername())){
             userInfo.setName(userInfoForm.getName());
-            userInfo.setPassword(userInfoForm.getPassword());
+            if(userInfoForm.getPassword()!=null){
+                userInfo.setPassword(userInfoForm.getPassword());
+            }
+
             //如果用户名不同  再去检查是否重名
         }else if(userInfoRepository.findByUsername(userInfoForm.getUsername())!=null){
             throw new MyException(-2,"用户名已经存在");
