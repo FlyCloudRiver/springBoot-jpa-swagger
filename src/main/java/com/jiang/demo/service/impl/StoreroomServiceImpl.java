@@ -110,7 +110,6 @@ public class StoreroomServiceImpl implements StoreroomService {
             //出入库数量
             storeroom2.setNumber(goodsNumber);
             //保存库存
-            System.out.println("ddddddddddddddddddddddddddddddddddddddddddddd");
             storeroomRepository.save(storeroom2);
            /*
                 Storeroom storeroom2 = new Storeroom();
@@ -178,13 +177,27 @@ public class StoreroomServiceImpl implements StoreroomService {
 
 
     }
-    public List<StoreroomDTO> selectAll() {
-        List<Storeroom> storeroomList = storeroomRepository.selectAll();
+
+    @Transactional
+    public PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize) {
+        System.out.println("pageNum - 1"+(pageNum - 1));
+        System.out.println("pageNum - 1"+pageSize);
+        List<Storeroom> storeroomList = storeroomRepository.selectAll(pageNum - 1, pageSize);
+        System.out.println("444444444444");
+        PageDTO<StoreroomDTO> pageDTO = new PageDTO<>();
+        Integer size = storeroomRepository.selectSize();
+        System.out.println("2222222222");
+        System.out.println(size);
+        pageDTO.setTotalElements(Long.valueOf(size));
+
         List<StoreroomDTO> list = new ArrayList<>();
         for (Storeroom storeroom : storeroomList) {
             list.add(StoreroomDTO.convert(storeroom));
         }
-        return list;
+        System.out.println("3333333333");
+        pageDTO.setContent(list);
+
+        return pageDTO;
     }
     @Override
     public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {
@@ -223,15 +236,11 @@ public class StoreroomServiceImpl implements StoreroomService {
 
         @Override
         public Predicate toPredicate(Root<Storeroom> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            //新建商品类  将form转换成goods
-         /*   Storeroom storeroom = new Storeroom();
-            BeanUtils.copyProperties(storeroomForm, storeroom);*/
-
 
             Integer amount = storeroomForm.getAmount();
             String person = storeroomForm.getPerson();
-
-           /* String goodsCode = storeroomForm.getGoodsCode();
+/*
+            String goodsCode = storeroomForm.getGoodsCode();
             String goodsName = storeroomForm.getGoodsName();*/
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
@@ -293,15 +302,16 @@ public class StoreroomServiceImpl implements StoreroomService {
             //把Predicate应用到CriteriaQuery中去,因为还可以给CriteriaQuery添加其他的功能，比如排序、分组啥的
             query.where(predicateArr);
 
+
             Join<Storeroom,Goods> join=root.join("goods");
-
             //不起作用
+            query.groupBy(join.get("id").as(Integer.class));
 
-          /*  query.groupBy(join.get("id").as(Integer.class));
-            query.orderBy(cb.desc(join.get("id").as(Integer.class)));*/
+            query.orderBy(cb.desc(join.get("id").as(Integer.class)));
+
             //return cb.and(predicateArr);
-            return query.getRestriction();
-            //return cb.or(predicateArr);
+            return query.getGroupRestriction();
+
 
         }
 

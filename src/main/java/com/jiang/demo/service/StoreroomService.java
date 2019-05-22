@@ -24,5 +24,5 @@ public interface StoreroomService {
     void insertStorage(PurchaseStorageFrom purchaseStorageFrom);
 
     void outputStorage(ShipmentStorageFrom shipmentStorageFrom);
-    List<StoreroomDTO> selectAll();
+    PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize);
 }
