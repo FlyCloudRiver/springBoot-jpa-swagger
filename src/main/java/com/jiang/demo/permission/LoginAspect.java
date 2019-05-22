@@ -4,6 +4,7 @@ import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
 
+import com.jiang.demo.utils.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -64,12 +65,14 @@ public class LoginAspect {
     @ResponseBody
     public Object Interceptor(ProceedingJoinPoint point){
 
+        System.out.println("进入登陆验证");
         //正在被通知的方法相关信息
         MethodSignature signature = (MethodSignature) point.getSignature();
         //获取被拦截的方法
         Method method = signature.getMethod();
         //获取被拦截的方法名
         String methodName = method.getName();
+        System.out.println("方法名:"+methodName);
         //返回的结果
         Object result = null;
         //返回方法参数
@@ -77,10 +80,8 @@ public class LoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-        System.out.println("request"+request);
-        System.out.println();
         Cookie[] cookies = request.getCookies();
-        if(cookies.length==0){
+        if(cookies==null){
             throw new MyException(-3, "你还没登陆！");
         }
             //获取cookie里面的token
@@ -106,21 +107,26 @@ public class LoginAspect {
                 //token保存的时间
                 Date buildTime = tokens.getBuildtime();
                 long time = buildTime.getTime();
+                System.out.println("token保存的时间:"+time);
                 //当前时间
                 Date nowTime = new Date();
                 long time1 = nowTime.getTime();
+                long dateToSecond = nowTime.getTime();//sdf.parse()实现日期转换为Date格式，然后getTime()转换为毫秒数值
+                System.out.println("当前时间:"+dateToSecond);
 
-                System.out.println("时间差："+(time1 - time));
+                System.out.println("时间差："+(dateToSecond - time));
 
-                if (time1 - time >= 60000) {
+                //40分(min)=2400000毫秒(ms)
+                if (time1 - time >= 2400000) {
                     //时间过期
-                    throw new MyException(-4, "登陆过期，请重新登陆！");
+                    return ResultUtil.error(-3,"登陆过期，请重新登陆！");
                 }
                 //token信息存在  并且未过期  执行需要登陆的方法  返回数据
                 result = point.proceed();
 
             }catch (Exception e){
-                throw new MyException(-3, "你还没登陆！");
+                return ResultUtil.error(-3,"你还没登陆");
+
             } catch (Throwable throwable) {
                 throw new MyException(-6, "接口出问题！");
             }

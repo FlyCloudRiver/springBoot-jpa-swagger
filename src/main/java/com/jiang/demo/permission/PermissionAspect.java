@@ -3,6 +3,7 @@ package com.jiang.demo.permission;
 import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.TokenRepository;
+import com.jiang.demo.utils.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -71,7 +72,7 @@ public class PermissionAspect {
 
         //得到方法的访问权限
         final String methodAccess = AnnotationParse.privilegeParse(targetMethod);
-        System.out.println("访问的权限："+methodAccess);
+        System.out.println("允许通过的访问的权限："+methodAccess);
         //如果该方法上没有权限注解，直接调用目标方法
         if (StringUtils.isEmpty(methodAccess)) {
             System.out.println("该方法上没有管理员权限注解");
@@ -80,36 +81,40 @@ public class PermissionAspect {
             //如果该方法上有注解
             Cookie[] cookies = request.getCookies();
             try {
-
-                String token=cookies[0].getValue();
-                System.out.println("token==="+cookies[0].getName());
+                String token=null;
+                for (Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token")){
+                        token= cookie.getValue();
+                    }
+                }
                 System.out.println("token==="+token);
                 //根据token密匙查询 信息
-                try {
+
+                    System.out.println("获取token信息");
                     Tokens tokens = tokenRepository.findTokensByToken(token);
 
+                    System.out.println("获取用户名");
                     String username = tokens.getUserInfo().getUsername();
-                    System.out.println("username" + username);
+                    System.out.println("username==" + username);
 
                     //根据用户名获取角色名
                     String roleName = tokenRepository.getRoleName(username);
+
+                    System.out.println("角色名="+roleName);
+
                     if(roleName.equals("administrators")){
+                        System.out.println("您是超级管理员");
                         logger.info("您是超级管理员");
                         //是管理员时，继续执行方法 返回数据
                         return joinPoint.proceed();
                     }else {
-                        throw new MyException(-2,"您不是超级管理员");
+                        System.out.println("您不是超级管理员");
+                        logger.info("您不是超级管理员");
+                        return ResultUtil.error(-4,"您不是超级管理员");
                     }
-                }catch (Exception e){
-                    throw new MyException(-3, "你还没登陆！");
-                }
-               /* Integer token1 = tokenRepository.getToken(token);
-                if(token1<1){
-                    throw new MyException(-4, "你还没登陆！");
-                }*/
 
             }catch (Exception e){
-                throw new MyException(-3, "您还未登陆！");
+                return ResultUtil.error(-3,"您还未登录！");
             }
 
         }
