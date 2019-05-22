@@ -25,4 +25,9 @@ public interface StoreroomRepository extends JpaRepository<Storeroom,Integer>, J
 
     @Query(value = "select count(*) from (select * from storeroom group by goods_id) a;", nativeQuery = true)
     Integer selectSize();
+
+    //根据商品id查询交易记录
+    @Query(value = "select * from storeroom where goods_id=? order by id desc;", nativeQuery = true)
+    List<Storeroom> selectInfo(Integer goodsId);
+
 }

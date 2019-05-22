@@ -178,6 +178,12 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     }
 
+    //根据商品id查询交易记录
+    public List<Storeroom> selectInfo(Integer goodsId){
+        List<Storeroom> storeroomList = storeroomRepository.selectInfo(goodsId);
+        return storeroomList;
+    }
+
     @Transactional
     public PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize) {
 

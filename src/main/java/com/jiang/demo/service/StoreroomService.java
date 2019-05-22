@@ -5,6 +5,7 @@ import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
+import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.utils.PageDTO;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface StoreroomService {
 
     void outputStorage(ShipmentStorageFrom shipmentStorageFrom);
     PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize);
+
+    //根据商品id查询交易记录
+     List<Storeroom> selectInfo(Integer goodsId);
 }

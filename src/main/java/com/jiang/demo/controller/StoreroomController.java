@@ -4,6 +4,7 @@ import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
+import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
@@ -76,12 +77,21 @@ public class StoreroomController {
 
     }
 
-    @ApiOperation(value = "查询库存")
+    @ApiOperation(value = "查询库存(分页)")
     @PostMapping("/selectAll")
     @SuppressWarnings("unchecked")
     public  Result<PageDTO<StoreroomDTO>> selectAll(Integer pageNum,Integer pageSize){
         PageDTO<StoreroomDTO> storeroomDTOPageDTO = storeroomService.selectAll(pageNum, pageSize);
         return ResultUtil.success(storeroomDTOPageDTO);
+    }
+
+    @ApiOperation(value = "根据商品id查询交易记录")
+    @PostMapping("/selectInfo")
+    @SuppressWarnings("unchecked")
+    //根据商品id查询交易记录
+    public Result<List<Storeroom>> selectInfo(Integer goodsId){
+        List<Storeroom> storeroomList = storeroomService.selectInfo(goodsId);
+        return ResultUtil.success(storeroomList);
     }
 
 }
