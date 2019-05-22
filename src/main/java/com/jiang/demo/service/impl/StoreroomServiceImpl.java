@@ -180,21 +180,20 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     @Transactional
     public PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize) {
-        System.out.println("pageNum - 1"+(pageNum - 1));
-        System.out.println("pageNum - 1"+pageSize);
+
         List<Storeroom> storeroomList = storeroomRepository.selectAll(pageNum - 1, pageSize);
-        System.out.println("444444444444");
+
         PageDTO<StoreroomDTO> pageDTO = new PageDTO<>();
         Integer size = storeroomRepository.selectSize();
-        System.out.println("2222222222");
-        System.out.println(size);
+
+
         pageDTO.setTotalElements(Long.valueOf(size));
 
         List<StoreroomDTO> list = new ArrayList<>();
         for (Storeroom storeroom : storeroomList) {
             list.add(StoreroomDTO.convert(storeroom));
         }
-        System.out.println("3333333333");
+
         pageDTO.setContent(list);
 
         return pageDTO;
