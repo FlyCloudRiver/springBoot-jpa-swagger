@@ -51,26 +51,6 @@ public class GoodsDTO {
         }
         return dto;
     }
-    /*@ApiModelProperty(value = "商品所属厂商DTO")
-    private SupplierDTO supplierDTO;
-
-    @ApiModelProperty(value = "商品所属类别DTO")
-    private CategoryDTO categoryDTO;*/
-
-   /* public static GoodsDTO convert(Goods entity) {
-        GoodsDTO dto = new GoodsDTO();
-        BeanUtils.copyProperties(entity, dto);
-
-        if(entity.getCategory()!=null){
-            dto.setCategoryDTO(CategoryDTO.convert(entity.getCategory()));
-        }
-        if(entity.getSupplier()!=null){
-            dto.setSupplierDTO(SupplierDTO.convert(entity.getSupplier()));
-
-        }
-        return dto;
-    }*/
-
 
     public Integer getId() {
         return id;
