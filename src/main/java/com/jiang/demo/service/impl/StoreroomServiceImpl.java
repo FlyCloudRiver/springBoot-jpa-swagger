@@ -61,6 +61,7 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     @Override
     @Transactional
+    //入库
     public void insertStorage(PurchaseStorageFrom purchaseStorageFrom) {
 
         Date date = new Date();
@@ -73,6 +74,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             throw new MyException(2,"该订单已入库");
         }
         purchase.setStorage(true);
+
         //商品出库时间
         purchase.setStoreTime(date);
         Purchase save = purchaseRepository.save(purchase);
@@ -83,19 +85,34 @@ public class StoreroomServiceImpl implements StoreroomService {
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
             //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有 添加商品到库存
-            Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
-            Lock lock = new ReentrantLock();
-            lock.lock();
-            if(storeroom!=null){
-                //更新时间
-                storeroom.setUpdateTime(date);
-                //库存量
-                storeroom.setAmount(storeroom.getAmount() +goodsNumber );
-                storeroom.setPerson(purchaseStorageFrom.getPerson());
+            //Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
 
-                //更新库存
-                storeroomRepository.save(storeroom);
-            }else{
+            Storeroom storeroom = new Storeroom();
+
+            //保存商品
+            storeroom.setGoods(goodsRepository.findById(goodsId).orElse(null));
+            storeroom.setAmount(0);
+            Storeroom storeroom2 = storeroomRepository.save(storeroom);
+
+            //库存量
+            Integer amount = storeroomRepository.findByGoodsId(goodsId).get(1).getAmount();
+            if(amount!=null){
+                storeroom2.setAmount(amount +goodsNumber );
+            }
+
+
+            //操作人
+            storeroom2.setPerson(purchaseStorageFrom.getPerson());
+            //出入库类型
+            storeroom2.setStyle("商品入库");
+            //出入库时间
+            storeroom2.setUpdateTime(date);
+            //出入库数量
+            storeroom2.setNumber(goodsNumber);
+            //保存库存
+            System.out.println("ddddddddddddddddddddddddddddddddddddddddddddd");
+            storeroomRepository.save(storeroom2);
+           /*
                 Storeroom storeroom2 = new Storeroom();
 
                 storeroom2.setGoods(goodsRepository.findById(goodsId).orElse(null));
@@ -104,9 +121,9 @@ public class StoreroomServiceImpl implements StoreroomService {
                 storeroom2.setAmount(goodsNumber );
                 storeroom2.setPerson(purchaseStorageFrom.getPerson());
                 //更新库存
-                storeroomRepository.save(storeroom2);
-            }
-            lock.unlock();
+                storeroomRepository.save(storeroom2);*/
+
+
         }
 
     }
@@ -114,7 +131,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     @Override
     @Transactional
     public void outputStorage(ShipmentStorageFrom shipmentStorageFrom) {
-        Lock lock = new ReentrantLock();
+
         Date date = new Date();
         //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
         Shipment shipment = shipmentRepository.findById(shipmentStorageFrom.getId()).orElse(null);
@@ -134,23 +151,29 @@ public class StoreroomServiceImpl implements StoreroomService {
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
             //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有或者 出库数量大于库存量返回错误
-            Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
-            lock.lock();
-            if (storeroom != null) {
-                if (goodsNumber > storeroom.getAmount()) {
-                    throw new MyException(-2, "出库量大于库存量");
-                }
-                //更新时间
-                storeroom.setUpdateTime(date);
-                //库存量
-                storeroom.setAmount(storeroom.getAmount() - goodsNumber);
-                storeroom.setPerson(shipmentStorageFrom.getPerson());
+            Storeroom storeroom = new Storeroom();
+            //保存商品
+            storeroom.setGoods(goodsRepository.findById(goodsId).orElse(null));
+            storeroom.setAmount(0);
+            Storeroom storeroom2 = storeroomRepository.save(storeroom);
 
-                //更新库存
-                storeroomRepository.save(storeroom);
-
-                lock.unlock();
+            //库存量
+            Integer amount = storeroomRepository.findByGoodsId(goodsId).get(1).getAmount();
+            if(amount!=null){
+                storeroom2.setAmount(amount-goodsNumber );
             }
+
+
+            //操作人
+            storeroom.setPerson(shipmentStorageFrom.getPerson());
+            //出入库类型
+            storeroom.setStyle("商品出库");
+            //出入库时间
+            storeroom.setUpdateTime(date);
+            //出入库数量
+            storeroom.setNumber(goodsNumber);
+            //保存库存
+            storeroomRepository.save(storeroom);
         }
 
 

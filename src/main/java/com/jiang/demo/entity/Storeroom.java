@@ -30,7 +30,7 @@ public class Storeroom implements Serializable {
     @OneToOne
     private Goods goods;
 
-    @ApiModelProperty(value = "更新时间")
+    @ApiModelProperty(value = "出入库时间")
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出参时间格式化
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
@@ -38,6 +38,28 @@ public class Storeroom implements Serializable {
 
     @ApiModelProperty(value = "更新人员")
     private String person;
+
+    @ApiModelProperty(value = "出入库类型")
+    private String style;
+
+    @ApiModelProperty(value = "出入库数量")
+    private Integer number;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
     public Integer getId() {
         return id;

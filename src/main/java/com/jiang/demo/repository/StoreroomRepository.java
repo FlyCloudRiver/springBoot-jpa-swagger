@@ -15,6 +15,6 @@ import java.util.List;
 public interface StoreroomRepository extends JpaRepository<Storeroom,Integer>, JpaSpecificationExecutor<Storeroom> {
 
 
-    @Query(value = "select * from storeroom where goods_id=?;", nativeQuery = true)
-    Storeroom findByGoodsId(Integer goodsId);
+    @Query(value = "select * from storeroom where goods_id=? order by id desc;", nativeQuery = true)
+    List<Storeroom> findByGoodsId(Integer goodsId);
 }

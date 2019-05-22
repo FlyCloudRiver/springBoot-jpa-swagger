@@ -1,6 +1,8 @@
 package com.jiang.demo.controller;
 
 
+import com.jiang.demo.permission.Login;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
@@ -67,6 +69,8 @@ public class GoodsController {
 
     @ApiOperation(value = "修改")
     @PutMapping("update")
+    @Login
+    @Permission
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> updateGoods(@RequestBody GoodsDTO goodsDTO){
         try{
@@ -80,7 +84,6 @@ public class GoodsController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    //@Permission
     public Result deleteGoods(Integer id){
         try{
             goodsService.deleteGoods(id);
