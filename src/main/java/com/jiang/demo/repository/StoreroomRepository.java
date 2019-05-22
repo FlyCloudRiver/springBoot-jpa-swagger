@@ -17,4 +17,7 @@ public interface StoreroomRepository extends JpaRepository<Storeroom,Integer>, J
 
     @Query(value = "select * from storeroom where goods_id=? order by id desc;", nativeQuery = true)
     List<Storeroom> findByGoodsId(Integer goodsId);
+
+    @Query(value = "select * from storeroom group by goods_id ORDER BY goods_id DESC;", nativeQuery = true)
+    List<Storeroom> selectAll();
 }

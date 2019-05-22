@@ -29,27 +29,7 @@ public class StoreroomForm {
     @ApiModelProperty(value = "更新人员(查询)")
     private String person;
 
-    @ApiModelProperty(value = "库房更新时间上限(查询)")
-    private Date startTime;
 
-    @ApiModelProperty(value = "库房更新时间下限(查询)")
-    private Date endTime;
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
 
     public Integer getPageNum() {
         return pageNum;

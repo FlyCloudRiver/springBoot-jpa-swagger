@@ -178,6 +178,14 @@ public class StoreroomServiceImpl implements StoreroomService {
 
 
     }
+    public List<StoreroomDTO> selectAll() {
+        List<Storeroom> storeroomList = storeroomRepository.selectAll();
+        List<StoreroomDTO> list = new ArrayList<>();
+        for (Storeroom storeroom : storeroomList) {
+            list.add(StoreroomDTO.convert(storeroom));
+        }
+        return list;
+    }
     @Override
     public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {
 
@@ -222,8 +230,7 @@ public class StoreroomServiceImpl implements StoreroomService {
 
             Integer amount = storeroomForm.getAmount();
             String person = storeroomForm.getPerson();
-            Date startTime = storeroomForm.getStartTime();
-            Date endTime = storeroomForm.getEndTime();
+
            /* String goodsCode = storeroomForm.getGoodsCode();
             String goodsName = storeroomForm.getGoodsName();*/
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
@@ -235,7 +242,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                 Predicate predicate = cb.like(root.get("person").as(String.class), "%" + person + "%");
                 predicates.add(predicate);
             }
-
+/*
             if (startTime!=null&&endTime==null) {
 
                 Predicate predicate = cb.greaterThanOrEqualTo(root.get("updateTime").as(Date.class),startTime);
@@ -250,7 +257,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                 Predicate predicate2 = cb.lessThanOrEqualTo(root.get("updateTime").as(Date.class),endTime);
                 predicates.add(predicate1);
                 predicates.add(predicate2);
-            }
+            }*/
 
 
             if (amount != null) {
@@ -272,7 +279,7 @@ public class StoreroomServiceImpl implements StoreroomService {
                 predicates.add(predicate);
             }
 
-
+           // group by goods_id ORDER BY goods_id DESC;
             //判断结合中是否有数据
             if (predicates.size() == 0) {
                 return null;
@@ -282,7 +289,18 @@ public class StoreroomServiceImpl implements StoreroomService {
             predicateArr = predicates.toArray(predicateArr);
 
             // 返回所有获取的条件： 条件 or 条件 or 条件 or 条件
-            return cb.and(predicateArr);
+
+            //把Predicate应用到CriteriaQuery中去,因为还可以给CriteriaQuery添加其他的功能，比如排序、分组啥的
+            query.where(predicateArr);
+
+            Join<Storeroom,Goods> join=root.join("goods");
+
+            //不起作用
+
+          /*  query.groupBy(join.get("id").as(Integer.class));
+            query.orderBy(cb.desc(join.get("id").as(Integer.class)));*/
+            //return cb.and(predicateArr);
+            return query.getRestriction();
             //return cb.or(predicateArr);
 
         }

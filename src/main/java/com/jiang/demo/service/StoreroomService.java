@@ -7,6 +7,8 @@ import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.utils.PageDTO;
 
+import java.util.List;
+
 
 /**
  * Author: 江云飞
@@ -22,4 +24,5 @@ public interface StoreroomService {
     void insertStorage(PurchaseStorageFrom purchaseStorageFrom);
 
     void outputStorage(ShipmentStorageFrom shipmentStorageFrom);
+    List<StoreroomDTO> selectAll();
 }

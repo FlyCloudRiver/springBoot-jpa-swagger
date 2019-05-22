@@ -76,4 +76,12 @@ public class StoreroomController {
 
     }
 
+    @ApiOperation(value = "查询库存")
+    @PostMapping("/selectAll")
+    @SuppressWarnings("unchecked")
+    public Result<List<StoreroomDTO>> selectAll(){
+        List<StoreroomDTO> storeroomDTOS = storeroomService.selectAll();
+        return ResultUtil.success(storeroomDTOS);
+    }
+
 }
