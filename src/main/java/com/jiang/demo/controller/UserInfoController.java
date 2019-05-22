@@ -99,8 +99,9 @@ public class UserInfoController {
 
                 return ResultUtil.success(UserInfoDTO.convert(user));
 
-            } else
-                throw new MyException(-6, "用户名或密码错误");
+            } else{
+                return ResultUtil.error(-3,"用户名或密码错误");
+            }
         } catch (Exception e) {
             throw new MyException(-2, "未知错误");
         }
