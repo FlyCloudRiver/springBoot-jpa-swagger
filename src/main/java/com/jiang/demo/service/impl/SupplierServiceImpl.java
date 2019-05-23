@@ -120,7 +120,7 @@ public class SupplierServiceImpl implements SupplierService {
             String supplierName = supplierForm.getSupplierName();
             String supplierAddress = supplierForm.getSupplierAddress();
             String supplierPhone = supplierForm.getSupplierPhone();
-            String supplierCode = supplierForm.getSupplierCode();
+
             String supplierAddressDetail = supplierForm.getSupplierAddressDetail();
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
@@ -131,10 +131,7 @@ public class SupplierServiceImpl implements SupplierService {
                 Predicate predicate = cb.like(root.get("supplierAddressDetail").as(String.class), "%"+supplierAddressDetail+"%");
                 predicates.add(predicate);
             }
-            if (StringUtils.isNotBlank(supplierCode)) {
-                Predicate predicate = cb.like(root.get("supplierCode").as(String.class), "%"+supplierCode+"%");
-                predicates.add(predicate);
-            }
+
             if (StringUtils.isNotBlank(supplierName)) {
                 Predicate predicate = cb.like(root.get("supplierName").as(String.class), "%"+supplierName+"%");
                 predicates.add(predicate);
