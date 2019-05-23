@@ -27,6 +27,12 @@ public class StoreroomDTO {
     @ApiModelProperty(value = "更新人员")
     private String person;
 
+    @ApiModelProperty(value = "出入库类型")
+    private String style;
+
+    @ApiModelProperty(value = "出入库数量")
+    private Integer number;
+
     public static StoreroomDTO convert(Storeroom entity) {
         StoreroomDTO dto = new StoreroomDTO();
         BeanUtils.copyProperties(entity, dto);
@@ -36,6 +42,22 @@ public class StoreroomDTO {
         }
 
         return dto;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Integer getId() {
