@@ -27,10 +27,6 @@ public class SupplierForm {
     private  String supplierAddressDetail;
 
 
-    @ApiModelProperty(value = "供应编号")
-    @Column(name = "supplier_code")
-    private  String supplierCode;
-
 
     private Integer pageNum;
     private Integer pageSize;
@@ -43,13 +39,6 @@ public class SupplierForm {
         this.supplierAddressDetail = supplierAddressDetail;
     }
 
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
-    }
 
     public Integer getPageNum() {
         return pageNum;
