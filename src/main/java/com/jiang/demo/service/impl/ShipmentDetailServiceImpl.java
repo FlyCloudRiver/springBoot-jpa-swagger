@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -43,13 +44,25 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
     }
-
+    public  static int scount=1;
     @Override
     @Transactional
     public List<ShipmentDetailDTO> insertShipmentDetail(ShipmentForm shipmentForm) {
         /*将前者赋值给后者*/
         Shipment shipment = new Shipment();
         BeanUtils.copyProperties(shipmentForm, shipment);
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateString = formatter.format(date);
+
+        String shieCode=scount+dateString;
+        if(scount<=10000){
+            scount++;
+        }else{
+            scount=0;
+        }
+        shipment.setShipmentCode(shieCode);
         shipment.setCreateTime(new Date());
         //保存 并且  得到订单
         Shipment save1 = shipmentRepository.save(shipment);

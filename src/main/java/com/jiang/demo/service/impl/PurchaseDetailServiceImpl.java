@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -42,6 +43,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     }
 
 
+    public  static int pcount=1;
     /*添加订单  */
     @Transactional
     public List<PurchaseDetailDTO> insertPurchaseDetail(PurchaseForm purchaseForm){
@@ -49,10 +51,25 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         /*将前者赋值给后者*/
         Purchase purchase = new Purchase();
         BeanUtils.copyProperties(purchaseForm, purchase);
+
+
         //保存 并且  得到订单
         Date date = new Date();
         purchase.setCreateTime(date);
         purchase.setUpdateTime(date);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateString = formatter.format(date);
+
+        String purchaseCode=pcount+dateString;
+        if(pcount<=10000){
+            pcount++;
+        }else{
+            pcount=0;
+        }
+
+        purchase.setPurchaseCode(purchaseCode);
+
         Purchase save1 = purchaseRepository.save(purchase);
 
         List<PurchaseDetailDTO> purchaseDetailDTOList=new ArrayList<>();

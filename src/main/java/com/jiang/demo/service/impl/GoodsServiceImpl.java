@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.persistence.criteria.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  * Author: 江云飞
@@ -52,6 +53,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 
 
+    public  static int count=1;
     public GoodsDTO insertGoods(GoodsForm goodsForm){
         Goods goods=new Goods();
         /*将前者赋值给后者*/
@@ -62,7 +64,18 @@ public class GoodsServiceImpl implements GoodsService {
 
         Supplier supplier=supplierRepository.findById(goodsForm.getSupplierId()).orElse(null);
         goods.setSupplier(supplier);
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateString = formatter.format(date);
 
+        String goodsCode=goodsForm.getCategoryId()+goodsForm.getSupplierId()+dateString+count;
+        if(count<=10000){
+            count++;
+        }else{
+            count=0;
+        }
+
+        goods.setGoodsCode(goodsCode);
         Goods save = goodsRepository.save(goods);
 
         /*传进去实体类 返回 DTO类*/
