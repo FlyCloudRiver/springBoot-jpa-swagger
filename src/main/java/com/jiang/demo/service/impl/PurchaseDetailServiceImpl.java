@@ -58,6 +58,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         purchase.setCreateTime(date);
         purchase.setUpdateTime(date);
 
+        //订单编码
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String dateString = formatter.format(date);
 
@@ -67,7 +68,6 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         }else{
             pcount=0;
         }
-
         purchase.setPurchaseCode(purchaseCode);
 
         Purchase save1 = purchaseRepository.save(purchase);

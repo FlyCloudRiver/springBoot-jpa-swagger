@@ -57,11 +57,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         /*将前者赋值给后者*/
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userInfoForm, userInfo);
-
         if(userInfoRepository.findByUsername(userInfoForm.getUsername())!=null){
             throw new MyException(-2,"用户名已经存在");
         }
-
         List<Integer> roleListId = userInfoForm.getRoleListId();
         List<SysRole> sysRoles = new ArrayList<>();
         for (Integer i:roleListId) {
@@ -102,14 +100,12 @@ public class UserInfoServiceImpl implements UserInfoService {
             if(userInfoForm.getPassword()!=null){
                 userInfo.setPassword(userInfoForm.getPassword());
             }
-
             //如果用户名不同  再去检查是否重名
         }else if(userInfoRepository.findByUsername(userInfoForm.getUsername())!=null){
             throw new MyException(-2,"用户名已经存在");
         }else{
             userInfo.setUsername(userInfoForm.getUsername());
         }
-
         //修改角色
         List<Integer> roleListId = userInfoForm.getRoleListId();
         List<SysRole> sysRoles = new ArrayList<>();

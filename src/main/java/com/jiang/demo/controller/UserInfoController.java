@@ -67,7 +67,6 @@ public class UserInfoController {
                     System.out.println("tokens存在，插入Name");
                     Tokens tokens1 = byUid.get(0);
                     tokens1.setBuildtime(new Date());
-
                     String replace = isReplace(getItemID(10));
                     String md5code = md5(replace);
                     tokens1.setToken(md5code);
@@ -80,7 +79,6 @@ public class UserInfoController {
                     String replace = isReplace(getItemID(10));
                     String md5code = md5(replace);
                     tokens.setToken(md5code);
-
                     tokens.setBuildtime(new Date());
                     tokens.setUserInfo(user);
                     save = tokenRepository.save(tokens);
