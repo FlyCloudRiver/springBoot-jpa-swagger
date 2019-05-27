@@ -2,6 +2,7 @@ package com.jiang.demo.service.impl;
 
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
+import com.jiang.demo.dto.Storeroom.StoreroomReportDTO;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.entity.*;
@@ -9,6 +10,7 @@ import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.*;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,12 +45,14 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
     private PurchaseRepository purchaseRepository;
+
     @Autowired
     public void setPurchaseRepository(PurchaseRepository purchaseRepository) {
         this.purchaseRepository = purchaseRepository;
     }
 
     private ShipmentRepository shipmentRepository;
+
     @Autowired
     public void setShipmentRepository(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
@@ -54,6 +60,7 @@ public class StoreroomServiceImpl implements StoreroomService {
 
 
     private GoodsRepository goodsRepository;
+
     @Autowired
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
@@ -67,21 +74,21 @@ public class StoreroomServiceImpl implements StoreroomService {
         Date date = new Date();
         //1.(订单)查询订单的storage值  如果为true  返回错误   如果为false  将值改为true 进行下一步
         Purchase purchase = purchaseRepository.findById(purchaseStorageFrom.getId()).orElse(null);
-        if(purchase==null){
-            throw new MyException(-1,"该订单不存在");
+        if (purchase == null) {
+            throw new MyException(-1, "该订单不存在");
         }
-        if(purchase.getStorage()){
-            throw new MyException(2,"该订单已入库");
+        if (purchase.getStorage()) {
+            throw new MyException(2, "该订单已入库");
         }
         purchase.setStorage(true);
 
-        //商品入库时间
+        //商品出库时间
         purchase.setStoreTime(date);
         Purchase save = purchaseRepository.save(purchase);
         //2.添加库房(得到采购单详情——商品id 商品数量)
 
         List<PurchaseDetail> purchaseDetails = save.getPurchaseDetails();
-        for (PurchaseDetail p:purchaseDetails) {
+        for (PurchaseDetail p : purchaseDetails) {
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
             //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有 添加商品到库存
@@ -96,8 +103,8 @@ public class StoreroomServiceImpl implements StoreroomService {
 
             //库存量
             Integer amount = storeroomRepository.findByGoodsId(goodsId).get(1).getAmount();
-            if(amount!=null){
-                storeroom2.setAmount(amount +goodsNumber );
+            if (amount != null) {
+                storeroom2.setAmount(amount + goodsNumber);
             }
 
 
@@ -158,9 +165,10 @@ public class StoreroomServiceImpl implements StoreroomService {
 
             //库存量
             Integer amount = storeroomRepository.findByGoodsId(goodsId).get(1).getAmount();
-            if(amount!=null){
-                storeroom2.setAmount(amount-goodsNumber );
+            if (amount != null) {
+                storeroom2.setAmount(amount - goodsNumber);
             }
+
 
             //操作人
             storeroom.setPerson(shipmentStorageFrom.getPerson());
@@ -178,13 +186,13 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
     //根据商品id查询交易记录
-    public List<Storeroom> selectInfo(Integer goodsId){
+    public List<Storeroom> selectInfo(Integer goodsId) {
         List<Storeroom> storeroomList = storeroomRepository.selectInfo(goodsId);
         return storeroomList;
     }
 
     @Transactional
-    public PageDTO<StoreroomDTO> selectAll(Integer pageNum,Integer pageSize) {
+    public PageDTO<StoreroomDTO> selectAll(Integer pageNum, Integer pageSize) {
 
         List<Storeroom> storeroomList = storeroomRepository.selectAll(pageNum - 1, pageSize);
 
@@ -203,11 +211,12 @@ public class StoreroomServiceImpl implements StoreroomService {
 
         return pageDTO;
     }
+
     @Override
     public PageDTO<StoreroomDTO> select(StoreroomForm storeroomForm) {
 
-        Integer pageNum=storeroomForm.getPageNum();
-        Integer pageSize=storeroomForm.getPageSize();
+        Integer pageNum = storeroomForm.getPageNum();
+        Integer pageSize = storeroomForm.getPageSize();
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
@@ -279,20 +288,20 @@ public class StoreroomServiceImpl implements StoreroomService {
                 predicates.add(predicate);
             }
             //商品编号 模糊查询
-            if (StringUtils.isNotBlank(storeroomForm.getGoodsCode())){
+            if (StringUtils.isNotBlank(storeroomForm.getGoodsCode())) {
                 //Predicate predicate = cb.like(root.get(storeroom.getGoods().getGoodsCode()),"%"+storeroomForm.getGoodsCode()+"%");
                 //ListJoin<Storeroom,Goods> join=root.join(root.getModel().getList("goods",Goods.class));
-                Join<Storeroom,Goods> join=root.join("goods");
-                Predicate predicate = cb.like(join.get("goodsCode").as(String.class),"%"+storeroomForm.getGoodsCode()+"%");
+                Join<Storeroom, Goods> join = root.join("goods");
+                Predicate predicate = cb.like(join.get("goodsCode").as(String.class), "%" + storeroomForm.getGoodsCode() + "%");
                 predicates.add(predicate);
             }
-            if(StringUtils.isNotBlank(storeroomForm.getGoodsName())){
-                Join<Storeroom,Goods> join=root.join("goods");
-                Predicate predicate = cb.like(join.get("goodsName").as(String.class),"%"+storeroomForm.getGoodsName()+"%");
+            if (StringUtils.isNotBlank(storeroomForm.getGoodsName())) {
+                Join<Storeroom, Goods> join = root.join("goods");
+                Predicate predicate = cb.like(join.get("goodsName").as(String.class), "%" + storeroomForm.getGoodsName() + "%");
                 predicates.add(predicate);
             }
 
-           // group by goods_id ORDER BY goods_id DESC;
+            // group by goods_id ORDER BY goods_id DESC;
             //判断结合中是否有数据
             if (predicates.size() == 0) {
                 return null;
@@ -307,7 +316,7 @@ public class StoreroomServiceImpl implements StoreroomService {
             query.where(predicateArr);
 
 
-            Join<Storeroom,Goods> join=root.join("goods");
+            Join<Storeroom, Goods> join = root.join("goods");
             //不起作用
             query.groupBy(join.get("id").as(Integer.class));
 
@@ -319,5 +328,60 @@ public class StoreroomServiceImpl implements StoreroomService {
 
         }
 
+    }
+
+
+    //报表
+    @Transactional
+    public List<StoreroomReportDTO> selectReport(String type, String starTime, String endTime) {
+
+        /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String starTime = formatter.format(starTime1);*/
+
+
+        //1.查询出库存中所有的商品id集合
+
+        List<Integer> goodsIdList = storeroomRepository.findGoodsList();
+
+        List<StoreroomReportDTO> storeroomReportDTOS = new ArrayList<>();
+        //2.遍历集合  分别查询每个商品的报表  出入库其中一种的总数 金额 计算
+        for (Integer goodsId : goodsIdList) {
+            System.out.println(goodsId);
+            //Integer id, String style, String startTime,String endTime
+
+            System.out.println(type);
+           /* System.out.println(starTime1);
+            System.out.println(endTime1);*/
+
+            List<Storeroom> goodsReport1 = storeroomRepository.findGoodsReport(goodsId, type, starTime, endTime);
+            System.out.println(goodsReport1.size());
+
+            if (goodsReport1.size() != 0) {
+                Storeroom storeroom = goodsReport1.get(goodsReport1.size() - 1);//获取最后一个
+                //商品售价(元)
+                Float goodsPrice = storeroom.getGoods().getGoodsPrice();
+                //进价
+                Float purchasePrice = storeroom.getGoods().getPurchasePrice();
+
+                //封装成返回对象
+                StoreroomReportDTO convert = StoreroomReportDTO.convert(storeroom);
+                Integer totle = storeroomRepository.findTotle(goodsId, type, starTime, endTime);
+                convert.setTotleNumber(totle);
+
+                if (type.equals("商品出库")) {
+                    convert.setSumMoney(goodsPrice * totle);
+
+                } else if (type.equals("商品入库")) {
+                    convert.setSumMoney(purchasePrice * totle);
+                }
+                storeroomReportDTOS.add(convert);
+
+            }
+            System.out.println("循环体");
+
+        }
+        System.out.println("循环完毕");
+        //3，封装
+        return storeroomReportDTOS;
     }
 }

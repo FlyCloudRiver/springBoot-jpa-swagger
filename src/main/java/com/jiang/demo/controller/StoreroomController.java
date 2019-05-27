@@ -2,6 +2,7 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
+import com.jiang.demo.dto.Storeroom.StoreroomReportDTO;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.entity.Storeroom;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,4 +97,12 @@ public class StoreroomController {
         return ResultUtil.success(storeroomList);
     }
 
+    //查看报表
+    @ApiOperation(value = "查看报表")
+    @PostMapping("/selectReport")
+    @SuppressWarnings("unchecked")
+    public  Result<List<StoreroomReportDTO>> selectReport(String type, String starTime1, String endTime1){
+        List<StoreroomReportDTO> storeroomReportDTOS = storeroomService.selectReport(type, starTime1, endTime1);
+        return ResultUtil.success(storeroomReportDTOS);
+    }
 }
