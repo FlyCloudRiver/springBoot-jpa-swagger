@@ -5,6 +5,8 @@ import com.jiang.demo.entity.Area;
 import com.jiang.demo.entity.City;
 import com.jiang.demo.entity.Province;
 import com.jiang.demo.service.ProvinceService;
+import com.jiang.demo.utils.Result;
+import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +34,22 @@ public class ProvinceController {
 
     @ApiOperation(value = "查找省份")
     @PostMapping("/select")
-    public List<Province> select(){
-        return provinceService.select();
+    @SuppressWarnings("unchecked")
+    public Result<List<Province>> select(){
+        return ResultUtil.success(provinceService.select());
     }
 
     @ApiOperation(value = "查找市")
     @PostMapping("/selectCity")
-    public List<City> selectCity(String procinceid){
-        return provinceService.selectCity(procinceid);
+    @SuppressWarnings("unchecked")
+    public Result<List<City>> selectCity(String procinceid){
+        return ResultUtil.success(provinceService.selectCity(procinceid));
     }
 
     @ApiOperation(value = "查找县区")
     @PostMapping("/selectArea")
-    public List<Area> selectArea(String cityid){
-        return provinceService.selectArea(cityid);
+    @SuppressWarnings("unchecked")
+    public Result<List<Area>> selectArea(String cityid){
+        return ResultUtil.success(provinceService.selectArea(cityid));
     }
 }
