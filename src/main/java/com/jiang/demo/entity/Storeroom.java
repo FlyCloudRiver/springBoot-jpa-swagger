@@ -28,6 +28,7 @@ public class Storeroom implements Serializable {
 
     @ApiModelProperty(value = "库存商品")
     @OneToOne
+    //@OneToOne
     private Goods goods;
 
     @ApiModelProperty(value = "出入库时间")
