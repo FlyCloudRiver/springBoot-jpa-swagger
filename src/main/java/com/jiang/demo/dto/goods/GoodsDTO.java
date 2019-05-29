@@ -38,7 +38,7 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品所属类别id")
     private Integer categoryId;
 
-    @ApiModelProperty(value = "商品所属厂商iname")
+    @ApiModelProperty(value = "商品所属厂商Name")
     private String supplierName;
 
     @ApiModelProperty(value = "商品所属类别Name")
