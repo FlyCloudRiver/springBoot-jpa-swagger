@@ -28,16 +28,7 @@ public class SupplierDTO {
     private  String supplierAddress;
 
 
-    @ApiModelProperty(value = "供应商详细地址")
-    private  String supplierAddressDetail;
 
-    public String getSupplierAddressDetail() {
-        return supplierAddressDetail;
-    }
-
-    public void setSupplierAddressDetail(String supplierAddressDetail) {
-        this.supplierAddressDetail = supplierAddressDetail;
-    }
 
 
     public static SupplierDTO convert(Supplier entity) {

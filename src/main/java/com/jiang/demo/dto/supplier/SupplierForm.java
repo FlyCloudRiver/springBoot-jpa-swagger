@@ -23,21 +23,13 @@ public class SupplierForm {
     @ApiModelProperty(value = "供应商地址")
     private  String supplierAddress;
 
-    @ApiModelProperty(value = "供应商详细地址")
-    private  String supplierAddressDetail;
 
 
 
     private Integer pageNum;
     private Integer pageSize;
 
-    public String getSupplierAddressDetail() {
-        return supplierAddressDetail;
-    }
 
-    public void setSupplierAddressDetail(String supplierAddressDetail) {
-        this.supplierAddressDetail = supplierAddressDetail;
-    }
 
 
     public Integer getPageNum() {

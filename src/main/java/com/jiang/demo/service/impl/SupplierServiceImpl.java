@@ -67,7 +67,7 @@ public class SupplierServiceImpl implements SupplierService {
         }
         BeanUtils.copyProperties(supplierForm, supplier);
 
-        System.out.println("supplier="+supplier);
+
         Supplier save = supplierRepository.save(supplier);
 
         return SupplierDTO.convert(save);
@@ -121,16 +121,13 @@ public class SupplierServiceImpl implements SupplierService {
             String supplierAddress = supplierForm.getSupplierAddress();
             String supplierPhone = supplierForm.getSupplierPhone();
 
-            String supplierAddressDetail = supplierForm.getSupplierAddressDetail();
+
             //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
             //对客户端查询条件进行判断,并封装Predicate断言对象
             // isNotBlank(str) 等价于 str != null && str.length > 0 && str.trim().length > 0
-            if (StringUtils.isNotBlank(supplierAddressDetail)) {
-                Predicate predicate = cb.like(root.get("supplierAddressDetail").as(String.class), "%"+supplierAddressDetail+"%");
-                predicates.add(predicate);
-            }
+
 
             if (StringUtils.isNotBlank(supplierName)) {
                 Predicate predicate = cb.like(root.get("supplierName").as(String.class), "%"+supplierName+"%");
