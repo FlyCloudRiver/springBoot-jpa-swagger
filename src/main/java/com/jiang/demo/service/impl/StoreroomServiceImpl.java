@@ -82,7 +82,7 @@ public class StoreroomServiceImpl implements StoreroomService {
         }
         purchase.setStorage(true);
 
-        //商品出库时间
+        //商品入库时间
         purchase.setStoreTime(date);
         Purchase save = purchaseRepository.save(purchase);
         //2.添加库房(得到采购单详情——商品id 商品数量)
