@@ -38,15 +38,23 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品所属类别id")
     private Integer categoryId;
 
+    @ApiModelProperty(value = "商品所属厂商iname")
+    private String supplierName;
+
+    @ApiModelProperty(value = "商品所属类别Name")
+    private String categoryName;
+
     public static GoodsDTO convert(Goods entity) {
         GoodsDTO dto = new GoodsDTO();
         BeanUtils.copyProperties(entity, dto);
 
         if(entity.getCategory()!=null){
             dto.setCategoryId(entity.getCategory().getId());
+            dto.setCategoryName(entity.getCategory().getCategoryName());
         }
         if(entity.getSupplier()!=null){
             dto.setSupplierId(entity.getSupplier().getId());
+            dto.setSupplierName(entity.getSupplier().getSupplierName());
 
         }
         return dto;
@@ -95,6 +103,22 @@ public class GoodsDTO {
 
     public Integer getCategoryId() {
         return categoryId;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public void setCategoryId(Integer categoryId) {
