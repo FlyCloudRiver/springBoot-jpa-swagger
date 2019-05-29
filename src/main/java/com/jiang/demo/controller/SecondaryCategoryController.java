@@ -102,4 +102,20 @@ public class SecondaryCategoryController {
         }
 
     }
+
+
+    @ApiOperation(value = "查询大类id查询中类")
+    @GetMapping("/selectOneByBigCategoryId")
+    @SuppressWarnings("unchecked")
+    public Result<List<SecondaryCategoryDTO>> selectOneByBigCategoryId(Integer id){
+
+        try{
+            List<SecondaryCategoryDTO> secondaryCategoryDTOList = secondaryCategoryService.selectSecondaryCategoryByBigId(id);
+
+            return ResultUtil.success(secondaryCategoryDTOList);
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+    }
 }

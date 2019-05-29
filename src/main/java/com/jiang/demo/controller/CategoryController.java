@@ -118,4 +118,17 @@ public class CategoryController {
         }
 
     }
+
+
+    @ApiOperation(value = "根据中类id查询细类")
+    @PostMapping("/selectOneById")
+    @SuppressWarnings("unchecked")
+    public Result<List<CategoryDTO>> selectCategoryBySecondId(Integer secondId){
+        try{
+            return ResultUtil.success(categoryService.selectCategoryBySecondId(secondId));
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+    }
 }

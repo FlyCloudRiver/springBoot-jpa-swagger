@@ -24,4 +24,6 @@ public interface CategoryService {
     CategoryDTO selectCategoryById(Integer id);
 
     PageDTO<CategoryDTO> findByDynamicCases(CategoryForm categoryForm);
+
+    List<CategoryDTO> selectCategoryBySecondId(Integer secondId);
 }

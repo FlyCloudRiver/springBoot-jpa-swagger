@@ -1,5 +1,6 @@
 package com.jiang.demo.service;
 
+import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryDTO;
 import com.jiang.demo.entity.SecondaryCategory;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface SecondaryCategoryService {
     List<SecondaryCategory> selectSecondaryCategoryAll();
 
     SecondaryCategory selectSecondaryCategoryById(Integer id);
+
+    List<SecondaryCategoryDTO> selectSecondaryCategoryByBigId(Integer bigCategoryId);
 }

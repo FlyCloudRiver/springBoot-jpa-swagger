@@ -1,5 +1,6 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.repository.BigCategoryRepository;
@@ -8,6 +9,7 @@ import com.jiang.demo.service.SecondaryCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,5 +69,15 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
     public SecondaryCategory selectSecondaryCategoryById(Integer id){
 
         return secondaryCategoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<SecondaryCategoryDTO> selectSecondaryCategoryByBigId(Integer bigCategoryId) {
+        List<SecondaryCategory> secondaryCategoryList = secondaryCategoryRepository.selectCategoryByBigId(bigCategoryId);
+        List<SecondaryCategoryDTO> secondaryCategoryDTOList = new ArrayList<>();
+        for (SecondaryCategory secondaryCategory : secondaryCategoryList) {
+            secondaryCategoryDTOList.add(SecondaryCategoryDTO.convert(secondaryCategory));
+        }
+        return secondaryCategoryDTOList;
     }
 }

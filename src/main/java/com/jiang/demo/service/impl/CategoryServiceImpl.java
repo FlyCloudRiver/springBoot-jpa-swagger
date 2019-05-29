@@ -114,6 +114,18 @@ public class CategoryServiceImpl implements CategoryService {
 
         return pageDTO;
     }
+
+    @Override
+    public List<CategoryDTO> selectCategoryBySecondId(Integer secondId) {
+        List<Category> categories = categoryRepository.selectCategoryBySecondId(secondId);
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        for (Category category : categories) {
+            categoryDTOList.add(CategoryDTO.convert(category));
+        }
+        return categoryDTOList;
+
+    }
+
     private class MySpec implements Specification<Category> {
         private CategoryForm categoryForm;
 
