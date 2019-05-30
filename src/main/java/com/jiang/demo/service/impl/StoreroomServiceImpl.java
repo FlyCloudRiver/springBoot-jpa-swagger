@@ -68,7 +68,6 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     @Override
     @Transactional
-    //入库
     public void insertStorage(PurchaseStorageFrom purchaseStorageFrom) {
 
         Date date = new Date();
@@ -89,46 +88,32 @@ public class StoreroomServiceImpl implements StoreroomService {
 
         List<PurchaseDetail> purchaseDetails = save.getPurchaseDetails();
         for (PurchaseDetail p : purchaseDetails) {
+            System.out.println(p.getGoods().getId());
+
             Integer goodsId = p.getGoods().getId();
             Integer goodsNumber = p.getGoodsNumber();
-            //此处查询库房中是否有该商品  如果有 更新商品数量   如果没有 添加商品到库存
-            //Storeroom storeroom = storeroomRepository.findByGoodsId(goodsId);
 
-            Storeroom storeroom = new Storeroom();
-
-            //保存商品
-            storeroom.setGoods(goodsRepository.findById(goodsId).orElse(null));
-            storeroom.setAmount(0);
-            Storeroom storeroom2 = storeroomRepository.save(storeroom);
-
-            //库存量
-            Integer amount = storeroomRepository.findByGoodsId(goodsId).get(1).getAmount();
-            if (amount != null) {
-                storeroom2.setAmount(amount + goodsNumber);
+            //0 首先判断库存中是否是有该商品，如果有获取库存   没有就算了
+            Integer amount=0;
+            if(storeroomRepository.findByGoodsId(goodsId).size()!=0){
+                //获取最新的一条的库存
+                amount = storeroomRepository.findByGoodsId(goodsId).get(0).getAmount();
             }
-
-
+            //1.首先增加一条库存记录
+            Storeroom storeroom = new Storeroom();
+            storeroom.setGoods(goodsRepository.findById(goodsId).orElse(null));
             //操作人
-            storeroom2.setPerson(purchaseStorageFrom.getPerson());
+            storeroom.setPerson(purchaseStorageFrom.getPerson());
             //出入库类型
-            storeroom2.setStyle("商品入库");
+            storeroom.setStyle("商品入库");
             //出入库时间
-            storeroom2.setUpdateTime(date);
+            storeroom.setUpdateTime(date);
             //出入库数量
-            storeroom2.setNumber(goodsNumber);
-            //保存库存
-            storeroomRepository.save(storeroom2);
-           /*
-                Storeroom storeroom2 = new Storeroom();
+            storeroom.setNumber(goodsNumber);
 
-                storeroom2.setGoods(goodsRepository.findById(goodsId).orElse(null));
-                storeroom2.setUpdateTime(date);
-                //库存量
-                storeroom2.setAmount(goodsNumber );
-                storeroom2.setPerson(purchaseStorageFrom.getPerson());
-                //更新库存
-                storeroomRepository.save(storeroom2);*/
-
+            storeroom.setAmount(goodsNumber+amount);
+            //保存
+            storeroomRepository.save(storeroom);
 
         }
 
@@ -346,13 +331,11 @@ public class StoreroomServiceImpl implements StoreroomService {
         List<StoreroomReportDTO> storeroomReportDTOS = new ArrayList<>();
         //2.遍历集合  分别查询每个商品的报表  出入库其中一种的总数 金额 计算
         for (Integer goodsId : goodsIdList) {
-            System.out.println(goodsId);
-            //Integer id, String style, String startTime,String endTime
 
-            System.out.println(type);
-           /* System.out.println(starTime1);
-            System.out.println(endTime1);*/
-
+            /*System.out.println(goodsId);
+            System.out.println(starTime);
+            System.out.println(endTime);
+            System.out.println(type);*/
             List<Storeroom> goodsReport1 = storeroomRepository.findGoodsReport(goodsId, type, starTime, endTime);
             System.out.println(goodsReport1.size());
 
@@ -365,6 +348,7 @@ public class StoreroomServiceImpl implements StoreroomService {
 
                 //封装成返回对象
                 StoreroomReportDTO convert = StoreroomReportDTO.convert(storeroom);
+
                 Integer totle = storeroomRepository.findTotle(goodsId, type, starTime, endTime);
                 convert.setTotleNumber(totle);
 

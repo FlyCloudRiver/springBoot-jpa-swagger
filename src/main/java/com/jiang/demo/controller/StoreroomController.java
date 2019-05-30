@@ -101,8 +101,8 @@ public class StoreroomController {
     @ApiOperation(value = "查看报表")
     @PostMapping("/selectReport")
     @SuppressWarnings("unchecked")
-    public  Result<List<StoreroomReportDTO>> selectReport(String type, String starTime1, String endTime1){
-        List<StoreroomReportDTO> storeroomReportDTOS = storeroomService.selectReport(type, starTime1, endTime1);
+    public  Result<List<StoreroomReportDTO>> selectReport(String type, String startTime, String endTime){
+        List<StoreroomReportDTO> storeroomReportDTOS = storeroomService.selectReport(type, startTime, endTime);
         return ResultUtil.success(storeroomReportDTOS);
     }
 }
