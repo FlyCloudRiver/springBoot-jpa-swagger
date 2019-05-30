@@ -81,12 +81,12 @@ public class BigCategoryController {
     public Result deleteBigCategory(Integer id){
         try{
             bigCategoryService.deleteBigCategoryById(id);
+            return ResultUtil.success();
         }catch (Exception e){
             System.out.println(e.getMessage());
-
             return ResultUtil.error(-1,e.getMessage());
         }
-        return ResultUtil.success();
+
     }
 
     @ApiOperation(value = "修改")

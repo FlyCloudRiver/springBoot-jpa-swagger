@@ -3,9 +3,11 @@ package com.jiang.demo.service.impl;
 import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
 import com.jiang.demo.entity.SecondaryCategory;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.SecondaryCategoryService;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +47,12 @@ public class SecondaryCategoryServiceImpl implements SecondaryCategoryService {
     }
 
     public void deleteSecondaryCategoryById(Integer id){
-        secondaryCategoryRepository.deleteById(id);
+        try{
+            secondaryCategoryRepository.deleteById(id);
+        }catch (Exception e){
+            throw new MyException(-1,"关联商品已入库，不能删除");
+        }
+
     }
 
     public SecondaryCategory updateSecondaryCategory(Integer id,String secondaryCategoryName,Integer bigCategoryId){

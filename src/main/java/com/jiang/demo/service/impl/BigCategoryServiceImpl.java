@@ -2,6 +2,7 @@ package com.jiang.demo.service.impl;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.entity.BigCategory;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.BigCategoryRepository;
 import com.jiang.demo.service.BigCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,13 @@ public class BigCategoryServiceImpl implements BigCategoryService {
     }
 
     public void deleteBigCategoryById(Integer id){
-        bigCategoryRepository.deleteById(id);
+        try{
+            bigCategoryRepository.deleteById(id);
+        }catch (Exception e){
+            throw new MyException(-1,"关联商品已入库，不能删除");
+        }
+
+
     }
 
     public BigCategoryDTO updateBigCategory(Integer id,String bigCategoryName){

@@ -9,6 +9,7 @@ import com.jiang.demo.entity.Category;
 import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.SecondaryCategory;
 import com.jiang.demo.entity.Supplier;
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
 import com.jiang.demo.service.CategoryService;
@@ -60,7 +61,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategoryById(Integer id) {
-        categoryRepository.deleteById(id);
+        try{
+            categoryRepository.deleteById(id);
+        }catch (Exception e){
+            throw new MyException(-1,"关联商品已入库，不能删除");
+        }
+
     }
 
     @Override
