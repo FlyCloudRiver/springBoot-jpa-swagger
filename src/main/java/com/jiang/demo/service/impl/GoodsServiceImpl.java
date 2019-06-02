@@ -52,7 +52,6 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
-
     public  static int count=1;
     public GoodsDTO insertGoods(GoodsForm goodsForm){
         Goods goods=new Goods();
@@ -74,15 +73,12 @@ public class GoodsServiceImpl implements GoodsService {
         }else{
             count=0;
         }
-
         goods.setGoodsCode(goodsCode);
         Goods save = goodsRepository.save(goods);
 
         /*传进去实体类 返回 DTO类*/
         return  GoodsDTO.convert(save);
     }
-
-
 
     public GoodsDTO findGoodsDTOById(Integer id){
         Goods goods = goodsRepository.findById(id).orElse(null);
@@ -100,7 +96,7 @@ public class GoodsServiceImpl implements GoodsService {
         Integer categoryId = goodsDTO.getCategoryId();
         Integer supplierId = goodsDTO.getSupplierId();
         if(categoryId==null||categoryId==0){
-            throw new MyException(-1,"类别id不能为空");
+            throw new MyException(-1,"类别不能为空");
         }
         if(supplierId==null||supplierId==0){
             throw new MyException(-1,"厂商不能为空");
@@ -175,11 +171,6 @@ public class GoodsServiceImpl implements GoodsService {
             String categoryName = goodsForm.getCategoryName();
             String supplierName = goodsForm.getSupplierName();
 
-           /* Float goodsPrice = goodsForm.getGoodsPrice();
-            Float purchasePrice = goodsForm.getPurchasePrice();*/
-
-
-            //定义集合来确定Predicate[] 的长度，因为CriteriaBuilder的or方法需要传入的是断言数组
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtils.isNotBlank(categoryName)){
@@ -205,24 +196,16 @@ public class GoodsServiceImpl implements GoodsService {
                 Predicate predicate = cb.like(root.get("goodsCode").as(String.class), "%"+goodsCode+"%");
                 predicates.add(predicate);
             }
-
-
             //判断结合中是否有数据
             if (predicates.size() == 0) {
                 return null;
             }
-
             //将集合转化为CriteriaBuilder所需要的Predicate[]
             Predicate[] predicateArr = new Predicate[predicates.size()];
             predicateArr = predicates.toArray(predicateArr);
-
             // 返回所有获取的条件： 条件 or 条件 or 条件 or 条件
             return cb.and(predicateArr);
             //return cb.or(predicateArr);
-
-    }
-
-
-
+        }
     }
 }
