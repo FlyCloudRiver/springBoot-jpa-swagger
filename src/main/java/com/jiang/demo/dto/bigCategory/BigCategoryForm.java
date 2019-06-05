@@ -1,8 +1,10 @@
 package com.jiang.demo.dto.bigCategory;
 
+import com.jiang.demo.dto.secondaryCategory.SecondaryCategoryForm;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
 
 
 /**
@@ -13,8 +15,20 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("商品大类")
 public class BigCategoryForm {
 
+    @ApiModelProperty(value = "商品大类id")
+    private  Integer bigCategoryId;
+
     @ApiModelProperty(value = "商品大类名")
     private  String bigCategoryName;
+
+
+    public Integer getBigCategoryId() {
+        return bigCategoryId;
+    }
+
+    public void setBigCategoryId(Integer bigCategoryId) {
+        this.bigCategoryId = bigCategoryId;
+    }
 
     public String getBigCategoryName() {
         return bigCategoryName;

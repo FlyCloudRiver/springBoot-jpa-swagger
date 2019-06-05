@@ -35,13 +35,26 @@ public class GoodsDTO {
     @ApiModelProperty(value = "商品所属厂商id")
     private Integer supplierId;
 
-    @ApiModelProperty(value = "商品所属类别id")
-    private Integer categoryId;
 
     @ApiModelProperty(value = "商品所属厂商Name")
     private String supplierName;
 
-    @ApiModelProperty(value = "商品所属类别Name")
+    @ApiModelProperty(value = "商品所属大类id")
+    private Integer bigCategoryId;
+
+    @ApiModelProperty(value = "商品所属大类name")
+    private String bigCategoryName;
+
+    @ApiModelProperty(value = "商品所属中类id")
+    private Integer secondaryCategoryId;
+
+    @ApiModelProperty(value = "商品所属中类name")
+    private String secondaryCategoryName;
+
+    @ApiModelProperty(value = "商品所属细类id")
+    private Integer categoryId;
+
+    @ApiModelProperty(value = "商品所属细类name")
     private String categoryName;
 
     public static GoodsDTO convert(Goods entity) {
@@ -58,6 +71,38 @@ public class GoodsDTO {
 
         }
         return dto;
+    }
+
+    public Integer getBigCategoryId() {
+        return bigCategoryId;
+    }
+
+    public void setBigCategoryId(Integer bigCategoryId) {
+        this.bigCategoryId = bigCategoryId;
+    }
+
+    public String getBigCategoryName() {
+        return bigCategoryName;
+    }
+
+    public void setBigCategoryName(String bigCategoryName) {
+        this.bigCategoryName = bigCategoryName;
+    }
+
+    public Integer getSecondaryCategoryId() {
+        return secondaryCategoryId;
+    }
+
+    public void setSecondaryCategoryId(Integer secondaryCategoryId) {
+        this.secondaryCategoryId = secondaryCategoryId;
+    }
+
+    public String getSecondaryCategoryName() {
+        return secondaryCategoryName;
+    }
+
+    public void setSecondaryCategoryName(String secondaryCategoryName) {
+        this.secondaryCategoryName = secondaryCategoryName;
     }
 
     public Integer getId() {

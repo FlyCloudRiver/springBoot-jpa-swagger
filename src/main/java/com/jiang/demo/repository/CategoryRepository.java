@@ -19,4 +19,8 @@ public interface CategoryRepository extends JpaRepository<Category,Integer> , Jp
     @Query(value = "select * from category where secondary_category_id=?;", nativeQuery = true)
     List<Category> selectCategoryBySecondId(Integer id);
 
+    @Query(value = "select secondary_category_id from category where id=?;", nativeQuery = true)
+    Integer selectSecondaryCategoryId(Integer id);
+
+
 }

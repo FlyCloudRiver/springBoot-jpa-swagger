@@ -84,6 +84,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public ShipmentDTO selectById(Integer id) {
+        //此处添加库存
         return ShipmentDTO.convert(shipmentRepository.findById(id).orElse(null));
     }
 

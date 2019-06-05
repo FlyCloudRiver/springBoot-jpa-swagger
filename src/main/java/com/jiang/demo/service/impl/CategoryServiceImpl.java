@@ -99,8 +99,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PageDTO<CategoryDTO> findByDynamicCases(CategoryForm categoryForm) {
-        Integer pageNum=categoryForm.getPageNum();
-        Integer pageSize=categoryForm.getPageSize();
+        Integer pageNum=1;
+        Integer pageSize=7;
         //新建商品类  将form转换成goods
         Category category=new Category();
         BeanUtils.copyProperties(categoryForm, category);

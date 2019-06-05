@@ -1,15 +1,11 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.entity.*;
 import com.jiang.demo.exception.MyException;
+import com.jiang.demo.repository.*;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.goods.GoodsDTO;
 import com.jiang.demo.dto.goods.GoodsForm;
-import com.jiang.demo.entity.Category;
-import com.jiang.demo.entity.Goods;
-import com.jiang.demo.entity.Supplier;
-import com.jiang.demo.repository.CategoryRepository;
-import com.jiang.demo.repository.GoodsRepository;
-import com.jiang.demo.repository.SupplierRepository;
 import com.jiang.demo.service.GoodsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.criteria.*;
@@ -37,6 +34,18 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     public void setGoodsRepository(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
+    }
+
+    private BigCategoryRepository bigCategoryRepository;
+    @Autowired
+    public void setBigCategoryRepository(BigCategoryRepository bigCategoryRepository) {
+        this.bigCategoryRepository = bigCategoryRepository;
+    }
+
+    private SecondaryCategoryRepository secondaryCategoryRepository;
+    @Autowired
+    public void setSecondaryCategoryRepository(SecondaryCategoryRepository secondaryCategoryRepository) {
+        this.secondaryCategoryRepository = secondaryCategoryRepository;
     }
 
     private CategoryRepository categoryRepository;
@@ -81,9 +90,25 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     public GoodsDTO findGoodsDTOById(Integer id){
-        Goods goods = goodsRepository.findById(id).orElse(null);
+        Goods g = goodsRepository.findById(id).orElse(null);
+        GoodsDTO convert = GoodsDTO.convert(g);
+
+        //细类ID
+        Integer catageId= g.getCategory().getId();
+        //1.根据细类ID  获取到中类ID
+        Integer secondaryId = categoryRepository.selectSecondaryCategoryId(catageId);
+        //2.根据中类ID  获取到大类ID
+        Integer bigCategoryId = secondaryCategoryRepository.selectBigCategoryId(secondaryId);
+
+        BigCategory bigCategory = bigCategoryRepository.findById(bigCategoryId).orElse(null);
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryId).orElse(null);
+
+        convert.setBigCategoryId(bigCategory.getId());
+        convert.setBigCategoryName(bigCategory.getBigCategoryName());
+        convert.setSecondaryCategoryId(secondaryCategory.getId());
+        convert.setSecondaryCategoryName(secondaryCategory.getSecondaryCategoryName());
         /*传进去实体类 返回 DTO类*/
-        return  GoodsDTO.convert(goods);
+        return  convert;
     }
 
     @Override
@@ -133,6 +158,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     //动态查询:
+    @Override
+    @Transactional
     public PageDTO<GoodsDTO> findByDynamicCases(GoodsForm goodsForm){
 
         Integer pageNum=goodsForm.getPageNum();
@@ -150,7 +177,24 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> content = gooodsies.getContent();
         List<GoodsDTO> goodsDTOList=new ArrayList<>();
         for (Goods g:content) {
-            goodsDTOList.add(GoodsDTO.convert(g));
+            GoodsDTO convert = GoodsDTO.convert(g);
+
+            //细类ID
+            Integer id = g.getCategory().getId();
+            //1.根据细类ID  获取到中类ID
+            Integer secondaryId = categoryRepository.selectSecondaryCategoryId(id);
+            //2.根据中类ID  获取到大类ID
+            Integer bigCategoryId = secondaryCategoryRepository.selectBigCategoryId(secondaryId);
+
+            BigCategory bigCategory = bigCategoryRepository.findById(bigCategoryId).orElse(null);
+            SecondaryCategory secondaryCategory = secondaryCategoryRepository.findById(secondaryId).orElse(null);
+
+            convert.setBigCategoryId(bigCategory.getId());
+            convert.setBigCategoryName(bigCategory.getBigCategoryName());
+            convert.setSecondaryCategoryId(secondaryCategory.getId());
+            convert.setSecondaryCategoryName(secondaryCategory.getSecondaryCategoryName());
+
+            goodsDTOList.add(convert);
         }
         pageDTO.setContent(goodsDTOList);
 
