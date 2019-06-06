@@ -1,9 +1,11 @@
 package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
+import com.jiang.demo.dto.bigCategory.BigCategoryForm;
 import com.jiang.demo.entity.BigCategory;
 import com.jiang.demo.permission.Login;
 import com.jiang.demo.service.BigCategoryService;
+import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -110,13 +112,25 @@ public class BigCategoryController {
 
     }
 
-    @ApiOperation(value = "查询")
+    @ApiOperation(value = "查询所有")
     @GetMapping("/selectAll")
     @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
     //@Login
     public Result<List<BigCategoryDTO>> selectAll(){
         try{
             return ResultUtil.success(bigCategoryService.selectBigCategoryAll());
+        }catch (Exception e){
+            return ResultUtil.error(-1,e.getMessage());
+        }
+
+    }
+    @ApiOperation(value = "动态分页查询查询（所有类别）")
+    @PostMapping("/selectDynamicCases")
+    @SuppressWarnings("unchecked")//告诉编译器忽略 unchecked 警告信息，如使用List，ArrayList等未进行参数化产生的警告信息。
+    //@Login
+    public Result<PageDTO<BigCategoryDTO>> selectDynamicCases(@RequestBody BigCategoryForm bigCategoryForm){
+        try{
+            return ResultUtil.success(bigCategoryService.selectDynamicCases(bigCategoryForm));
         }catch (Exception e){
             return ResultUtil.error(-1,e.getMessage());
         }

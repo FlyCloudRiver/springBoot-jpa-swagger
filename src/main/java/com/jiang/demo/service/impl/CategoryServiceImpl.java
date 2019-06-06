@@ -3,12 +3,8 @@ package com.jiang.demo.service.impl;
 
 import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.dto.category.CategoryForm;
-import com.jiang.demo.dto.goods.GoodsDTO;
-import com.jiang.demo.dto.goods.GoodsForm;
 import com.jiang.demo.entity.Category;
-import com.jiang.demo.entity.Goods;
 import com.jiang.demo.entity.SecondaryCategory;
-import com.jiang.demo.entity.Supplier;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.CategoryRepository;
 import com.jiang.demo.repository.SecondaryCategoryRepository;
@@ -101,9 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
     public PageDTO<CategoryDTO> findByDynamicCases(CategoryForm categoryForm) {
         Integer pageNum=1;
         Integer pageSize=7;
-        //新建商品类  将form转换成goods
-        Category category=new Category();
-        BeanUtils.copyProperties(categoryForm, category);
+
         //分页插件
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
@@ -170,4 +164,5 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
 
-    }    }
+    }
+}

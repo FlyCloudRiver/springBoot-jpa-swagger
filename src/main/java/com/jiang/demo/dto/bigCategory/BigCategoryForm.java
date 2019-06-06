@@ -21,6 +21,24 @@ public class BigCategoryForm {
     @ApiModelProperty(value = "商品大类名")
     private  String bigCategoryName;
 
+    private Integer pageNum;
+    private Integer pageSize;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public Integer getBigCategoryId() {
         return bigCategoryId;
