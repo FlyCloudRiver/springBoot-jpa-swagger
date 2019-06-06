@@ -26,8 +26,12 @@ public class ReportForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")//入参格式化
     private Date endTime;
 
-    @ApiModelProperty(value = "商品细类名")
-    private String categoryName;
+    private Integer pageNum;
+    private Integer pageSize;
+
+    @ApiModelProperty(value = "出入库类型")
+    private String type;
+
 
     public Date getStartTime() {
         return startTime;
@@ -45,11 +49,27 @@ public class ReportForm {
         this.endTime = endTime;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public Integer getPageNum() {
+        return pageNum;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

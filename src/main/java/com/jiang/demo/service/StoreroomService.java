@@ -1,15 +1,14 @@
 package com.jiang.demo.service;
 
 
+import com.jiang.demo.dto.Storeroom.ReportDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
-import com.jiang.demo.dto.Storeroom.StoreroomReportDTO;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
+import com.jiang.demo.dto.reportForm.ReportForm;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.utils.PageDTO;
-
-import java.util.Date;
 import java.util.List;
 
 
@@ -34,5 +33,5 @@ public interface StoreroomService {
 
 
      //报表
-     List<StoreroomReportDTO> selectReport(String type, String starTime1, String endTime1);
+     PageDTO<ReportDTO> selectReport(ReportForm reportForm);
 }

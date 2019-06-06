@@ -1,16 +1,16 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.dto.Storeroom.ReportDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomDTO;
 import com.jiang.demo.dto.Storeroom.StoreroomForm;
-import com.jiang.demo.dto.Storeroom.StoreroomReportDTO;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
+import com.jiang.demo.dto.reportForm.ReportForm;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.entity.*;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.*;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -318,28 +318,73 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     //报表
     @Transactional
-    public List<StoreroomReportDTO> selectReport(String type, String starTime, String endTime) {
-
-        /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String starTime = formatter.format(starTime1);*/
-
-
+    public PageDTO<ReportDTO> selectReport(ReportForm reportForm) {
         //1.查询出库存中所有的商品id集合
-
         List<Integer> goodsIdList = storeroomRepository.findGoodsList();
 
-        List<StoreroomReportDTO> storeroomReportDTOS = new ArrayList<>();
+        List<ReportDTO> reportDTOS = new ArrayList<>();
         //2.遍历集合  分别查询每个商品的报表  出入库其中一种的总数 金额 计算
         for (Integer goodsId : goodsIdList) {
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd ");
 
-            /*System.out.println(goodsId);
-            System.out.println(starTime);
-            System.out.println(endTime);
-            System.out.println(type);*/
-            List<Storeroom> goodsReport1 = storeroomRepository.findGoodsReport(goodsId, type, starTime, endTime);
+            String formatStartTime = null;
+            String formatEndTime = null;
+            Date startTime = reportForm.getStartTime();
+            Date endTime = reportForm.getEndTime();
+
+            if(startTime!=null){
+                formatStartTime = simpleDateFormat.format(startTime);
+            }
+            if(endTime!=null){
+                formatEndTime = simpleDateFormat.format(endTime);
+            }
+
+
+            String type = reportForm.getType();
+
+            System.out.println(formatStartTime);
+            System.out.println(formatEndTime);
+
+            if(type==null){
+                throw new MyException(-1,"类型不能为空！");
+            }
+            //找到此商品的所有出入库记录
+            List<Storeroom> goodsReport1 = new ArrayList<>();
+            Integer totle = 0;
+            if(formatStartTime==null){
+                if(formatEndTime==null){
+                    goodsReport1 = storeroomRepository.findGoodsReport4(goodsId, type);
+                    totle = storeroomRepository.findTotle4(goodsId, type);
+                }else{
+                    goodsReport1 = storeroomRepository.findGoodsReport2(goodsId, type, formatEndTime);
+                    totle = storeroomRepository.findTotle2(goodsId, type, formatEndTime);
+                }
+            }else{
+                if(formatEndTime==null){
+                    goodsReport1 = storeroomRepository.findGoodsReport3(goodsId, type, formatStartTime);
+                    totle = storeroomRepository.findTotle3(goodsId, type, formatStartTime);
+                }else{
+                    goodsReport1 = storeroomRepository.findGoodsReport(goodsId, type, formatStartTime, formatEndTime);
+                    totle = storeroomRepository.findTotle(goodsId, type, formatStartTime, formatEndTime);
+                }
+            }
+            /*if(formatStartTime!=null && formatEndTime!=null){
+                goodsReport1 = storeroomRepository.findGoodsReport(goodsId, type, formatStartTime, formatEndTime);
+                totle = storeroomRepository.findTotle(goodsId, type, formatStartTime, formatEndTime);
+            }else if(formatStartTime==null && formatEndTime!=null){
+                goodsReport1 = storeroomRepository.findGoodsReport2(goodsId, type, formatEndTime);
+                totle = storeroomRepository.findTotle2(goodsId, type, formatEndTime);
+            }else if(formatStartTime!=null && formatEndTime==null){
+                goodsReport1 = storeroomRepository.findGoodsReport3(goodsId, type, formatStartTime);
+                totle = storeroomRepository.findTotle3(goodsId, type, formatStartTime);
+            }else if(formatStartTime==null && formatEndTime==null){
+                goodsReport1 = storeroomRepository.findGoodsReport4(goodsId, type);
+                totle = storeroomRepository.findTotle4(goodsId, type);
+            }*/
+
             System.out.println(goodsReport1.size());
-
             if (goodsReport1.size() != 0) {
+                // 获取最后一条记录（最新库存）
                 Storeroom storeroom = goodsReport1.get(goodsReport1.size() - 1);//获取最后一个
                 //商品售价(元)
                 Float goodsPrice = storeroom.getGoods().getGoodsPrice();
@@ -347,18 +392,16 @@ public class StoreroomServiceImpl implements StoreroomService {
                 Float purchasePrice = storeroom.getGoods().getPurchasePrice();
 
                 //封装成返回对象
-                StoreroomReportDTO convert = StoreroomReportDTO.convert(storeroom);
+                ReportDTO convert = ReportDTO.convert(storeroom);
 
-                Integer totle = storeroomRepository.findTotle(goodsId, type, starTime, endTime);
                 convert.setTotleNumber(totle);
-
                 if (type.equals("商品出库")) {
                     convert.setSumMoney(goodsPrice * totle);
 
                 } else if (type.equals("商品入库")) {
                     convert.setSumMoney(purchasePrice * totle);
                 }
-                storeroomReportDTOS.add(convert);
+                reportDTOS.add(convert);
 
             }
             System.out.println("循环体");
@@ -366,6 +409,40 @@ public class StoreroomServiceImpl implements StoreroomService {
         }
         System.out.println("循环完毕");
         //3，封装
-        return storeroomReportDTOS;
+        System.out.println("总条数"+reportDTOS.size());
+        Integer pageNum = reportForm.getPageNum();
+        Integer pageSize = reportForm.getPageSize();
+
+        System.out.println(pageNum);
+        System.out.println(pageSize);
+
+        List<ReportDTO> reportDTOS2 = new ArrayList<>();
+        //reportDTOS  集合
+        //reportDTOS.size() 条数
+        //页数  reportDTOS.size() /size 上取整
+        double totlePage=Math.ceil((double) reportDTOS.size()/(double)pageSize);
+        if(pageNum>totlePage){
+
+            PageDTO<ReportDTO> pageDTO = new PageDTO<>();
+            pageDTO.setTotalElements((long)(reportDTOS.size()));
+            pageDTO.setContent(reportDTOS2);
+            return pageDTO;
+        }
+
+        if(pageNum< totlePage){//不是最后一页
+            for(int i=(pageNum-1)*pageSize;i<pageSize;i++){
+                reportDTOS2.add(reportDTOS.get(i));
+             }
+        }else {
+            for (int i = 0; i < reportDTOS.size() % pageSize; i++) {
+
+                reportDTOS2.add(reportDTOS.get((pageNum - 1) * pageSize+i));
+            }
+        }
+        PageDTO<ReportDTO> pageDTO = new PageDTO<>();
+        pageDTO.setTotalElements((long)(reportDTOS.size()));
+        pageDTO.setContent(reportDTOS2);
+        //return reportDTOS;
+        return pageDTO;
     }
 }

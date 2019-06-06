@@ -1,54 +1,130 @@
-package com.jiang.demo.dto.reportForm;
+package com.jiang.demo.dto.Storeroom;
 
-
+import com.jiang.demo.dto.goods.GoodsDTO;
+import com.jiang.demo.entity.Storeroom;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import java.util.Date;
 
 /**
  * Author: 江云飞
- * Date:   2019/5/10
+ * Date:   2019/5/27
  */
-
 public class ReportDTO {
 
-    @ApiModelProperty(value = "商品ID")
+    private Integer id;
 
-    private Integer goodId;
+    @ApiModelProperty(value = "库存量")
+    private Integer amount;
 
-    @ApiModelProperty(value = "商品名")
+    @ApiModelProperty(value = "库存商品")
+    private GoodsDTO goodsDTO;
 
-    private String goodsName;
+    @ApiModelProperty(value = "更新时间")
+    private Date updateTime;
 
-    @ApiModelProperty(value = "商品进货出货进货量")
+    @ApiModelProperty(value = "更新人员")
+    private String person;
 
-    private Integer num;
+    @ApiModelProperty(value = "出入库类型")
+    private String style;
 
 
+    //新增
+    @ApiModelProperty(value = "出库或者入库总数")
+    private Integer totleNumber;
 
-    public Integer getGoodId() {
-        return goodId;
+    @ApiModelProperty(value = "出库或者入库总金额")
+    private Float sumMoney;
+
+
+    public static ReportDTO convert(Storeroom entity) {
+        ReportDTO dto = new ReportDTO();
+        BeanUtils.copyProperties(entity, dto);
+
+        if(entity.getGoods()!=null){
+            dto.setGoodsDTO(GoodsDTO.convert(entity.getGoods()));
+        }
+
+        return dto;
     }
 
-    public void setGoodId(Integer goodId) {
-        this.goodId = goodId;
+    public Integer getId() {
+        return id;
     }
 
-    public String getGoodsName() {
-        return goodsName;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public Integer getNum() {
-        return num;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public GoodsDTO getGoodsDTO() {
+        return goodsDTO;
+    }
+
+    public void setGoodsDTO(GoodsDTO goodsDTO) {
+        this.goodsDTO = goodsDTO;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public Integer getTotleNumber() {
+        return totleNumber;
+    }
+
+    public void setTotleNumber(Integer totleNumber) {
+        this.totleNumber = totleNumber;
+    }
+
+    public Float getSumMoney() {
+        return sumMoney;
+    }
+
+    public void setSumMoney(Float sumMoney) {
+        this.sumMoney = sumMoney;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportDTO{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", goodsDTO=" + goodsDTO +
+                ", updateTime=" + updateTime +
+                ", person='" + person + '\'' +
+                ", style='" + style + '\'' +
+                ", totleNumber=" + totleNumber +
+                ", sumMoney=" + sumMoney +
+                '}';
     }
 }

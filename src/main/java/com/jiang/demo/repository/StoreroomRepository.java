@@ -36,14 +36,38 @@ public interface StoreroomRepository extends JpaRepository<Storeroom,Integer>, J
     @Query(value = "select goods_id from storeroom group by goods_id;", nativeQuery = true)
     List<Integer> findGoodsList();
 
+    //查询数目
+    //@Query(value = "select sum(s.number) from storeroom s  join goods g on s.goods_id=g.id where g.id=?1 and s.style=?2 and s.update_time>=?3 and s.update_time <=?4;", nativeQuery = true)
+    @Query(value = "select sum(number) from storeroom  where goods_id=?1 and style=?2 and update_time>=?3 and update_time<=?4 ; ", nativeQuery = true)
+    Integer findTotle(Integer id, String style, String startTime,String endTime);
+
+    @Query(value = "select sum(number) from storeroom  where goods_id=?1 and style=?2 and update_time<=?3 ; ", nativeQuery = true)
+    Integer findTotle2(Integer id, String style,String endTime);
+
+    @Query(value = "select sum(number) from storeroom  where goods_id=?1 and style=?2 and update_time>=?3 ; ", nativeQuery = true)
+    Integer findTotle3(Integer id, String style, String startTime);
+
+    @Query(value = "select sum(number) from storeroom  where goods_id=?1 and style=?2 ; ", nativeQuery = true)
+    Integer findTotle4(Integer id, String style);
+
+
     //查看某个商品的报表
     //@Query(value = "select s.* from storeroom s join goods g on s.goods_id=g.id where g.id=?1 and s.style=?2 and s.update_time>=?3 and s.update_time<=?4 ; ", nativeQuery = true)
     @Query(value = "select * from storeroom where goods_id=:id and style=:style and update_time>=:startTime and update_time<=:endTime ; ", nativeQuery = true)
     //List<Storeroom> findGoodsReport(Integer id, String style, Date startTime,Date endTime);
     List<Storeroom> findGoodsReport( @Param("id")Integer id,  @Param("style")String style,  @Param("startTime")String startTime, @Param("endTime")String endTime);
 
-    //查询数目
-    //@Query(value = "select sum(s.number) from storeroom s  join goods g on s.goods_id=g.id where g.id=?1 and s.style=?2 and s.update_time>=?3 and s.update_time <=?4;", nativeQuery = true)
-    @Query(value = "select sum(number) from storeroom  where goods_id=?1 and style=?2 and update_time>=?3 and update_time<=?4 ; ", nativeQuery = true)
-    Integer findTotle(Integer id, String style, String startTime,String endTime);
+
+    @Query(value = "select * from storeroom where goods_id=:id and style=:style and update_time<=:endTime ; ", nativeQuery = true)
+    List<Storeroom> findGoodsReport2( @Param("id")Integer id,  @Param("style")String style, @Param("endTime")String endTime);
+
+    @Query(value = "select * from storeroom where goods_id=:id and style=:style and update_time>=:startTime ; ", nativeQuery = true)
+        //List<Storeroom> findGoodsReport(Integer id, String style, Date startTime,Date endTime);
+    List<Storeroom> findGoodsReport3( @Param("id")Integer id,  @Param("style")String style,  @Param("startTime")String startTime);
+
+    @Query(value = "select * from storeroom where goods_id=:id and style=:style ; ", nativeQuery = true)
+        //List<Storeroom> findGoodsReport(Integer id, String style, Date startTime,Date endTime);
+    List<Storeroom> findGoodsReport4( @Param("id")Integer id,  @Param("style")String style);
+
+
 }
