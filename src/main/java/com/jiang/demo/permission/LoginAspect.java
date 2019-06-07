@@ -117,7 +117,8 @@ public class LoginAspect {
                 System.out.println("时间差："+(dateToSecond - time));
 
                 //40分(min)=2400000毫秒(ms)
-                if (time1 - time >= 10000) {
+                //10000 10秒
+                if (time1 - time >= 2400000) {
                     //时间过期
                     return ResultUtil.error(-3,"登陆过期，请重新登陆！");
                 }

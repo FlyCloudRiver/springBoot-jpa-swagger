@@ -4,9 +4,11 @@ import com.jiang.demo.dto.sysRole.SysRoleDTO;
 import com.jiang.demo.dto.userInfo.UserInfoDTO;
 import com.jiang.demo.dto.userInfo.UserInfoForm;
 import com.jiang.demo.entity.SysRole;
+import com.jiang.demo.entity.Tokens;
 import com.jiang.demo.entity.UserInfo;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.SysRoleRepository;
+import com.jiang.demo.repository.TokenRepository;
 import com.jiang.demo.repository.UserInfoRepository;
 import com.jiang.demo.service.UserInfoService;
 import com.jiang.demo.utils.PageDTO;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     public void setUserInfoRepository(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
+    }
+
+    private TokenRepository tokenRepository;
+    @Autowired
+    public void setTokenRepository(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
     }
 
     private SysRoleRepository sysRoleRepository;
@@ -83,8 +92,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Integer id) {
-        userInfoRepository.deleteById(id);
+        try {
+            //根据用户ID删除tokens
+            tokenRepository.deleteByUserInfoUid(id);
+            //然后删除用户
+            userInfoRepository.deleteById(id);
+        }catch (Exception e){
+            throw new MyException(-1,"删除失败");
+        }
+
     }
 
     @Override
