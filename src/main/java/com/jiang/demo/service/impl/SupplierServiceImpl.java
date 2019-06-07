@@ -1,5 +1,6 @@
 package com.jiang.demo.service.impl;
 
+import com.jiang.demo.exception.MyException;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.supplier.SupplierDTO;
 import com.jiang.demo.dto.supplier.SupplierForm;
@@ -48,7 +49,12 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     public void deleteSupplierById(Integer id){
-        supplierRepository.deleteById(id);
+        try{
+            supplierRepository.deleteById(id);
+        }catch (Exception e){
+            throw new MyException(-1,"该厂商所属商品已入库，不能删除！");
+        }
+
     }
 
     public SupplierDTO selectSupplier(Integer id){

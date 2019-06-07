@@ -44,7 +44,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 
 
     public  static int pcount=1;
-    /*添加订单  */
+    /*生成采购单  */
     @Transactional
     public List<PurchaseDetailDTO> insertPurchaseDetail(PurchaseForm purchaseForm){
 
@@ -77,9 +77,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         //操作人
        // String lastPerson=purchaseForm.getPerson();
         for(PurchaseDetailForm p: purchaseForm.getPurchaseDetailForms()) {
-
             PurchaseDetail purchaseDetail=new PurchaseDetail();
-
             Integer goodsNumber = p.getGoodsNumber();
             if(goodsNumber<=0){
                 throw new MyException(-1,"所有商品数量必须大于零！");
@@ -90,10 +88,8 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             Integer goodsId = p.getGoodsId();
             System.out.println("goodsId"+goodsId);
 
-
             //根据商品id查询商品
             purchaseDetail.setGoods(goodsRepository.findById(goodsId).orElse(null));
-
 
             System.out.println("商品查询完了！");
             purchaseDetail.setPurchase(save1);
