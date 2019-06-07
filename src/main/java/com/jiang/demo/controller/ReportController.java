@@ -2,6 +2,7 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.Storeroom.ReportDTO;
 import com.jiang.demo.dto.reportForm.ReportForm;
+import com.jiang.demo.permission.Login;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
@@ -32,6 +33,7 @@ public class ReportController {
     //查看报表
     @ApiOperation(value = "查看报表")
     @PostMapping("/selectReport")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<PageDTO<ReportDTO>> selectReport(@RequestBody ReportForm reportForm){
         PageDTO<ReportDTO> reportDTOPageDTO = storeroomService.selectReport(reportForm);

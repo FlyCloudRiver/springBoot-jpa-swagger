@@ -7,6 +7,7 @@ import com.jiang.demo.dto.Storeroom.StoreroomForm;
 import com.jiang.demo.dto.purchase.PurchaseStorageFrom;
 import com.jiang.demo.dto.shipment.ShipmentStorageFrom;
 import com.jiang.demo.entity.Storeroom;
+import com.jiang.demo.permission.Login;
 import com.jiang.demo.service.StoreroomService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
@@ -37,6 +38,7 @@ public class StoreroomController {
 
     @ApiOperation(value = "商品库存动态分页显示")
     @PostMapping("/select")
+    @Login
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<List<StoreroomDTO>> select(@RequestBody StoreroomForm storeroomForm) {
@@ -53,6 +55,7 @@ public class StoreroomController {
 
     @ApiOperation(value = "商品进库")
     @PostMapping("/insert")
+    @Login
     public Result insertStorage(@RequestBody PurchaseStorageFrom purchaseStorageFrom) {
         try{
             storeroomService.insertStorage(purchaseStorageFrom);
@@ -66,6 +69,7 @@ public class StoreroomController {
 
     @ApiOperation(value = "商品出库")
     @PostMapping("/output")
+    @Login
     public Result outputStorage(@RequestBody ShipmentStorageFrom shipmentStorageFrom) {
         try{
             storeroomService.outputStorage(shipmentStorageFrom);
@@ -79,6 +83,7 @@ public class StoreroomController {
 
     @ApiOperation(value = "查询库存(分页)")
     @PostMapping("/selectAll")
+    @Login
     @SuppressWarnings("unchecked")
     public  Result<PageDTO<StoreroomDTO>> selectAll(Integer pageNum,Integer pageSize){
         PageDTO<StoreroomDTO> storeroomDTOPageDTO = storeroomService.selectAll(pageNum, pageSize);
@@ -87,6 +92,7 @@ public class StoreroomController {
 
     @ApiOperation(value = "根据商品id查询交易记录")
     @PostMapping("/selectInfo")
+    @Login
     @SuppressWarnings("unchecked")
     //根据商品id查询交易记录
     public Result<List<Storeroom>> selectInfo(Integer goodsId){
