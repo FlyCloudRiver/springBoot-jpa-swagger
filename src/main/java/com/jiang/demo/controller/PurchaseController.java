@@ -49,7 +49,6 @@ public class PurchaseController {
         try{
             //然后添加订单详情
             List<PurchaseDetailDTO> purchaseDetailDTOList = purchaseDetailService.insertPurchaseDetail(purchaseForm);
-
             return ResultUtil.success(purchaseDetailDTOList);
         }catch (Exception e){
             return ResultUtil.error(-1,e.getMessage());

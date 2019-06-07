@@ -81,6 +81,9 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
             PurchaseDetail purchaseDetail=new PurchaseDetail();
 
             Integer goodsNumber = p.getGoodsNumber();
+            if(goodsNumber<=0){
+                throw new MyException(-1,"所有商品数量必须大于零！");
+            }
             System.out.println("goodsNumber"+goodsNumber);
             purchaseDetail.setGoodsNumber(goodsNumber);
 

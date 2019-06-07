@@ -19,6 +19,8 @@ public class ShipmentDetailDTO {
     @ApiModelProperty(value = "商品数量")
     private Integer goodsNumber;
 
+    @ApiModelProperty(value = "总库存")
+    private Integer goodsAmount;
 
     public static ShipmentDetailDTO convert(ShipmentDetail entity) {
         ShipmentDetailDTO dto = new ShipmentDetailDTO();
@@ -28,6 +30,14 @@ public class ShipmentDetailDTO {
             dto.setGoodsDTO(GoodsDTO.convert(entity.getGoods()));
         }
         return dto;
+    }
+
+    public Integer getGoodsAmount() {
+        return goodsAmount;
+    }
+
+    public void setGoodsAmount(Integer goodsAmount) {
+        this.goodsAmount = goodsAmount;
     }
 
     public Integer getId() {

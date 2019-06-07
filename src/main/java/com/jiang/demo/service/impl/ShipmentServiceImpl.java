@@ -3,9 +3,13 @@ package com.jiang.demo.service.impl;
 
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
+import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
 import com.jiang.demo.entity.Shipment;
+import com.jiang.demo.entity.ShipmentDetail;
+import com.jiang.demo.entity.Storeroom;
 import com.jiang.demo.exception.MyException;
 import com.jiang.demo.repository.ShipmentRepository;
+import com.jiang.demo.repository.StoreroomRepository;
 import com.jiang.demo.service.ShipmentService;
 import com.jiang.demo.utils.PageDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,6 +43,12 @@ public class ShipmentServiceImpl implements ShipmentService {
     @Autowired
     public void setShipmentRepository(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
+    }
+
+    private StoreroomRepository storeroomRepository;
+    @Autowired
+    public void setStoreroomRepository(StoreroomRepository storeroomRepository) {
+        this.storeroomRepository = storeroomRepository;
     }
 
     @Override
@@ -83,9 +94,25 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
+    @Transactional
     public ShipmentDTO selectById(Integer id) {
         //此处添加库存
-        return ShipmentDTO.convert(shipmentRepository.findById(id).orElse(null));
+        Shipment shipment = shipmentRepository.findById(id).orElse(null);
+        List<ShipmentDetail> shipmentDetailList = shipment.getShipmentDetailList();
+        List<ShipmentDetailDTO> shipmentDetailDTOS = new ArrayList<>();
+        for (ShipmentDetail shipmentDetail : shipmentDetailList) {
+            //商品ID
+            Integer id1 = shipmentDetail.getGoods().getId();
+            Storeroom storeroom = storeroomRepository.findByGoodsId(id1).get(0);
+            Integer amount = storeroom.getAmount();
+
+            ShipmentDetailDTO convert = ShipmentDetailDTO.convert(shipmentDetail);
+            convert.setGoodsAmount(amount);
+            shipmentDetailDTOS.add(convert);
+        }
+        ShipmentDTO convert = ShipmentDTO.convert(shipment);
+        convert.setShipmentDetailDTOS(shipmentDetailDTOS);
+        return convert;
     }
 
     private class MySpec implements Specification<Shipment> {

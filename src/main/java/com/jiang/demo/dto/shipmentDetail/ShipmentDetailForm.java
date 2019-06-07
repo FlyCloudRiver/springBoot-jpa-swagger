@@ -14,6 +14,9 @@ public class ShipmentDetailForm {
     @ApiModelProperty(value = "商品数量")
     private Integer goodsNumber;
 
+    @ApiModelProperty(value = "总库存")
+    private Integer goodsAmount;
+
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -28,5 +31,13 @@ public class ShipmentDetailForm {
 
     public void setGoodsNumber(Integer goodsNumber) {
         this.goodsNumber = goodsNumber;
+    }
+
+    public Integer getGoodsAmount() {
+        return goodsAmount;
+    }
+
+    public void setGoodsAmount(Integer goodsAmount) {
+        this.goodsAmount = goodsAmount;
     }
 }

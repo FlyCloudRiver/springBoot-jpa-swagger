@@ -75,6 +75,10 @@ public class ShipmentDetailServiceImpl implements ShipmentDetailService {
             ShipmentDetail shipmentDetail=new ShipmentDetail();
 
             Integer goodsNumber = s.getGoodsNumber();
+            Integer goodsAmount = s.getGoodsAmount();
+            if(goodsNumber>goodsAmount){
+                throw new MyException(-1,"销售商品数量必须小于等于库存数量！");
+            }
             System.out.println("goodsNumber"+goodsNumber);
             shipmentDetail.setGoodsNumber(goodsNumber);
 
