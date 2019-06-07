@@ -4,6 +4,7 @@ import com.jiang.demo.dto.bigCategory.BigCategoryDTO;
 import com.jiang.demo.dto.bigCategory.BigCategoryForm;
 import com.jiang.demo.dto.category.CategoryDTO;
 import com.jiang.demo.dto.newCategory.NewCategoryForm;
+import com.jiang.demo.permission.Login;
 import com.jiang.demo.service.CategoryNewService;
 import com.jiang.demo.utils.Result;
 import com.jiang.demo.utils.ResultUtil;
@@ -34,6 +35,7 @@ public class CategoryNewController {
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<BigCategoryDTO> insertAllCategory(@RequestBody NewCategoryForm newCategoryForm){
         try{
             return ResultUtil.success(categoryNewService.insertAllCategory(newCategoryForm));
@@ -46,6 +48,7 @@ public class CategoryNewController {
     @ApiOperation(value = "修改")
     @PostMapping("/update")
     @SuppressWarnings("unchecked")
+    @Login
     public Result updateAllCategory(@RequestBody BigCategoryDTO bigCategoryDTO){
         try{
             categoryNewService.updateAllCategory(bigCategoryDTO);

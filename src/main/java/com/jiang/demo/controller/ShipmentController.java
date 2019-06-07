@@ -4,6 +4,8 @@ package com.jiang.demo.controller;
 import com.jiang.demo.dto.shipment.ShipmentDTO;
 import com.jiang.demo.dto.shipment.ShipmentForm;
 import com.jiang.demo.dto.shipmentDetail.ShipmentDetailDTO;
+import com.jiang.demo.permission.Login;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.ShipmentDetailService;
 import com.jiang.demo.service.ShipmentService;
 import com.jiang.demo.utils.PageDTO;
@@ -41,6 +43,7 @@ public class ShipmentController {
     /*提交订单详情的集合  以及订单*/
     @ApiOperation(value = "生成销售单")
     @PostMapping("/insert")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<List<ShipmentDetailDTO>> insertShipment(@RequestBody ShipmentForm shipmentForm){
 
@@ -58,6 +61,7 @@ public class ShipmentController {
 
     @ApiOperation(value = "销售单动态分页显示")
     @PostMapping("/select")
+    @Login
     @SuppressWarnings("unchecked")
     //动态分页查询（编号，时间，姓名）
     public Result<List<ShipmentDTO>> select(@RequestBody ShipmentForm purchaseForm){
@@ -73,6 +77,7 @@ public class ShipmentController {
 
     @ApiOperation(value = "更新采购单")
     @PutMapping("/update")
+    @Login
     public Result update(@RequestBody ShipmentDTO shipmentDTO){
         //参数  采购单详情id  以及对应的商品的数量
         try{
@@ -87,7 +92,8 @@ public class ShipmentController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    //@Permission
+    @Permission
+    @Login
     public Result delete(Integer id){
         try{
             shipmentService.delete(id);
@@ -102,6 +108,7 @@ public class ShipmentController {
 
     @ApiOperation(value = "获取销售单详情")
     @PostMapping("/selectDetail")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<ShipmentDTO> selectById(Integer id){
         try{

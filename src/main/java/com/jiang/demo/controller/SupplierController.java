@@ -1,5 +1,7 @@
 package com.jiang.demo.controller;
 
+import com.jiang.demo.permission.Login;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.dto.supplier.SupplierDTO;
 import com.jiang.demo.dto.supplier.SupplierForm;
@@ -33,6 +35,7 @@ public class SupplierController {
 
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> insertSupplier(@RequestBody SupplierForm supplierForm){
         try{
@@ -48,7 +51,8 @@ public class SupplierController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    //@Permission
+    @Login
+    @Permission
     public Result deleteSupplier(Integer id){
         try{
             supplierService.deleteSupplierById(id);
@@ -62,6 +66,7 @@ public class SupplierController {
 
     @ApiOperation(value = "查询ById")
     @PostMapping("/selectById")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> selectSupplierById(@RequestBody Integer id){
         try{
@@ -77,6 +82,7 @@ public class SupplierController {
 
     @ApiOperation(value = "(动态分页)查询")
     @PostMapping("/select")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<PageDTO<SupplierDTO>> selectByDynamicCases(@RequestBody SupplierForm supplierForm){
         try{
@@ -92,6 +98,7 @@ public class SupplierController {
 
     @ApiOperation(value = "更新")
     @PutMapping("/update")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> updateSupplier(@RequestBody SupplierForm supplierForm, Integer id){
         try{
@@ -107,6 +114,7 @@ public class SupplierController {
 
     @ApiOperation(value = "查询所有")
     @PostMapping("/selectAll")
+    @Login
     @SuppressWarnings("unchecked")
     public Result<SupplierDTO> selectAll(){
         try{

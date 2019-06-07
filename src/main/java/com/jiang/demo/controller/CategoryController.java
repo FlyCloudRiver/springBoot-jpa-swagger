@@ -2,6 +2,8 @@ package com.jiang.demo.controller;
 
 import com.jiang.demo.dto.category.CategoryForm;
 import com.jiang.demo.dto.category.CategoryDTO;
+import com.jiang.demo.permission.Login;
+import com.jiang.demo.permission.Permission;
 import com.jiang.demo.service.CategoryService;
 import com.jiang.demo.utils.PageDTO;
 import com.jiang.demo.utils.Result;
@@ -43,6 +45,7 @@ public class CategoryController {
     @ApiOperation(value = "添加")
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<CategoryDTO> insertCategory(Integer secondaryCategoryId, String categoryName){
         try{
             return ResultUtil.success(categoryService.insertCategory(secondaryCategoryId, categoryName));
@@ -54,7 +57,8 @@ public class CategoryController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    //@Permission
+    @Permission
+    @Login
     public Result deleteCategory(Integer id){
         try{
             categoryService.deleteCategoryById(id);
@@ -69,6 +73,7 @@ public class CategoryController {
     @ApiOperation(value = "修改")
     @PutMapping("/update")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<CategoryDTO> updateCategory(Integer id, String categoryName, Integer secondaryCategoryId){
         try{
             return ResultUtil.success(categoryService.updateCategory(id,categoryName,secondaryCategoryId));
@@ -82,6 +87,7 @@ public class CategoryController {
     @ApiOperation(value = "查询")
     @GetMapping("/selectAll")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<List<CategoryDTO>> selectAll(){
 
         try{
@@ -95,6 +101,7 @@ public class CategoryController {
     @ApiOperation(value = "查询ById")
     @PostMapping("/selectOne")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<CategoryDTO> selectCategoryById(Integer id){
         try{
             return ResultUtil.success(categoryService.selectCategoryById(id));
@@ -107,6 +114,7 @@ public class CategoryController {
     @ApiOperation(value = "动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<PageDTO<CategoryDTO>> findByDynamicCases(@RequestBody CategoryForm categoryForm){
 
         try{
@@ -123,6 +131,7 @@ public class CategoryController {
     @ApiOperation(value = "根据中类id查询细类")
     @PostMapping("/selectOneById")
     @SuppressWarnings("unchecked")
+    @Login
     public Result<List<CategoryDTO>> selectCategoryBySecondId(Integer secondId){
         try{
             return ResultUtil.success(categoryService.selectCategoryBySecondId(secondId));

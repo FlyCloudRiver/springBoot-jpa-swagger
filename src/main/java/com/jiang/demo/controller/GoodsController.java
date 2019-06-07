@@ -30,7 +30,7 @@ public class GoodsController {
     @PostMapping("/insert")
     @SuppressWarnings("unchecked")
     //@RequestMapping(value = "/insert", method = RequestMethod.POST)
-    //@Login
+    @Login
     public Result<GoodsDTO> insertGoods(@RequestBody GoodsForm goodsForm){
 
         try{
@@ -45,7 +45,7 @@ public class GoodsController {
     @ApiOperation(value = "分页动态查询")
     @PostMapping("/select")
     @SuppressWarnings("unchecked")
-    //@Login
+    @Login
     public Result<PageDTO<GoodsDTO>> findByDynamicCases(@RequestBody GoodsForm goodsForm){
         try{
             PageDTO<GoodsDTO> goodsPage=goodsService.findByDynamicCases(goodsForm);
@@ -59,7 +59,7 @@ public class GoodsController {
     @ApiOperation(value = "查询ById")
     @PostMapping("selectById")
     @SuppressWarnings("unchecked")
-    //@Login
+    @Login
     public Result<GoodsDTO> selectGoodsDTOById(Integer id){
 
         try{
@@ -72,8 +72,7 @@ public class GoodsController {
 
     @ApiOperation(value = "修改")
     @PutMapping("update")
-    //@Login
-    //@Permission
+    @Login
     @SuppressWarnings("unchecked")
     public Result<GoodsDTO> updateGoods(@RequestBody GoodsDTO goodsDTO){
         try{
@@ -87,7 +86,9 @@ public class GoodsController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("/delete")
-    //@Login
+    @Permission
+    @Login
+
     public Result deleteGoods(Integer id){
         try{
             goodsService.deleteGoods(id);
