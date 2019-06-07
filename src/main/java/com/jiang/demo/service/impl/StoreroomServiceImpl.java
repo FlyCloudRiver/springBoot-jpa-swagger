@@ -172,19 +172,20 @@ public class StoreroomServiceImpl implements StoreroomService {
 
     //根据商品id查询交易记录
     public List<Storeroom> selectInfo(Integer goodsId) {
-        List<Storeroom> storeroomList = storeroomRepository.selectInfo(goodsId);
-        return storeroomList;
+        try{
+            List<Storeroom> storeroomList = storeroomRepository.selectInfo(goodsId);
+            return storeroomList;
+        }catch (Exception e){
+            throw new MyException(-1,"查询出错！");
+        }
+
     }
 
     @Transactional
     public PageDTO<StoreroomDTO> selectAll(Integer pageNum, Integer pageSize) {
-
         List<Storeroom> storeroomList = storeroomRepository.selectAll(pageNum - 1, pageSize);
-
         PageDTO<StoreroomDTO> pageDTO = new PageDTO<>();
         Integer size = storeroomRepository.selectSize();
-
-
         pageDTO.setTotalElements(Long.valueOf(size));
 
         List<StoreroomDTO> list = new ArrayList<>();
