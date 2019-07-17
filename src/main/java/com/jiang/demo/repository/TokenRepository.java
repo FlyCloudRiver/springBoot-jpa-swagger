@@ -28,10 +28,6 @@ public interface TokenRepository extends JpaRepository<Tokens,Integer> {
     @Query(value = "select count(tokenid)  FROM tokens where token=?", nativeQuery = true)
     Integer getToken(String token);
 
-    //根据token获取信息 和用户名
-
-  /*  @Query(value = "select t.*,u.username from tokens t,user_info u where t.user_info_uid=u.uid and token=?;", nativeQuery = true)
-    String getTokenAndusername(String token);*/
 
   Tokens findTokensByToken(String token);
 

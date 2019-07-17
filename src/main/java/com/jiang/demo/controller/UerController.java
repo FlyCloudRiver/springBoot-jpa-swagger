@@ -81,6 +81,7 @@ public class UerController {
     @Login
     @Permission
     public Result<PageDTO<UserInfoDTO>>  selectUser(Integer pageNum, Integer pageSize){
+        //此处待完成  动态条件查询
         try{
             return ResultUtil.success(userInfoService.selectUser(pageNum,pageSize));
         }catch (Exception e){

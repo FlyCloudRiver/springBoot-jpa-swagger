@@ -23,11 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * Author: 江云飞
@@ -173,8 +171,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     //根据商品id查询交易记录
     public List<Storeroom> selectInfo(Integer goodsId) {
         try{
-            List<Storeroom> storeroomList = storeroomRepository.selectInfo(goodsId);
-            return storeroomList;
+            return storeroomRepository.selectInfo(goodsId);
         }catch (Exception e){
             throw new MyException(-1,"查询出错！");
         }
@@ -317,7 +314,7 @@ public class StoreroomServiceImpl implements StoreroomService {
     }
 
 
-    //报表
+    //报表   分页有很大问题
     @Transactional
     public PageDTO<ReportDTO> selectReport(ReportForm reportForm) {
         //1.查询出库存中所有的商品id集合

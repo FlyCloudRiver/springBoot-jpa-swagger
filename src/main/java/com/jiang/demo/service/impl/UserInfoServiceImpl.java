@@ -156,7 +156,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public PageDTO<UserInfoDTO> selectUser(Integer pageNum, Integer pageSize) {
-        System.out.println("进controller  IMPL");
+
         Sort sort = new Sort(Sort.Direction.DESC, "uid");
         Pageable pageable = PageRequest.of(pageNum-1,pageSize,sort);
         Page<UserInfo> userInfoRepositoryAll = userInfoRepository.findAll(pageable);
